@@ -257,7 +257,7 @@ body.fullscreen-fallback{overflow:hidden}
 </header>
 <main class="shell">
 <aside class="side left">
-  <p class="section-kicker">01 / BUILD</p><h2 class="h2">葉を組み立てる</h2><p class="sub">葉をつかんで茎へ運びます。灰色の葉が茎に近づくと向きを変えて吸着し、離すと緑になります。茎についた葉もドラッグで抜き取れます。</p>
+  <p class="section-kicker">01 / BUILD</p><h2 class="h2">葉を組み立てる</h2><p class="sub">葉をつかんで茎へ運びます。灰色の葉が茎に近づくと最寄りの節に吸着し、離すと緑になります。茎についた葉もドラッグで別の節へ挿し直せます。</p>
   <div class="small-heading">葉の形 <span>10パターン</span></div>
   <div class="palette" id="palette"></div><div id="paletteReturn" aria-label="葉を戻して削除する領域">↶ 葉をここへ戻すと削除</div>
   <div class="selected-preview"><div id="leafDetail" aria-label="葉形・葉脈の正面模式図"></div><span class="pill" id="modePill">次に置く葉</span><div><strong id="currentShapeName">卵形</strong><small id="editIndicator">パレットを選択中</small></div></div>
@@ -385,7 +385,7 @@ body.fullscreen-fallback{overflow:hidden}
        <div><dt>掌状脈</dt><dd>葉の基部付近から太い葉脈が手の指のように広がる構造。</dd></div>
       </dl>
       <h3>1. 使い方</h3>
-      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
+      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
 <h3>葉序の分数の読み方・25種の一覧（v11）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
@@ -804,6 +804,26 @@ function setting(key,value,skipCommit=false){
  if(key==='shape')activePalette=value;syncUI();persist();drawSoon();updateMatches();
 }
 function grow(y){const t=clamp(y,0,1);if(state.arrangement==='rosette')return V(0,.19*t,0);return V(.22*state.bend*Math.sin(t*PI*1.35),state.height*t,.25*state.bend*Math.sin(t*PI*1.85));}
+// Invisible attachment nodes. Leaves snap to these positions rather than to arbitrary stem heights.
+function stemSnapNodes(){
+ if(state.arrangement==='rosette')return [.08];
+ const name=state.presetName,p=name&&PRESETS[name];
+ if(p){
+  const count=Math.max(1,p.nodes||1);
+  return Array.from({length:count},(_,j)=>{
+   if(name==='シロツメクサ')return .10+j*.085;
+   if(name==='イネ')return .13+j*.105;
+   if(name==='マツ（アカマツ）')return .18+j*.053;
+   return .15+(j/Math.max(1,count-1))*.69;
+  }).filter(t=>t>=.03&&t<=.97);
+ }
+ return Array.from({length:10},(_,j)=>.10+j*.083);
+}
+function snapStemT(t){
+ const nodes=stemSnapNodes();
+ return nodes.reduce((best,node)=>Math.abs(node-t)<Math.abs(best-t)?node:best,nodes[0]);
+}
+
 function leafOutline(shape,len,width,teeth,deep,lobes,cut,fanNotch=.23,fanSpread=155,apexSharpness=0,speciesName=''){
  const n=180,pts=[];
  if(shape==='plantain'){
@@ -1163,7 +1183,7 @@ function drawDragPreview(C){
   ctx.restore();
   if(l.shape!=='linear'&&l.shape!=='needlePair'){const pts=part.petiole.map(w=>project(w,C));ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);ctx.lineTo(pts[1].x,pts[1].y);ctx.lineWidth=2.1;ctx.strokeStyle='#667e70';ctx.stroke();}
  }
- const stem=project(grow(leafDrag.snap.t),C);ctx.save();ctx.beginPath();ctx.arc(stem.x,stem.y,13,0,2*PI);ctx.strokeStyle='#32764c';ctx.lineWidth=2.4;ctx.setLineDash([4,3]);ctx.stroke();ctx.restore();
+ const stem=project(grow(leafDrag.snap.t),C);ctx.save();ctx.beginPath();ctx.moveTo(stem.x-11,stem.y);ctx.lineTo(stem.x+11,stem.y);ctx.strokeStyle='#2c8250';ctx.lineWidth=4;ctx.lineCap='round';ctx.stroke();ctx.restore();
 }
 function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.w,C.h);const scale=C.base;
  // Ground grid, world coordinates
@@ -1211,14 +1231,14 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
    }ctx.restore();}
   hitLeaves.push({id:l.id,poly,dep:item.dep});
  }
- // Clickable nodes, drawn in front; toned down where leaves already attach
+ // Keep nodes as invisible hit targets; never render circular markers.
  hitNodes=[];
- for(let k=0;k<(state.arrangement==='rosette'?0:10);k++){let t=.10+k*.083,p=project(grow(t),C);if(p.y<27||p.y>C.h-20)continue;
-   const populated=state.leaves.some(l=>Math.abs(l.t-t)<.025),radius=clamp(C.base*.045,7,11);
-   ctx.beginPath();ctx.arc(p.x,p.y,radius,0,PI*2);ctx.fillStyle=populated?'rgba(250,252,243,.94)':'rgba(206,233,189,.94)';ctx.fill();ctx.lineWidth=1.4;ctx.strokeStyle=populated?'#90ab86':'#5c9265';ctx.stroke();
-   ctx.beginPath();ctx.arc(p.x,p.y,populated?2.7:3.3,0,PI*2);ctx.fillStyle=populated?'#87a482':'#44754b';ctx.fill();hitNodes.push({x:p.x,y:p.y,r:radius+7,t});
+ for(const t of stemSnapNodes()){
+  const p=project(grow(t),C);
+  if(p.y<12||p.y>C.h-12)continue;
+  hitNodes.push({x:p.x,y:p.y,r:clamp(C.base*.06,12,21),t});
  }
- if(state.selectedId!=null){const l=state.leaves.find(v=>v.id===state.selectedId);if(l){const at=project(grow(l.t),C);ctx.beginPath();ctx.arc(at.x,at.y,clamp(scale*.065,10,18),0,PI*2);ctx.strokeStyle='#214e34';ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);}}
+ // Leaf perimeter already highlights selection; avoid circles at nodes.
  drawDragPreview(C);
  $('count').textContent=`葉 ${state.leaves.length}枚 / 節 ${new Set(state.leaves.map(l=>l.t.toFixed(3))).size}`;
 }
@@ -1226,8 +1246,8 @@ function drawSoon(){if(!requestPending){requestPending=true;requestAnimationFram
 function polygonHit(x,y,pts){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)inside=!inside;}return inside;}
 function hitTest(x,y){for(let i=hitLeaves.length-1;i>=0;i--)if(polygonHit(x,y,hitLeaves[i].poly))return {type:'leaf',id:hitLeaves[i].id};
  for(const n of hitNodes){if(Math.hypot(x-n.x,y-n.y)<n.r)return {type:'node',t:n.t};}
- let best={d:Infinity,t:.5};for(let i=0;i<=160;i++){let t=i/160,p=project(grow(t),cameras()),d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,t};}if(best.d<27)return {type:'node',t:best.t};return {type:'none'};}
-function addLeaf(t,shape=activePalette){if(state.leaves.length>190){toast('葉は190枚まで配置できます');return;}commit();const base={...state.defaults,shape},arr=state.arrangement;
+ let best={d:Infinity,t:.5};for(let i=0;i<=160;i++){let t=i/160,p=project(grow(t),cameras()),d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,t};}if(best.d<27)return {type:'node',t:snapStemT(best.t)};return {type:'none'};}
+function addLeaf(t,shape=activePalette){t=snapStemT(t);if(state.leaves.length>190){toast('葉は190枚まで配置できます');return;}commit();const base={...state.defaults,shape},arr=state.arrangement;
  const nodes=state.leaves.reduce((n,l)=>n.some(v=>Math.abs(v-l.t)<.024)?n:(n.push(l.t),n),[]).sort((a,b)=>a-b);
  const idx=nodes.length,baseAngle=(arr==='opposite'?idx*90:arr==='distichous'?idx*180:idx*(state.presetName?fractionAngle(state.presetName):137.5))%360;
  let angles=arr==='opposite'?[baseAngle,baseAngle+180]:arr==='whorled'?[baseAngle,baseAngle+120,baseAngle+240]:arr==='rosette'?[baseAngle]:arr==='free'?[base.angle]:[baseAngle];
@@ -1535,7 +1555,7 @@ function nearestStemScreen(x,y){
  const r=canvas.getBoundingClientRect();if(!pointerInside(r,x,y))return null;
  const C=cameras();let best=null;
  for(let k=0;k<=145;k++){const t=.04+k*.92/145,p=project(grow(t),C),d=Math.hypot(x-r.left-p.x,y-r.top-p.y);if(!best||d<best.distance)best={t,distance:d};}
- return best&&best.distance<=Math.min(78,Math.max(53,r.width*.095))?best:null;
+ return best&&best.distance<=Math.min(78,Math.max(53,r.width*.095))?{t:snapStemT(best.t),distance:best.distance}:null;
 }
 function autoAngleAt(t){
  const below=state.leaves.filter(l=>l.t<t-.022);const arr=state.arrangement;
