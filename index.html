@@ -1353,6 +1353,91 @@ function drawDragPreview(C){
  }
  const stem=project(grow(leafDrag.snap.t),C);ctx.save();ctx.beginPath();ctx.moveTo(stem.x-11,stem.y);ctx.lineTo(stem.x+11,stem.y);ctx.strokeStyle='#2c8250';ctx.lineWidth=4;ctx.lineCap='round';ctx.stroke();ctx.restore();
 }
+// Occlusion correction: stem and leaf surfaces are compared at their actual
+// projected intersection, rather than ordering the entire leaf by its average
+// depth. Positive project().depth is closer to the observer.
+function screenBounds(poly){
+ let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+ for(const p of poly){minX=Math.min(minX,p.x);maxX=Math.max(maxX,p.x);minY=Math.min(minY,p.y);maxY=Math.max(maxY,p.y)}
+ return {minX,maxX,minY,maxY};
+}
+function leafDepthPlane(poly){
+ // A leaf is nearly planar. Use its basal/central and side vertices to
+ // interpolate the depth at the silhouette crossing (not the centroid).
+ const n=poly.length;
+ const a=poly[Math.floor(n*.25)],b=poly[Math.floor(n*.75)],c=poly[Math.floor(n*.50)];
+ const ux=b.x-a.x,uy=b.y-a.y,vx=c.x-a.x,vy=c.y-a.y;
+ const det=ux*vy-uy*vx;
+ if(Math.abs(det)<.3)return null; // almost edge-on: fall back to mean depth
+ return {a,ux,uy,vx,vy,det,du:b.depth-a.depth,dv:c.depth-a.depth};
+}
+function projectedSurfaceDepth(surface,x,y){
+ const pl=surface.plane;
+ if(!pl)return surface.dep;
+ const dx=x-pl.a.x,dy=y-pl.a.y;
+ const u=(dx*pl.vy-dy*pl.vx)/pl.det;
+ const v=(pl.ux*dy-pl.uy*dx)/pl.det;
+ return pl.a.depth+u*pl.du+v*pl.dv;
+}
+function lineDepthAt(points,x,y,halfWidth){
+ let best=null,bestD=halfWidth*halfWidth;
+ for(let j=0;j<points.length-1;j++){
+  const a=points[j],b=points[j+1],vx=b.x-a.x,vy=b.y-a.y;
+  const q=clamp(((x-a.x)*vx+(y-a.y)*vy)/(vx*vx+vy*vy||1),0,1);
+  const sx=a.x+q*vx,sy=a.y+q*vy,dist=(x-sx)**2+(y-sy)**2;
+  if(dist<=bestD){bestD=dist;best=a.depth+(b.depth-a.depth)*q;}
+ }
+ return best;
+}
+function paintStemStroke(points,width){
+ if(points.length<2)return;
+ ctx.save();ctx.beginPath();
+ points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
+ ctx.lineCap='round';ctx.lineJoin='round';
+ ctx.strokeStyle='#6b8261';ctx.lineWidth=width*1.45;ctx.stroke();
+ ctx.strokeStyle='#8da681';ctx.lineWidth=width*.22;ctx.stroke();
+ ctx.restore();
+}
+function overlayNearStem(C,things,stemThickness){
+ // The continuous stem was first drawn as the back layer. Recover only the
+ // portions that are physically nearer than the covering leaf/rachis/petiole.
+ const occluders=[];
+ for(const item of things){
+  if(item.kind==='leaf'){
+   occluders.push({type:'surface',poly:item.poly,bounds:screenBounds(item.poly),plane:leafDepthPlane(item.poly),dep:item.dep});
+   if(item.petiole?.length>1)occluders.push({type:'line',points:item.petiole,halfWidth:2.6});
+  }else if(item.kind==='compoundAxis'||item.kind==='tendril'){
+   occluders.push({type:'line',points:item.points,halfWidth:item.kind==='compoundAxis'?2.8:1.3});
+  }
+ }
+ if(!occluders.length)return;
+ const full=[];
+ const intervals=Math.max(96,Math.min(640,Math.ceil(C.base*state.height/3.5)));
+ for(let i=0;i<=intervals;i++)full.push(project(grow(i/intervals),C));
+ let run=[];
+ const flush=()=>{if(run.length>1)paintStemStroke(run,stemThickness);run=[]};
+ for(let i=0;i<full.length;i++){
+  const pt=full[i];let overlaps=false,frontOccluder=false,backOccluder=false;
+  for(const q of occluders){
+   let depth=null;
+   if(q.type==='surface'){
+    const b=q.bounds;
+    if(pt.x<b.minX||pt.x>b.maxX||pt.y<b.minY||pt.y>b.maxY)continue;
+    if(!polygonHit(pt.x,pt.y,q.poly))continue;
+    depth=projectedSurfaceDepth(q,pt.x,pt.y);
+   }else depth=lineDepthAt(q.points,pt.x,pt.y,q.halfWidth);
+   if(depth===null)continue;
+   overlaps=true;
+   if(depth>pt.depth+.02){frontOccluder=true;break;}
+   if(depth<pt.depth-.02)backOccluder=true;
+  }
+  const onTop=overlaps&&!frontOccluder&&backOccluder;
+  if(onTop){if(!run.length&&i>0)run.push(full[i-1]);run.push(pt)}
+  else {if(run.length&&i<full.length)run.push(pt);flush()}
+ }
+ flush();
+}
+
 function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.w,C.h);const scale=C.base;
  // Ground grid, world coordinates
  ctx.lineWidth=.7;for(let a=-5;a<=5;a++){
@@ -1362,16 +1447,8 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  // Draw the entire stem as two uninterrupted strokes. Drawing dozens of rounded
  // subsegments produced horizontal artifacts resembling bamboo nodes at every join.
  // The attachment nodes remain invisible and are handled only by stemSnapNodes().
- ctx.save();ctx.beginPath();
- for(let k=0;k<=96;k++){
-  const p=project(grow(k/96),C);
-  if(k===0)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y);
- }
  const stemThickness=clamp(scale*.037,3.5,9);
- ctx.lineJoin='round';ctx.lineCap='round';
- ctx.strokeStyle='#6b8261';ctx.lineWidth=stemThickness*1.45;ctx.stroke();
- // A muted, narrow longitudinal highlight gives the stem volume without dashes.
- ctx.strokeStyle='#8da681';ctx.lineWidth=stemThickness*.22;ctx.stroke();ctx.restore();
+ paintStemStroke(Array.from({length:97},(_,k)=>project(grow(k/96),C)),stemThickness);
  const things=[];hitLeaves=[];
  for(const l of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leafDrag.id===l.id)continue;
   if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
@@ -1427,6 +1504,10 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
    }ctx.restore();}
   hitLeaves.push({id:l.id,poly,dep:item.dep});
  }
+ // Repaint only segments where the stem is in front of the actual surface.
+ // Surface/line depths are checked at the crossing, even when the leaf extends
+ // to both sides of the stem. A far-side leaf is no longer painted over it.
+ overlayNearStem(C,things,stemThickness);
  // Keep stem nodes as invisible hit targets; do not draw circular markers.
  hitNodes=[];
  for(const t of stemSnapNodes()){
