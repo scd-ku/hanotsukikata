@@ -296,7 +296,7 @@ body.fullscreen-fallback{overflow:hidden}
   <select class="select" id="arrangement"><option value="alternate">らせん互生（約137.5°ずつ）</option><option value="distichous">2列互生（約180°ずつ）</option><option value="opposite">十字対生（2枚ずつ）</option><option value="whorled">輪生（3枚ずつ）</option><option value="rosette">ロゼット（根元に放射状）</option><option value="free">自由配置（1枚ずつ）</option></select>
   <div id="phylloInfo" class="phyllo-info" aria-live="polite" role="status">葉序の分数：見本植物を選択すると表示します。</div>
   <div class="venation-settings"><div class="small-heading">葉脈の構造 <span>葉形から自動判定・変更可</span></div>
-  <select class="select" id="venation"><option value="auto">形態に応じて自動</option><option value="pinnate">羽状脈（主脈と側脈）</option><option value="palmate">掌状脈（放射状）</option><option value="parallel">平行脈</option><option value="arcuate">弓状に伸びる基部脈（オオバコ）</option><option value="dichotomous">二又分岐脈（イチョウ）</option><option value="triplinerved">三行脈（クスノキなど）</option><option value="beech">ブナ型（側脈8〜10対）</option><option value="ipomoea">アサガオ型（3主脈＋側脈）</option></select></div>
+  <select class="select" id="venation"><option value="auto">形態に応じて自動</option><option value="pinnate">羽状脈（主脈と側脈）</option><option value="palmate">掌状脈（放射状）</option><option value="parallel">平行脈</option><option value="arcuate">弓状に伸びる基部脈（オオバコ）</option><option value="dichotomous">二又分岐脈（イチョウ）</option><option value="triplinerved">三行脈（クスノキなど）</option><option value="beech">ブナ型（側脈8〜10対）</option><option value="oleander">キョウチクトウ型（多数の側脈）</option><option value="ipomoea">アサガオ型（3主脈＋側脈）</option></select></div>
   <div class="small-heading">葉身の形状を調整 <span>選択した葉形で変更できる項目を表示</span></div>
   <div id="sliders"></div>
   <div class="color-toolbar"><strong style="font-size:12px">葉色（葉の表面）</strong>
@@ -325,7 +325,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div id="matches"><div class="empty">茎に葉をつけると、特徴の近い植物がここに表示されます。</div></div>
   <div class="divider"></div>
   <div class="small-heading">調べるときの注意</div>
-  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は35分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
+  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は39分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
   <button id="openHelpAside" class="btn widebutton">葉脈・葉形・色の研究根拠と参考資料を見る</button>
   <div class="small-heading">今回の修正に使った資料</div>
     <div class="source-item"><a href="https://doi.org/10.1371/journal.pone.0164532" target="_blank" rel="noopener">Chatterjee et al. (2016) — イネの形態計測 ↗</a>栽培イネIR64の葉身41 × 0.97 cm。</div>
@@ -364,7 +364,7 @@ body.fullscreen-fallback{overflow:hidden}
       <p id="libraryIntro" class="library-intro">被子植物・裸子植物、および学校で扱う双子葉類・単子葉類と草本植物・木本植物の組み合わせで見られます。</p>
       <div id="libraryBoard" class="library-board" aria-live="polite"></div>
       <div class="library-legend"><span class="library-resize-hint">右下の斜線をドラッグしてウィンドウをリサイズできます</span><span class="legend-pill"><span class="legend-swatch herb"></span>草本植物</span><span class="legend-pill"><span class="legend-swatch tree"></span>木本植物</span></div>
-      <p id="libraryFootnote" class="library-footnote">「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキは現代のAPG分類ではモクレン類です。葉序の分数は文献確認値・模式値・適用外を植物ごとに区別しています。</p>
+      <p id="libraryFootnote" class="library-footnote">「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキとモクレンは現代のAPG分類ではモクレン類で、真正双子葉類とは区別されます。葉序の分数は文献確認値・模式値・適用外を植物ごとに区別しています。</p>
     </div>
   <div class="library-resize-handle" id="libraryResize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="植物分類ウィンドウの大きさを変更" title="ドラッグでウィンドウの大きさを変更（ダブルクリックで元に戻す）"></div>
 </section>
@@ -414,10 +414,15 @@ body.fullscreen-fallback{overflow:hidden}
       </dl>
       <h3>1. 使い方</h3>
       <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタンで開くポップアップから植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉形を選ぶと、その葉で調整できる長さ・幅・葉柄・鋸歯・切れ込みなどの設定だけが表示されます。葉脈・色・葉序も適宜変更できます。</li><li><b>移動・削除・SVG出力：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しのメニューで複製／削除／SVGで保存ができます。SVGは選択した葉の葉身・葉柄を一つの閉じた輪郭にし、葉脈は線幅をもつ別の閉じた輪郭パスとして書き出す正面模式図です。実測スケールではありません。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
-<h3>葉序の分数の読み方・34種の一覧（v19）</h3>
+<h3>葉序の分数の読み方・38種の一覧（v23）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
 <div style="overflow-x:auto;max-height:360px;overflow-y:auto"><table class="phyllo-table"><thead><tr><th>植物</th><th>葉序の分数</th><th>根拠・注意点</th></tr></thead><tbody>
+<tr><td>ミント（スペアミント）</td><td>—</td><td>適用外：対生（1節2枚）。<a href="https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>バジル</td><td>—</td><td>適用外：対生・十字対生。<a href="https://plants.ces.ncsu.edu/plants/ocimum-basilicum/" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>キョウチクトウ</td><td>—</td><td>適用外：3輪生を模式化、対生の場合もある。<a href="https://plants.ces.ncsu.edu/plants/nerium-oleander/" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>モクレン</td><td>2/5</td><td>模式設定：互生の代表的開度。種の不変な実測値ではない。<a href="https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora" target="_blank" rel="noopener">出典↗</a></td></tr>
+
 <tr><td>ヒマワリ</td><td>—</td><td>未確定：下部は対生、上部は互生。全茎の固定分数は置きません。 <a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>エンドウ</td><td>2/5</td><td>模式設定：互生する羽状複葉。小葉ではなく、複葉の付け根で葉序を数えます。 <a href="https://www.jircas.go.jp/en/database/thaivege/085" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>サツキ</td><td>2/5</td><td>模式設定：互生で枝先に集まる。種固有の固定値ではありません。 <a href="https://ryokka-c.jp/info/woodplant/4794/" target="_blank" rel="noopener">出典↗</a></td></tr>
@@ -454,7 +459,13 @@ body.fullscreen-fallback{overflow:hidden}
 <tr><td>メタセコイア</td><td>—</td><td>適用外：小枝上に葉が対生。1節2枚であり互生の分数は付けない。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
 </tbody></table></div>
 <p><b>参考論文：</b><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">Okabe (2015), Biophysical optimality of the golden angle in phyllotaxis</a>、<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6408360/" target="_blank" rel="noopener">The unified rule of phyllotaxis explaining both spiral and non-spiral arrangements (2019)</a>、<a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">日本植物生理学会：対生葉序について</a>。分数と角度は模式的な表現です。</p>
-      <h3>v19：ウルシの葉柄修正と追加4種の形態・出典</h3>
+      <h3>v23：新しく追加した4種類（理科教材としての注意）</h3>
+<p><b>ミント（スペアミント；<i>Mentha spicata</i>）</b>：節ごとの対生葉。細長い卵状披針形で、葉縁の鋸歯が明瞭です。<a href="https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata" target="_blank" rel="noopener">Burke Herbarium ↗</a></p>
+<p><b>バジル（<i>Ocimum basilicum</i>）</b>：節ごとの対生葉。ミントより幅の広い卵形で、縁は全縁から浅い鋸歯まで変異します。<a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:452874-1/general-information" target="_blank" rel="noopener">Kew ↗</a></p>
+<p><b>キョウチクトウ（<i>Nerium oleander</i>）</b>：1節から3枚が120°ずつ出る3輪生を模式化（対生の場合もあります）。葉は細長い全縁、中央主脈から多数の側脈がほぼ平行に伸びます。<b>全草有毒です。授業では不用意に採取・切断せず、口に入れないでください。</b><a href="https://plants.ces.ncsu.edu/plants/nerium-oleander/" target="_blank" rel="noopener">NC State Extension ↗</a></p>
+<p><b>モクレン（<i>Magnolia liliiflora</i>）</b>：互生・全縁の倒卵形～楕円形、羽状の網状脈。葉身は長さ10〜18 cm、幅5〜13 cmなどの記載を参考にしています。<b>APG分類ではモクレン類（magnoliids）</b>で、真正双子葉類ではありません。<a href="https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora" target="_blank" rel="noopener">Oregon State University ↗</a></p>
+<p class="method-note">葉序の分数は確定値とは限りません。対生・輪生には互生の分数を付けず、モクレンの2/5は教育用模式値として区別しています。実際の毛、茎の断面、葉の内部構造などはモデルでは省略しています。</p>
+<h3>v19：ウルシの葉柄修正と追加4種の形態・出典</h3>
 <p><b>ウルシ</b>：葉軸の始点と茎の節をつなぐ主葉柄の描画が欠けていたため補完しました。エンドウなどの複葉にも同様の接続補正を行いました。葉の節への自動スナップは維持しています。</p>
 <p><b>ブナ（<i>Fagus crenata</i>）</b>：2列互生、丸い波状鈍鋸歯、7〜11対の目立つ側脈をブナ型の輪郭と葉脈として追加。<a href="https://www1.ous.ac.jp/garden/hada/plantsdic/angiospermae/dicotyledoneae/choripetalae/fagaceae/buna/buna.htm" target="_blank" rel="noopener">岡山理科大学 植物図鑑 ↗</a></p>
 <p><b>セイタカアワダチソウ（<i>Solidago altissima</i>）</b>：互生、細い披針形、3本の目立つ葉脈、低い鋸歯。<a href="https://www.naro.go.jp/laboratory/nilgs/weedlist/w0100/w0110/066478.html" target="_blank" rel="noopener">農研機構 ↗</a></p>
@@ -575,7 +586,7 @@ body.fullscreen-fallback{overflow:hidden}
         <li><a href="https://www.inaturalist.org/" target="_blank" rel="noopener">iNaturalist.</a> — 植物写真との比較（画像の撮影条件は標準化されていません）。</li>
       </ol>
       <h3>8. 教材としての限界</h3>
-      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は35分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
+      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は39分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
     </div>
   </section>
 </div>
@@ -606,6 +617,10 @@ const SHAPES=[
 ];
 const ARR={alternate:'らせん互生',distichous:'2列互生',opposite:'対生',whorled:'輪生',rosette:'ロゼット',free:'自由配置',mixed:'混合・不規則'};
 const SPECIES=[
+ {name:'ミント（スペアミント）',latin:'Mentha spicata',arr:['opposite'],shape:['lance','elliptic'],ser:1,desc:'シソ科の多年草。節ごとに2枚の葉が向かい合ってつく対生。細長い卵状披針形で明瞭な鋸歯、短い葉柄と網状の羽状脈をもつ。本見本はスペアミントを代表例とする。',source:'https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata',label:'Burke Herbarium'},
+ {name:'バジル',latin:'Ocimum basilicum',arr:['opposite'],shape:['ovate','elliptic'],ser:0,desc:'シソ科の芳香性草本。対生・十字対生で、比較的幅広い卵形～楕円形の葉。縁は全縁から浅い鋸歯まで変化し、葉柄がある。',source:'https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:452874-1/general-information',label:'Kew Plants of the World Online'},
+ {name:'キョウチクトウ',latin:'Nerium oleander',arr:['whorled','opposite'],shape:['lance'],ser:0,desc:'キョウチクトウ科の常緑木本。細長い全縁の革質葉が同じ節から3枚ずつ輪生（2枚の対生もあり得る）。明瞭な主脈と多数のほぼ平行な側脈。全草有毒のため観察時には触れたり口に入れたりしない。',source:'https://plants.ces.ncsu.edu/plants/nerium-oleander/',label:'NC State Extension'},
+ {name:'モクレン',latin:'Magnolia liliiflora',arr:['alternate'],shape:['obovate','elliptic','ovate'],ser:0,desc:'モクレン科の落葉性木本。互生する単葉で、倒卵形～楕円状卵形、鋸歯のない全縁、羽状の網状脈。学校理科の旧来の双子葉類に相当するが、APG分類ではモクレン類（magnoliids）で真正双子葉類とは異なる。',source:'https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora',label:'Oregon State University'},
  {name:'ブナ',latin:'Fagus crenata',arr:['distichous','alternate'],shape:['beech','ovate'],ser:1,desc:'落葉高木。葉は短い葉柄で2列互生し、広卵形で縁に規則的な波状鈍鋸歯がある。7〜11対のほぼ平行な側脈が縁の突起へ達する。',source:'https://www1.ous.ac.jp/garden/hada/plantsdic/angiospermae/dicotyledoneae/choripetalae/fagaceae/buna/buna.htm',label:'岡山理科大学 植物図鑑'},
  {name:'セイタカアワダチソウ',latin:'Solidago altissima',arr:['alternate'],shape:['lance'],ser:1,desc:'キク科の多年草。細長い披針形の葉が互生し、葉柄は不明瞭。葉の長軸方向に3本の太い脈が目立ち、縁に低い鋸歯がある。',source:'https://www.naro.go.jp/laboratory/nilgs/weedlist/w0100/w0110/066478.html',label:'農研機構'},
  {name:'ススキ',latin:'Miscanthus sinensis',arr:['distichous','alternate'],shape:['linear'],ser:0,desc:'イネ科の多年草。2列互生・線形の葉身、葉鞘、平行脈。中央の白い主脈、細かな鋸歯のある葉縁と弧を描く葉先が特徴。',source:'https://www.kahaku.go.jp/research/db/botany/wild_p100/autumn/27_susuki.html',label:'国立科学博物館'},
@@ -649,6 +664,10 @@ const SPECIES=[
 ];
 const SHAPE_COLORS={beech:'#67935b',peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
 const PRESETS={
+ 'ミント（スペアミント）':{color:'#5a9852',arrangement:'opposite',shape:'lance',venation:'pinnate',size:.91,width:.44,petioleRatio:.085,apexSharpness:.52,teeth:13,toothDepth:.115,tilt:28,nodes:6,height:4.5},
+ 'バジル':{color:'#65a159',arrangement:'opposite',shape:'ovate',venation:'pinnate',size:1.00,width:.73,petioleRatio:.30,apexSharpness:.20,teeth:4,toothDepth:.022,tilt:22,nodes:6,height:4.45},
+ 'キョウチクトウ':{color:'#386a44',arrangement:'whorled',shape:'lance',venation:'oleander',size:1.32,width:.205,petioleRatio:.065,apexSharpness:.62,teeth:0,toothDepth:0,tilt:37,nodes:5,height:5.3},
+ 'モクレン':{color:'#60925b',arrangement:'alternate',shape:'obovate',venation:'pinnate',size:1.32,width:.70,petioleRatio:.19,teeth:0,toothDepth:0,tilt:24,nodes:6,height:5.05},
  'ブナ':{color:'#609058',arrangement:'distichous',shape:'beech',venation:'beech',size:1.09,width:.65,petioleRatio:.10,apexSharpness:.25,teeth:0,toothDepth:0,tilt:22,nodes:7,height:4.7},
  'セイタカアワダチソウ':{color:'#648950',arrangement:'alternate',shape:'lance',venation:'triplinerved',size:1.27,width:.28,petioleRatio:.012,apexSharpness:.57,teeth:8,toothDepth:.038,tilt:25,nodes:9,height:5.7},
  'ススキ':{color:'#729953',arrangement:'distichous',shape:'linear',venation:'parallel',riceLengthCm:60,riceWidthCm:1.2,size:60/15,width:1.2/60,petioleRatio:0,droop:70,teeth:0,toothDepth:0,tilt:66,nodes:7,height:6.5},
@@ -685,6 +704,10 @@ const PRESETS={
  'アサガオ':{color:'#478b53',arrangement:'alternate',shape:'morning',venation:'ipomoea',size:1.12,width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,tilt:18,nodes:5}
 };
 const PHYLLOTAXIS={
+ "ミント（スペアミント）": {"fraction":"—","status":"inapplicable","note":"対生（通常は十字対生）。1節に2枚つくため互生の分数表記は適用しない。","source":"https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata"},
+ "バジル": {"fraction":"—","status":"inapplicable","note":"対生・十字対生。1節2枚のため互生の分数表記は適用しない。","source":"https://plants.ces.ncsu.edu/plants/ocimum-basilicum/"},
+ "キョウチクトウ": {"fraction":"—","status":"inapplicable","note":"同一節から3枚つく輪生（3輪生）の教材例。2枚の対生となる場合もある。互生の分数表記は適用しない。","source":"https://plants.ces.ncsu.edu/plants/nerium-oleander/"},
+ "モクレン": {"fraction":"2/5","status":"model","note":"互生する葉の模式開度として2/5（144°）を用いる。モクレン種に固有の固定値と確認したものではない。","source":"https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora"},
  "ブナ": {"fraction":"1/2","status":"pattern","note":"2列互生（平面配列）のモデル。枝の形態により変化する可能性がある。","source":"https://bsapubs.onlinelibrary.wiley.com/doi/10.3732/ajb.91.12.1981"},
  "セイタカアワダチソウ": {"fraction":"2/5","status":"model","note":"互生。2/5（144°）は教材モデルの仮の配置であり、実測による固定値ではない。","source":"https://www.naro.go.jp/laboratory/nilgs/weedlist/w0100/w0110/066478.html"},
  "ススキ": {"fraction":"1/2","status":"pattern","note":"180°・2列互生から算定したモデル。葉は葉鞘から伸びる。","source":"https://plantdatabase.kpu.ca/PlantPrint/misi"},
@@ -1152,6 +1175,23 @@ function veinModel(p,l,outline){
    push(pts,Math.abs(offset)<.12?1:2);
   }return veins;
  }
+ if(mode==='oleander'){
+  // Oleander: pinnate venation with a thick midrib and numerous, nearly parallel lateral veins.
+  // Unlike monocot parallel venation, lateral veins originate at the midrib.
+  push(line([0,L*.015],[0,L*.98],34),1);
+  for(const side of [-1,1]){
+   for(let i=0;i<17;i++){
+    const y0=L*(.075+i*.046),pts=[];
+    for(let j=0;j<=12;j++){
+     const t=j/12,y=y0+L*.053*t;
+     const half=Math.abs(widthAtY(outline,y,side));
+     pts.push([side*half*.92*t,y]);
+    }
+    push(pts,2);
+   }
+  }
+  return veins;
+ }
  if(mode==='triplinerved'){
   // Cinnamomum camphora: central primary with paired basal/suprabasal
   // ascending arcuate primaries, not three straight radial rays.
@@ -1594,6 +1634,10 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  for(const item of sliderFields){const el=document.createElement('div');el.className='slider-control';el.innerHTML=`<div class="slider-label"><span>${item.name}</span><strong id="v_${item.id}"></strong></div><input id="s_${item.id}" type="range" min="${item.min}" max="${item.max}" step="${item.step}"><div class="slider-hint">${item.hint||''}</div>`;$('sliders').appendChild(el);let held=false;const input=el.querySelector('input');input.addEventListener('pointerdown',()=>{commit();held=true});input.addEventListener('input',()=>{const v=Number(input.value);if(!held)commit();held=true;setting(item.id,v,true)});input.addEventListener('change',()=>{held=false;persist()});input.addEventListener('pointerup',()=>held=false);}
  const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/';
  const LIBRARY_META={
+  'ミント（スペアミント）':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'linearLike'},
+  'バジル':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'simpleBroad'},
+  'キョウチクトウ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'whorledLike',shapeGroup:'linearLike'},
+  'モクレン':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
   'ブナ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'distichous',shapeGroup:'simpleBroad'},
   'セイタカアワダチソウ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'linearLike'},
   'ススキ':{habit:'herb',seedGroup:'angio',cotyledon:'monocot',phylloGroup:'distichous',shapeGroup:'linearLike'},
@@ -1632,7 +1676,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  const LIBRARY_CONFIG={
   seed:{
    intro:'被子植物・裸子植物、および学校で扱う双子葉類・単子葉類と草本植物・木本植物の組み合わせで見られます。',
-   footnote:'「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキは現代のAPG分類ではモクレン類です。',
+   footnote:'「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキとモクレンは現代のAPG分類ではモクレン類で、真正双子葉類とは区別されます。',
    sections:[
     {type:'matrix',title:'被子植物',note:'種子が果実に包まれる植物。学校理科で用いる双子葉類・単子葉類で示します。',cols:['双子葉類','単子葉類'],rows:['草本植物','木本植物'],colsClass:'cols-2',key:(n,m)=>m.seedGroup==='angio'?(m.habit==='herb'?'草本植物':'木本植物')+'|'+(m.cotyledon==='monocot'?'単子葉類':'双子葉類'):null},
     {type:'matrix',title:'裸子植物',note:'種子がむき出しになる植物。現在の見本では木本植物のみです。',cols:['裸子植物'],rows:['草本植物','木本植物'],colsClass:'cols-1',key:(n,m)=>m.seedGroup==='gym'?(m.habit==='herb'?'草本植物':'木本植物')+'|裸子植物':null}
@@ -1945,7 +1989,7 @@ function loadPreset(name){const p=PRESETS[name];if(!p)return;commit();const oldC
   if(name==='ツツジ')t=.47+j*.055;
   if(name==='セイタカアワダチソウ')t=.13+j*.075;
   if(name==='ススキ')t=.12+j*.10;
-  const baseAngle=j*(p.arrangement==='opposite'?90:p.arrangement==='distichous'?180:fractionAngle(name)),angles=(p.arrangement==='opposite'||name==='ヒマワリ'&&j<2)?[baseAngle,baseAngle+180]:[baseAngle];for(const angle of angles)state.leaves.push({...state.defaults,id:nextId++,t,angle:angle%360});}
+  const baseAngle=j*(p.arrangement==='opposite'?90:p.arrangement==='distichous'?180:p.arrangement==='whorled'?60:fractionAngle(name)),angles=p.arrangement==='whorled'?[baseAngle,baseAngle+120,baseAngle+240]:(p.arrangement==='opposite'||name==='ヒマワリ'&&j<2)?[baseAngle,baseAngle+180]:[baseAngle];for(const angle of angles)state.leaves.push({...state.defaults,id:nextId++,t,angle:angle%360});}
  persist();syncUI();updateMatches();drawSoon();toast(`${name}の葉序モデルを読み込みました`);}
 function getTraits(){if(!state.leaves.length)return null;
  const nodes=[];for(const l of [...state.leaves].sort((a,b)=>a.t-b.t)){let n=nodes.find(n=>Math.abs(n.t-l.t)<.023);if(!n){n={t:l.t,ls:[]};nodes.push(n)}n.ls.push(l);}
@@ -1966,7 +2010,7 @@ function updateMatches(){const t=getTraits();if(!t){$('traits').innerHTML='<div>
   let shape=s.shape.includes(t.shape)?37:0;if(shape)reason.push('葉の構造・輪郭が近い');else if((t.shape==='obovate'&&s.shape.includes('ovate'))||(t.shape==='ovate'&&s.shape.includes('obovate'))||(t.shape==='ovate'&&s.shape.includes('elliptic'))||(t.shape==='elliptic'&&s.shape.includes('ovate'))||(t.shape==='lance'&&s.shape.includes('linear'))||(t.shape==='linear'&&s.shape.includes('lance'))){shape=17;reason.push('葉の輪郭が一部近い');}else if(t.shape==='palm'&&s.shape.includes('compound')){shape=9;minus.push('単葉と複葉が異なる')}else if(t.shape==='compound'&&s.shape.includes('palm')){shape=9;minus.push('単葉と複葉が異なる')}else minus.push('葉形は異なる');
   const serr=s.ser===t.ser?14:0;if(serr)reason.push('葉縁が近い');else minus.push('葉縁は異なる');
   let lobe=0;if((s.shape.includes('palm')||s.shape.includes('compound'))&&['palm','compound'].includes(t.shape)){lobe=Math.max(0,7-Math.abs((s.lobes||5)-t.lobes)*1.7);if(lobe>5)reason.push('裂片・小葉の数が近い');}
-  const idealWidth=s.name==='ブナ'?.65:s.name==='セイタカアワダチソウ'?.28:s.name==='ススキ'?.020:s.name==='ツツジ'?.55:s.name==='ヒマワリ'?.90:s.name==='エンドウ'?.72:s.name==='サツキ'?.30:s.name==='スギ'?.19:s.name==='オオバコ'?.65:s.name==='ウルシ'?.68:s.name==='カヤツリグサ'?.014:s.name==='ソメイヨシノ'?.60:s.name==='メタセコイア'?.28:s.name==='イチゴ'?1.03:s.name==='キャベツ'?1.12:s.name==='コナラ'?.47:s.name==='クヌギ'?.27:s.name==='シイ（スダジイ）'?.46:s.name==='タンポポ'?.31:s.name==='マツ（アカマツ）'?.05:s.name==='オリーブ'?.29:s.name==='キョウチクトウ'?.36:s.shape.includes('morning')?1.04:s.shape.includes('linear')?.32:s.shape.includes('lance')?.47:s.shape.includes('fan')?1.2:s.shape.includes('palm')||s.shape.includes('compound')?1.03:s.shape.includes('trifoliate')?1.05:.77;
+  const idealWidth=s.name==='ミント（スペアミント）'?.44:s.name==='バジル'?.73:s.name==='キョウチクトウ'?.205:s.name==='モクレン'?.70:s.name==='ブナ'?.65:s.name==='セイタカアワダチソウ'?.28:s.name==='ススキ'?.020:s.name==='ツツジ'?.55:s.name==='ヒマワリ'?.90:s.name==='エンドウ'?.72:s.name==='サツキ'?.30:s.name==='スギ'?.19:s.name==='オオバコ'?.65:s.name==='ウルシ'?.68:s.name==='カヤツリグサ'?.014:s.name==='ソメイヨシノ'?.60:s.name==='メタセコイア'?.28:s.name==='イチゴ'?1.03:s.name==='キャベツ'?1.12:s.name==='コナラ'?.47:s.name==='クヌギ'?.27:s.name==='シイ（スダジイ）'?.46:s.name==='タンポポ'?.31:s.name==='マツ（アカマツ）'?.05:s.name==='オリーブ'?.29:s.name==='キョウチクトウ'?.36:s.shape.includes('morning')?1.04:s.shape.includes('linear')?.32:s.shape.includes('lance')?.47:s.shape.includes('fan')?1.2:s.shape.includes('palm')||s.shape.includes('compound')?1.03:s.shape.includes('trifoliate')?1.05:.77;
   const widthScore=Math.max(0,7-10*Math.abs(t.meanWidth-idealWidth));
   return {...s,score:Math.min(100,Math.round(arr+shape+serr+lobe+widthScore)),reason,minus};
  }).sort((a,b)=>b.score-a.score);
