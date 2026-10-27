@@ -269,6 +269,16 @@ body.fullscreen-fallback{overflow:hidden}
 @media(max-width:600px){.library-dialog{width:calc(100vw - 12px);height:calc(100dvh - 12px);min-height:0;max-height:calc(100dvh - 12px)}.library-resize-handle{display:none}.library-resize-hint{display:none}.library-top h2{font-size:16px}}
 @media(prefers-reduced-motion: reduce){.library-motion-layer{display:none}}
 
+
+/* v17 — movable library dialog; continuous stem without bamboo-like segment joins */
+.library-top.library-move-handle{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.library-top.library-move-handle.is-moving{cursor:grabbing}
+.library-top.library-move-handle #closeLibrary{cursor:pointer;touch-action:auto}
+.library-move-hint{display:inline-flex;align-items:center;gap:4px;color:#657f6d;font-size:10px;font-weight:600;line-height:1.5;letter-spacing:.01em;margin:2px 0 4px}
+.library-move-hint::before{content:'⠿';font-size:16px;line-height:1;color:#648d6d}
+.library-dialog{will-change:transform}
+@media(max-width:600px){.library-top.library-move-handle{cursor:default;touch-action:auto}.library-move-hint{display:none}}
+
 </style>
 </head>
 <body>
@@ -345,8 +355,8 @@ body.fullscreen-fallback{overflow:hidden}
 <div id="leafMenu" role="menu" aria-label="葉の操作"><button id="menuDuplicate" role="menuitem">⧉ この葉を複製</button><button id="menuDelete" role="menuitem">× この葉を削除</button></div>
 <div id="libraryOverlay" class="library-overlay hidden" role="presentation">
   <section class="library-dialog" id="libraryDialog" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
-    <div class="library-top">
-      <div><h2 id="libraryTitle">植物から組み立てる</h2><p>「種子植物の分類」を初期表示にしています。草本植物（草）は緑、木本植物（木）はベージュで示します。植物名を押すと3D見本を読み込み、↗ は国立科学博物館の葉脈標本データベースの検索ページを開きます（検索語は植物名です）。</p></div>
+    <div class="library-top library-move-handle" id="libraryMoveHandle" title="この上部をドラッグするとポップアップを移動できます">
+      <div><h2 id="libraryTitle">植物から組み立てる</h2><span class="library-move-hint" aria-hidden="true">ドラッグで移動・ダブルクリックで中央へ</span><p>「種子植物の分類」を初期表示にしています。草本植物（草）は緑、木本植物（木）はベージュで示します。植物名を押すと3D見本を読み込み、↗ は国立科学博物館の葉脈標本データベースの検索ページを開きます（検索語は植物名です）。</p></div>
       <button id="closeLibrary" class="btn">閉じる ×</button>
     </div>
     <div class="library-body" id="libraryBody">
@@ -407,7 +417,7 @@ body.fullscreen-fallback{overflow:hidden}
        <div><dt>掌状脈</dt><dd>葉の基部付近から太い葉脈が手の指のように広がる構造。</dd></div>
       </dl>
       <h3>1. 使い方</h3>
-      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
+      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
 <h3>葉序の分数の読み方・26種の一覧（v11）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
@@ -1223,10 +1233,20 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
   const pts=[[V(-5,0,a*.8),V(5,0,a*.8)],[V(a*.8,0,-4),V(a*.8,0,4)]];
   for(const segment of pts){const p=project(segment[0],C),q=project(segment[1],C);ctx.strokeStyle='rgba(87,98,100,.11)';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}
  drawCastShadows(C);
- const things=[];hitLeaves=[];
- for(let k=0;k<48;k++){
-  const a=project(grow(k/48),C),b=project(grow((k+1)/48),C);things.push({kind:'stem',a,b,dep:(a.depth+b.depth)/2,thick:clamp(scale*.037,3.5,9)});
+ // Draw the entire stem as two uninterrupted strokes. Drawing dozens of rounded
+ // subsegments produced horizontal artifacts resembling bamboo nodes at every join.
+ // The attachment nodes remain invisible and are handled only by stemSnapNodes().
+ ctx.save();ctx.beginPath();
+ for(let k=0;k<=96;k++){
+  const p=project(grow(k/96),C);
+  if(k===0)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y);
  }
+ const stemThickness=clamp(scale*.037,3.5,9);
+ ctx.lineJoin='round';ctx.lineCap='round';
+ ctx.strokeStyle='#6b8261';ctx.lineWidth=stemThickness*1.45;ctx.stroke();
+ // A muted, narrow longitudinal highlight gives the stem volume without dashes.
+ ctx.strokeStyle='#8da681';ctx.lineWidth=stemThickness*.22;ctx.stroke();ctx.restore();
+ const things=[];hitLeaves=[];
  for(const l of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leafDrag.id===l.id)continue;
   if(['pinnateCompound','coniferSpray'].includes(l.shape)){
    const a=project(toWorld(l,[0,0]),C),b=project(toWorld(l,[0,l.size*1.05]),C);
@@ -1237,13 +1257,11 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
   const veins=p.veins.map(q=>({points:q.points.map(w=>project(w,C)),order:q.order}));
   things.push({kind:'leaf',owner:l,poly,veins,petiole:p.petiole.map(w=>project(w,C)),dep});
  }}
- // Painter's order; 3D projected surfaces with depth-ordered overlap
+ // Painter's order; 3D projected leaves and compound-leaf axes with depth-ordered overlap
  things.sort((a,b)=>a.dep-b.dep);
  for(const item of things){if(item.kind==='rachis'){
    ctx.beginPath();ctx.moveTo(item.a.x,item.a.y);ctx.lineTo(item.b.x,item.b.y);
    ctx.lineWidth=item.owner.shape==='coniferSpray'?1.5:2.5;ctx.strokeStyle=shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
-  }if(item.kind==='stem'){
-    ctx.beginPath();ctx.moveTo(item.a.x,item.a.y);ctx.lineTo(item.b.x,item.b.y);ctx.lineCap='round';ctx.strokeStyle='#6b8261';ctx.lineWidth=item.thick*1.45;ctx.stroke();ctx.strokeStyle='#9eb58c';ctx.lineWidth=item.thick*.48;ctx.stroke();continue;
   }
   const l=item.owner,poly=item.poly;ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
   const selected=l.id===state.selectedId;
@@ -1561,6 +1579,46 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
    body.addEventListener('scroll',()=>{if(libraryMotion)stopLibraryMotion()},{passive:true});
    window.addEventListener('resize',()=>{if(libraryMotion)stopLibraryMotion()});
  }
+
+ function setupLibraryMove(){
+   const dialog=$('libraryDialog'),handle=$('libraryMoveHandle');
+   let shift={x:0,y:0},drag=null;
+   function paint(){dialog.style.transform=`translate3d(${shift.x}px,${shift.y}px,0)`;}
+   function keepInside(){
+     if($('libraryOverlay').classList.contains('hidden'))return;
+     const r=dialog.getBoundingClientRect();
+     shift.x+=Math.max(8-r.left,Math.min(window.innerWidth-8-r.right,0));
+     shift.y+=Math.max(8-r.top,Math.min(window.innerHeight-8-r.bottom,0));
+     paint();
+   }
+   handle.addEventListener('pointerdown',e=>{
+     if(e.button!==0||window.innerWidth<=600)return;
+     if(e.target.closest('button,a,input,select,textarea,[role="button"]'))return;
+     stopLibraryMotion();
+     const r=dialog.getBoundingClientRect();
+     drag={id:e.pointerId,startX:e.clientX,startY:e.clientY,x:shift.x,y:shift.y,rect:r};
+     e.preventDefault();handle.classList.add('is-moving');handle.setPointerCapture(e.pointerId);
+   });
+   handle.addEventListener('pointermove',e=>{
+     if(!drag||e.pointerId!==drag.id)return;
+     const dx=Math.max(8-drag.rect.left,Math.min(window.innerWidth-8-drag.rect.right,e.clientX-drag.startX));
+     const dy=Math.max(8-drag.rect.top,Math.min(window.innerHeight-8-drag.rect.bottom,e.clientY-drag.startY));
+     shift={x:drag.x+dx,y:drag.y+dy};paint();
+   });
+   function end(e){if(!drag||e.pointerId!==drag.id)return;drag=null;handle.classList.remove('is-moving');}
+   handle.addEventListener('pointerup',end);
+   handle.addEventListener('pointercancel',end);
+   handle.addEventListener('lostpointercapture',()=>{drag=null;handle.classList.remove('is-moving')});
+   handle.addEventListener('dblclick',e=>{
+     if(e.target.closest('button'))return;
+     shift={x:0,y:0};paint();
+   });
+   window.addEventListener('resize',()=>requestAnimationFrame(keepInside));
+   $('libraryResize').addEventListener('pointerup',()=>requestAnimationFrame(keepInside));
+   $('libraryResize').addEventListener('dblclick',()=>requestAnimationFrame(keepInside));
+   return {keepInside};
+ }
+
 function renderLibrary(view=currentLibraryView,animate=true){
    currentLibraryView=view;
    const before=animate?collectRects():{};
@@ -1588,7 +1646,7 @@ function renderLibrary(view=currentLibraryView,animate=true){
    Object.values(cellMap).forEach(cell=>{if(!cell.children.length)cell.innerHTML='<span class="preset-empty">該当なし</span>'})
    if(animate)requestAnimationFrame(()=>animateLibraryItems(before));
  }
- function openLibrary(){ $('libraryOverlay').classList.remove('hidden'); renderLibrary('seed', false); }
+ function openLibrary(){ $('libraryOverlay').classList.remove('hidden'); renderLibrary('seed', false); requestAnimationFrame(()=>libraryMovement.keepInside()); }
  function closeLibrary(){stopLibraryMotion();$('libraryOverlay').classList.add('hidden'); }
  for(const name of Object.keys(PRESETS))if(!LIBRARY_META[name])console.warn('分類情報がない見本:',name);
  
@@ -1603,6 +1661,7 @@ function renderLibrary(view=currentLibraryView,animate=true){
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!qrOverlay.classList.contains('hidden'))closeQR();});
  $('copyQrUrl').onclick=async()=>{const value='https://scd-ku.github.io/hanotsukikata/';try{await navigator.clipboard.writeText(value);$('qrCopyStatus').textContent='URLをコピーしました';}catch(_){$('qrCopyStatus').textContent='上のURLを長押ししてコピーしてください';}};
  setupLibraryResize();
+ const libraryMovement=setupLibraryMove();
  $('openLibrary').onclick=$('openLibraryFromPanel').onclick=()=>{openLibrary();$('closeLibrary').focus()};
  $('closeLibrary').onclick=()=>{closeLibrary();$('openLibrary').focus()};
  $('libraryOverlay').addEventListener('click',e=>{if(e.target===$('libraryOverlay'))$('closeLibrary').click()});
