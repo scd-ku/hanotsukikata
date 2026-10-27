@@ -289,7 +289,7 @@ body.fullscreen-fallback{overflow:hidden}
 <main class="shell">
 <aside class="side left">
   <p class="section-kicker">01 / BUILD</p><h2 class="h2">葉を組み立てる</h2><p class="sub">葉をつかんで茎へ運びます。灰色の葉が茎に近づくと最寄りの節に吸着し、離すと緑になります。茎についた葉もドラッグで別の節へ挿し直せます。</p>
-  <div class="small-heading">葉の形 <span>10パターン</span></div>
+  <div class="small-heading">葉の形 <span>20パターン</span></div>
   <div class="palette" id="palette"></div><div id="paletteReturn" aria-label="葉を戻して削除する領域">↶ 葉をここへ戻すと削除</div>
   <div class="selected-preview"><div id="leafDetail" aria-label="葉形・葉脈の正面模式図"></div><span class="pill" id="modePill">次に置く葉</span><div><strong id="currentShapeName">卵形</strong><small id="editIndicator">パレットを選択中</small></div></div>
   <div class="small-heading">葉序 <span>茎につける単位</span></div>
@@ -312,7 +312,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="toolbar-bottom"><button class="btn" id="duplicate">選択葉を複製</button><button class="btn danger" id="delete">選択葉を削除</button></div>
   <div class="divider"></div>
   <div class="divider"></div>
-  <div class="small-heading">植物から組み立てる <span>26種類の見本</span></div>
+  <div class="small-heading">植物から組み立てる <span>30種類の見本</span></div>
   <p class="preset-intro">ヘッダのボタン、または下のボタンから分類表のポップアップを開き、植物名を選ぶと葉序と葉形の3D見本を読み込みます。</p>
   <button class="btn widebutton library-open" id="openLibraryFromPanel" type="button" aria-controls="libraryOverlay" aria-haspopup="dialog"><strong>植物から組み立てる</strong><span>種子植物の分類・葉序・葉形の3つの分類から、見本植物を選択できます。</span><em>↗</em></button>
   <div class="footer-note">自動保存対応 · 葉の右クリック／長押しで複製・削除、背景ドラッグで回転できます。データは端末のブラウザにのみ保存されます。</div>
@@ -329,7 +329,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div id="matches"><div class="empty">茎に葉をつけると、特徴の近い植物がここに表示されます。</div></div>
   <div class="divider"></div>
   <div class="small-heading">調べるときの注意</div>
-  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は31分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
+  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は35分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
   <button id="openHelpAside" class="btn widebutton">葉脈・葉形・色の研究根拠と参考資料を見る</button>
   <div class="small-heading">今回の修正に使った資料</div>
     <div class="source-item"><a href="https://doi.org/10.1371/journal.pone.0164532" target="_blank" rel="noopener">Chatterjee et al. (2016) — イネの形態計測 ↗</a>栽培イネIR64の葉身41 × 0.97 cm。</div>
@@ -418,10 +418,14 @@ body.fullscreen-fallback{overflow:hidden}
       </dl>
       <h3>1. 使い方</h3>
       <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
-<h3>葉序の分数の読み方・26種の一覧（v11）</h3>
+<h3>葉序の分数の読み方・30種の一覧（v18）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
 <div style="overflow-x:auto;max-height:360px;overflow-y:auto"><table class="phyllo-table"><thead><tr><th>植物</th><th>葉序の分数</th><th>根拠・注意点</th></tr></thead><tbody>
+<tr><td>ヒマワリ</td><td>—</td><td>未確定：下部は対生、上部は互生。全茎の固定分数は置きません。 <a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>エンドウ</td><td>2/5</td><td>模式設定：互生する羽状複葉。小葉ではなく、複葉の付け根で葉序を数えます。 <a href="https://www.jircas.go.jp/en/database/thaivege/085" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>サツキ</td><td>2/5</td><td>模式設定：互生で枝先に集まる。種固有の固定値ではありません。 <a href="https://ryokka-c.jp/info/woodplant/4794/" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>スギ</td><td>2/5</td><td>模式設定：らせん状5列性を模式化。種固有の開度を実測した値ではありません。 <a href="https://dplantdatabase.kpu.ca/PlantPrint/crja" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>アサガオ</td><td>2/5</td><td>文献・資料確認：144°・5枚で2回転。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=1802" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>ヘチマ</td><td>2/5</td><td>模式設定：互生。2/5は教材モデルの設定値で、この種の固定値とは未確認。 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>ホウセンカ</td><td>2/5</td><td>模式設定：主としてらせん互生。2/5は例示モデルであり、実測確認値ではない。 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">出典↗</a></td></tr>
@@ -450,7 +454,12 @@ body.fullscreen-fallback{overflow:hidden}
 <tr><td>メタセコイア</td><td>—</td><td>適用外：小枝上に葉が対生。1節2枚であり互生の分数は付けない。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
 </tbody></table></div>
 <p><b>参考論文：</b><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">Okabe (2015), Biophysical optimality of the golden angle in phyllotaxis</a>、<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6408360/" target="_blank" rel="noopener">The unified rule of phyllotaxis explaining both spiral and non-spiral arrangements (2019)</a>、<a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">日本植物生理学会：対生葉序について</a>。分数と角度は模式的な表現です。</p>
-      <h3>v10：新しく加えた7種類</h3>
+      <h3>v18：追加した4種類のモデルと出典</h3>
+<p><b>ヒマワリ（<i>Helianthus annuus</i>）</b>：下の節は対生で、上の節は互生へ変化します。幅広い心形〜卵形、鋸歯、基部から放射する主要脈を示します。<a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information" target="_blank" rel="noopener">Kew POWO ↗</a></p>
+<p><b>エンドウ（<i>Pisum sativum</i>）</b>：3対の小葉と先端の巻きひげ、大きな托葉を模式化しました。<a href="https://www.jircas.go.jp/en/database/thaivege/085" target="_blank" rel="noopener">JIRCAS ↗</a>／<a href="https://www.nrcs.usda.gov/plantmaterials/nypmctn13507.pdf" target="_blank" rel="noopener">USDA NRCS ↗</a></p>
+<p><b>サツキ（<i>Rhododendron indicum</i>）</b>：枝先に密集する細長い互生葉とまばらな細鋸歯を表現。春葉と夏葉の差や毛は簡略化しました。<a href="https://www.worldfloraonline.org/taxon/wfo-0000400687" target="_blank" rel="noopener">World Flora Online ↗</a></p>
+<p><b>スギ（<i>Cryptomeria japonica</i>）</b>：小枝に多数の短い針状葉がらせん状につく様子を模式化。実際の3次元らせんを平面化したものではなく、教育用近似です。<a href="https://dplantdatabase.kpu.ca/PlantPrint/crja" target="_blank" rel="noopener">KPU Plant Database ↗</a></p>
+<h3>v10：新しく加えた7種類</h3>
       <p><b>オオバコ（<i>Plantago asiatica</i>）</b>：被子植物・双子葉類／草本。長い葉柄をもつ広い卵形の根生葉で、基部から3〜7本の太い脈が弧を描くように先端へ伸びます。イネの平行脈とは異なる弓状の基部脈として描画しています。</p>
       <p><b>ウルシ（<i>Toxicodendron vernicifluum</i>）</b>：被子植物・双子葉類／樹木。枝に互生する奇数羽状複葉で、標準見本では左右5対＋先端の1枚、計11小葉を配置。個々の小葉は基本的に全縁。ウルシオールによる接触皮膚炎の危険があるため実物には触れないでください。</p>
       <p><b>カヤツリグサ（<i>Cyperus microiria</i>）</b>：被子植物・単子葉類／草本。下部に細い葉が3列状に付く構造を模式化。茎の三角形の横断面と葉鞘は、3Dアプリでは簡略化しています。</p>
@@ -559,7 +568,7 @@ body.fullscreen-fallback{overflow:hidden}
         <li><a href="https://www.inaturalist.org/" target="_blank" rel="noopener">iNaturalist.</a> — 植物写真との比較（画像の撮影条件は標準化されていません）。</li>
       </ol>
       <h3>8. 教材としての限界</h3>
-      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は31分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
+      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は35分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
     </div>
   </section>
 </div>
@@ -579,6 +588,8 @@ const SHAPES=[
   {id:'plantain',name:'オオバコ型',hint:'広い卵形の根生葉。基部から弧状の葉脈'},
   {id:'cabbage',name:'キャベツ型',hint:'丸く波打つ結球葉'},
   {id:'pinnateCompound',name:'奇数羽状複葉',hint:'ウルシ型、左右5対と先端の小葉'},
+  {id:'peaCompound',name:'巻きひげのある羽状複葉',hint:'エンドウ型、3対の小葉と先端の枝分かれした巻きひげ'},
+  {id:'cedarSpray',name:'スギ型の針状葉',hint:'枝にらせん状に多数付く短い針状の葉'},
   {id:'coniferSpray',name:'対生の線形葉',hint:'メタセコイアの落葉性の小枝'},
   {id:'needlePair',name:'2本針葉',hint:'アカマツの短枝に2本付く針葉'},
   {id:'trifoliate',name:'三出複葉',hint:'3小葉の集合'},
@@ -587,6 +598,9 @@ const SHAPES=[
 ];
 const ARR={alternate:'らせん互生',distichous:'2列互生',opposite:'対生',whorled:'輪生',rosette:'ロゼット',free:'自由配置',mixed:'混合・不規則'};
 const SPECIES=[
+ {name:'エンドウ',latin:'Pisum sativum',arr:['alternate'],shape:['peaCompound'],ser:0,desc:'互生する羽状複葉。通常1〜3対の小葉があり、先端は枝分かれした巻きひげになる。葉の付け根には大型の托葉がある。本教材は小葉3対・巻きひげを模式化。',source:'https://www.jircas.go.jp/en/database/thaivege/085',label:'国際農林水産業研究センター（JIRCAS）'},
+ {name:'サツキ',latin:'Rhododendron indicum',arr:['alternate'],shape:['lance','elliptic'],ser:1,desc:'半常緑の木本性低木。細い披針形〜倒披針形の単葉が互生し、枝先に密集する。葉柄は短く、縁にまばらで細かい鋸歯、葉と若枝に毛がある。',source:'https://www.worldfloraonline.org/taxon/wfo-0000400687',label:'World Flora Online'},
+ {name:'スギ',latin:'Cryptomeria japonica',arr:['alternate'],shape:['cedarSpray'],ser:0,desc:'裸子植物・スギ科の木本植物。枝に針状〜錐状の葉がらせん状（おおむね5列）につき、葉の基部が枝に沿って流れる。マツの2本針葉、メタセコイアの対生の線形葉とは異なる。',source:'https://dplantdatabase.kpu.ca/PlantPrint/crja',label:'KPU Horticulture Plant Database'},
  {name:'コナラ',latin:'Quercus serrata',arr:['alternate'],shape:['obovate'],ser:1,desc:'落葉樹。互生・倒卵形〜倒卵状楕円形で、比較的粗い鋭鋸歯。葉裏は毛により白みを帯びる。',source:'https://www.ffpri.go.jp/kys/business/jumokuen/jumoku/zukan/konara.html',label:'森林総合研究所'},
  {name:'クヌギ',latin:'Quercus acutissima',arr:['alternate'],shape:['lance'],ser:1,desc:'互生・狭長楕円形。側脈13〜18対が先端の針状鋸歯に達する。',source:'https://www.worldfloraonline.org/taxon/wfo-0000289386',label:'World Flora Online'},
  {name:'シイ（スダジイ）',latin:'Castanopsis sieboldii',arr:['alternate'],shape:['elliptic','lance'],ser:0,desc:'常緑樹。互生・革質で光沢があり、全縁または先半部に少数の鋸歯。葉裏に鱗状毛。',source:'https://www.ffpri.go.jp/kys/business/jumokuen/jumoku/zukan/sudajii.html',label:'森林総合研究所'},
@@ -599,7 +613,7 @@ const SPECIES=[
  {name:'アジサイ',latin:'Hydrangea macrophylla',arr:['opposite'],shape:['ovate','elliptic'],ser:1,desc:'対生で鋸歯をもつ広い卵形の葉。',source:'https://plants.ces.ncsu.edu/plants/hydrangea-macrophylla/',label:'NC State Extension'},
  {name:'シソ',latin:'Perilla frutescens',arr:['opposite'],shape:['ovate'],ser:1,desc:'対生・卵形・鋸歯。茎は四角い。',source:'https://www.gbif.org/species/search?q=Perilla%20frutescens',label:'GBIF検索'},
  {name:'ホウセンカ',latin:'Impatiens balsamina',arr:['alternate'],shape:['lance'],ser:1,desc:'らせん互生（下部では対生も）。葉身4〜12×1.5〜3 cmほどの披針形、先端は漸尖、縁は明瞭な鋸歯、側脈は4〜7対。',source:'https://www.worldfloraonline.org/taxon/wfo-0000730261',label:'Flora of China / WFO'},
- {name:'ヒマワリ',latin:'Helianthus annuus',arr:['opposite','alternate'],shape:['ovate','cordate'],ser:1,desc:'若い茎では対生し、その後互生することが多い。広い葉と鋸歯。',source:'https://www.gbif.org/species/search?q=Helianthus%20annuus',label:'GBIF検索'},
+ {name:'ヒマワリ',latin:'Helianthus annuus',arr:['opposite','alternate','mixed'],shape:['cordate','ovate'],ser:1,desc:'下位節では対生、成長に伴い上位節では互生へ移ることが多い。長い葉柄をもつ広い卵形〜心形の葉で、鋸歯と葉の基部から伸びる3本の主要脈が特徴。',source:'https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information',label:'Kew Plants of the World Online'},
  {name:'アサガオ',latin:'Ipomoea nil',arr:['alternate'],shape:['morning','cordate'],ser:0,lobes:3,desc:'互生・心形の基部と3裂の単葉。基部から中央脈と左右の主側脈が伸びる。切れ込みには変異がある。',source:'https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:1071575-2/general-information',label:'Kew Science'},
  {name:'ヘチマ',latin:'Luffa aegyptiaca',arr:['alternate'],shape:['palm'],ser:0,lobes:5,desc:'互生・3〜7裂する掌状葉。巻きひげをもつ。',source:'https://www.gbif.org/species/search?q=Luffa%20aegyptiaca',label:'GBIF検索'},
  {name:'クスノキ',latin:'Cinnamomum camphora',arr:['alternate'],shape:['elliptic','ovate'],ser:0,desc:'互生・全縁の卵状楕円形。基部近くから左右の主側脈が弓状に伸びる離基三出脈。',source:'https://www.worldfloraonline.org/taxon/wfo-0000604955',label:'World Flora Online'},
@@ -620,8 +634,12 @@ const SPECIES=[
  {name:'カタバミ',latin:'Oxalis corniculata',arr:['alternate'],shape:['trifoliate'],ser:0,desc:'互生・3小葉。各小葉は倒心形で先端がくぼむ。',source:'https://www.gbif.org/species/search?q=Oxalis%20corniculata',label:'GBIF検索'},
  {name:'アカメガシワ',latin:'Mallotus japonicus',arr:['alternate'],shape:['ovate'],ser:0,desc:'互生・広い卵形〜菱状卵形で浅い鋸歯や蜜腺がある。',source:'https://www.gbif.org/species/search?q=Mallotus%20japonicus',label:'GBIF検索'}
 ];
-const SHAPE_COLORS={plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
+const SHAPE_COLORS={peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
 const PRESETS={
+ 'ヒマワリ':{color:'#47894c',arrangement:'alternate',shape:'cordate',venation:'palmate',size:1.45,width:.90,petioleRatio:.58,apexSharpness:.54,teeth:18,toothDepth:.105,tilt:24,nodes:7,height:5.4},
+ 'エンドウ':{color:'#78a46c',arrangement:'alternate',shape:'peaCompound',venation:'pinnate',size:1.28,width:.72,petioleRatio:.10,apexSharpness:.15,teeth:0,toothDepth:0,tilt:22,nodes:5,height:4.3},
+ 'サツキ':{color:'#3e7744',arrangement:'alternate',shape:'lance',venation:'pinnate',size:.78,width:.30,petioleRatio:.11,apexSharpness:.30,teeth:8,toothDepth:.035,tilt:22,nodes:9,height:3.8},
+ 'スギ':{color:'#3e7954',arrangement:'alternate',shape:'cedarSpray',venation:'none',size:.92,width:.19,petioleRatio:0,apexSharpness:.48,teeth:0,toothDepth:0,tilt:24,nodes:6,height:5.0},
  'オオバコ':{color:'#5b874f',arrangement:'rosette',shape:'plantain',venation:'arcuate',size:1.24,width:.65,petioleRatio:.70,apexSharpness:.14,teeth:0,toothDepth:0,tilt:11,nodes:10,height:3.3},
  'ウルシ':{color:'#51814a',arrangement:'alternate',shape:'pinnateCompound',venation:'pinnate',size:1.42,width:.68,petioleRatio:.19,apexSharpness:.30,teeth:0,toothDepth:0,tilt:21,nodes:5,height:5.0},
  'カヤツリグサ':{color:'#598942',arrangement:'rosette',shape:'linear',venation:'parallel',riceLengthCm:28,riceWidthCm:.38,size:28/15,width:.38/28,petioleRatio:0,droop:26,teeth:0,toothDepth:0,tilt:44,nodes:9,height:3.8},
@@ -650,6 +668,10 @@ const PRESETS={
  'アサガオ':{color:'#478b53',arrangement:'alternate',shape:'morning',venation:'ipomoea',size:1.12,width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,tilt:18,nodes:5}
 };
 const PHYLLOTAXIS={
+ "ヒマワリ": {"fraction":"—","status":"undetermined","note":"下部の葉は対生、上部は互生へ移ることが多いため、全茎で一つの分数には固定しない。","source":"https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information"},
+ "エンドウ": {"fraction":"2/5","status":"model","note":"互生。2/5は教材モデルの配列であり、種の固定された実測値ではない。小葉ではなく複葉の付け根で葉序を数える。","source":"https://www.jircas.go.jp/en/database/thaivege/085"},
+ "サツキ": {"fraction":"2/5","status":"model","note":"枝先に集まる互生葉。2/5は例示モデルで、この種の実測分数としては未確認。","source":"https://ryokka-c.jp/info/woodplant/4794/"},
+ "スギ": {"fraction":"2/5","status":"model","note":"らせん状の5列性に基づく模式的な2/5配列。種で固定された開度の実測値とみなさない。","source":"https://dplantdatabase.kpu.ca/PlantPrint/crja"},
  "アサガオ": {
   "fraction": "2/5",
   "status": "confirmed",
@@ -988,7 +1010,7 @@ function shade(hex,amt){const rgb=parseRGB(hex);return toHex(amt>0?mixRGB(rgb,[2
 function widthAtY(poly,y,side){const hits=[];for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length];if((a[1]<=y&&b[1]>y)||(b[1]<=y&&a[1]>y)){const x=a[0]+(b[0]-a[0])*(y-a[1])/(b[1]-a[1]);if(side*x>=-1e-5)hits.push(x);}}return hits.length?(side>0?Math.max(...hits):Math.min(...hits)):0;}
 function inside2D(p,pts){let yes=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])yes=!yes;}return yes;}
 function veinModel(p,l,outline){
- if(l.shape==='needlePair'||l.venation==='none')return [];
+ if(['needlePair','cedarSpray'].includes(l.shape)||l.venation==='none')return [];
  const veins=[],L=p.len, W=p.width,sh=p.shape;
  function push(local,order=2){const pieces=[];let chain=[];for(const q of local){if(inside2D(q,outline)||Math.abs(q[0])<1e-8&&q[1]===0){chain.push(q)}else{if(chain.length>=2)pieces.push(chain);chain=[];}}if(chain.length>=2)pieces.push(chain);for(const pts of pieces)veins.push({pts,order});}
  function line(a,b,steps=7){return Array.from({length:steps+1},(_,i)=>{let t=i/steps;return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]});}
@@ -1124,6 +1146,24 @@ function veinModel(p,l,outline){
  return veins;
 }
 function makeParts(l){const d=l;
+ if(d.shape==='peaCompound'){
+   const parts=[];
+   // Broad paired stipules subtend the whole leaf; three opposite leaflet pairs arise higher on rachis.
+   for(const side of [-1,1])parts.push({o:[side*d.size*.018,d.size*.035],rot:side*1.10,len:d.size*.30,width:d.size*.20,shape:'ovate',key:100+side});
+   for(let i=0;i<3;i++)for(const side of [-1,1])parts.push({o:[side*d.size*.026,d.size*(.22+.19*i)],rot:side*(.85+.08*i),len:d.size*(.34-.03*i),width:d.size*(.245-.015*i),shape:'elliptic',key:i*2+(side+1)/2});
+   return parts;
+ }
+ if(d.shape==='cedarSpray'){
+   const parts=[];
+   // Needle-like awls on a slender twig; opposing outlines are a 2D teaching projection
+   // of spirally arranged needles, rather than actual opposite phyllotaxis.
+   for(let i=0;i<17;i++)for(const side of [-1,1]){
+     const t=.13+i*.046;
+     parts.push({o:[side*d.size*.010,d.size*t],rot:side*(.76+.16*Math.sin(i*1.23)),len:d.size*(.185+.018*Math.cos(i)),width:d.size*.025,shape:'lance',key:i*2+(side+1)/2});
+   }
+   parts.push({o:[0,d.size*.91],rot:0,len:d.size*.15,width:d.size*.024,shape:'lance',key:40});
+   return parts;
+ }
  if(d.shape==='pinnateCompound'){
    const parts=[];
    for(let i=0;i<5;i++)for(const side of [-1,1])parts.push({o:[side*d.size*.032,d.size*(.17+.177*i)],rot:side*1.0,len:d.size*(.34+.06*i/5),width:d.size*.228,shape:'elliptic',key:i*2+(side+1)/2});
@@ -1176,7 +1216,7 @@ function leafParts(l){return makeParts(l).map(p=>{
  const tf=q=>[p.o[0]+q[0]*c-q[1]*s,p.o[1]+q[0]*s+q[1]*c];
  const points=margin.map(q=>toWorld(l,tf(q)));
  const veins=veinModel(p,l,margin).map(v=>({points:v.pts.map(q=>toWorld(l,tf(q))),order:v.order}));
- const grouped=['pinnateCompound','coniferSpray'].includes(l.shape);
+ const grouped=['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape);
  return {points,veins,petiole:[grouped?toWorld(l,[0,p.o[1]]):grow(l.t),toWorld(l,p.o)],owner:l};
 });}
 const cameras=()=>{
@@ -1198,7 +1238,7 @@ function drawCastShadows(C){
  ctx.strokeStyle='rgba(38,50,42,.22)';ctx.lineWidth=clamp(C.base*.022,1.4,5);
  ctx.beginPath();for(let i=0;i<=64;i++){const p=project(groundShadow(grow(i/64)),C);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);}ctx.stroke();
  for(const leaf of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leaf.id===leafDrag.id)continue;
-  if(['pinnateCompound','coniferSpray'].includes(leaf.shape)){
+  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(leaf.shape)){
     const end=leaf.size*(leaf.shape==='pinnateCompound'?1.05:1.05),a=project(groundShadow(toWorld(leaf,[0,0])),C),b=project(groundShadow(toWorld(leaf,[0,end])),C);
     ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(32,48,39,.17)';ctx.lineWidth=1.5;ctx.stroke();
   }
@@ -1248,9 +1288,24 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  ctx.strokeStyle='#8da681';ctx.lineWidth=stemThickness*.22;ctx.stroke();ctx.restore();
  const things=[];hitLeaves=[];
  for(const l of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leafDrag.id===l.id)continue;
-  if(['pinnateCompound','coniferSpray'].includes(l.shape)){
+  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
    const a=project(toWorld(l,[0,0]),C),b=project(toWorld(l,[0,l.size*1.05]),C);
    things.push({kind:'rachis',a,b,dep:(a.depth+b.depth)/2,owner:l});
+  }
+  if(l.shape==='peaCompound'){
+    // A branched tendril develops in place of terminal leaflets of the pea compound leaf.
+    // Curves are polylines of 3D-projected points, so they rotate with the plant model.
+    for(const side of [-1,0,1]){
+      const pts=[];
+      for(let j=0;j<=26;j++){
+        const t=j/26,a=t*Math.PI*2.45;
+        const x=l.size*(side*.11*t + side*.070*t*Math.cos(a) + (side===0?.045*t*Math.sin(a):0));
+        const y=l.size*(.78 + .50*t - (side===0?.045*t*Math.cos(a):.065*t*Math.sin(a)));
+        pts.push(project(toWorld(l,[x,y]),C));
+      }
+      const dep=pts.reduce((v,p)=>v+p.depth,0)/pts.length;
+      things.push({kind:'tendril',points:pts,dep,owner:l});
+    }
   }
   for(const p of leafParts(l)){
   const poly=p.points.map(w=>project(w,C));const dep=poly.reduce((s,p)=>s+p.depth,0)/poly.length;
@@ -1259,9 +1314,12 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  }}
  // Painter's order; 3D projected leaves and compound-leaf axes with depth-ordered overlap
  things.sort((a,b)=>a.dep-b.dep);
- for(const item of things){if(item.kind==='rachis'){
+ for(const item of things){if(item.kind==='tendril'){
+   ctx.beginPath();item.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
+   ctx.strokeStyle=shade(item.owner.color||'#67905e',-.32);ctx.lineWidth=1.6;ctx.lineCap='round';ctx.stroke();continue;
+  }if(item.kind==='rachis'){
    ctx.beginPath();ctx.moveTo(item.a.x,item.a.y);ctx.lineTo(item.b.x,item.b.y);
-   ctx.lineWidth=item.owner.shape==='coniferSpray'?1.5:2.5;ctx.strokeStyle=shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
+   ctx.lineWidth=['coniferSpray','cedarSpray'].includes(item.owner.shape)?1.5:2.5;ctx.strokeStyle=shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
   }
   const l=item.owner,poly=item.poly;ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
   const selected=l.id===state.selectedId;
@@ -1360,6 +1418,10 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  for(const item of sliderFields){const el=document.createElement('div');el.className='slider-control';el.innerHTML=`<div class="slider-label"><span>${item.name}</span><strong id="v_${item.id}"></strong></div><input id="s_${item.id}" type="range" min="${item.min}" max="${item.max}" step="${item.step}"><div class="slider-hint">${item.hint||''}</div>`;$('sliders').appendChild(el);let held=false;const input=el.querySelector('input');input.addEventListener('pointerdown',()=>{commit();held=true});input.addEventListener('input',()=>{const v=Number(input.value);if(!held)commit();held=true;setting(item.id,v,true)});input.addEventListener('change',()=>{held=false;persist()});input.addEventListener('pointerup',()=>held=false);}
  const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/';
  const LIBRARY_META={
+  'ヒマワリ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'heart'},
+  'エンドウ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'compound'},
+  'サツキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'linearLike'},
+  'スギ':{habit:'tree',seedGroup:'gym',cotyledon:'gym',phylloGroup:'alternate',shapeGroup:'fanNeedle'},
   'アサガオ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'heart'},
   'ヘチマ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
   'ホウセンカ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'linearLike'},
@@ -1398,7 +1460,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
   },
   phyllotaxis:{
    intro:'葉序の特徴ごとに分類します。互生の分数は各ボタン下の注記で確認できます。',
-   footnote:'「輪生・三列型など」には輪生のほか、カヤツリグサのような三列状の配置も含めています。ロゼットは地際に葉が集まる型です。',
+   footnote:'ヒマワリは下部が対生・上部が互生という移行型のため、ここでは主に上部の互生側へ整理します。「輪生・三列型など」には輪生のほか、カヤツリグサのような三列状の配置も含めています。ロゼットは地際に葉が集まる型です。',
    sections:[
     {type:'matrix',title:'葉序で分類',note:'草本植物・木本植物ごとに、主な葉のつき方へ分類しています。',cols:['らせん互生','2列互生','対生','輪生・三列型など','ロゼット'],rows:['草本植物','木本植物'],colsClass:'cols-5',key:(n,m)=>{const map={alternate:'らせん互生',distichous:'2列互生',opposite:'対生',whorledLike:'輪生・三列型など',rosette:'ロゼット'};return (m.habit==='herb'?'草本植物':'木本植物')+'|'+map[m.phylloGroup];}}
    ]
@@ -1697,7 +1759,10 @@ function renderLibrary(view=currentLibraryView,animate=true){
  syncUI();updateMatches();drawSoon();}
 
 function loadPreset(name){const p=PRESETS[name];if(!p)return;commit();const oldCam={yaw:state.yaw,pitch:state.pitch,zoom:state.zoom};state=defaultState();Object.assign(state,oldCam);state.arrangement=p.arrangement;state.presetName=name;state.height=p.height||state.height;state.defaults={...baseDefault,...p,speciesName:name,venation:p.venation||'auto',colorOrigin:'植物別の参考表示色（実測値ではありません）'};activePalette=p.shape;
- for(let j=0;j<p.nodes;j++){let t=.15+(j/Math.max(1,p.nodes-1))*.69;if(name==='シロツメクサ')t=.10+j*.085;if(name==='イネ')t=.13+j*.105;if(name==='タンポポ'||name==='オオバコ'||name==='カヤツリグサ'||name==='イチゴ'||name==='キャベツ')t=.07+j*.0025;if(name==='マツ（アカマツ）')t=.18+j*.053;const baseAngle=j*(p.arrangement==='opposite'?90:p.arrangement==='distichous'?180:fractionAngle(name)),angles=p.arrangement==='opposite'?[baseAngle,baseAngle+180]:[baseAngle];for(const angle of angles)state.leaves.push({...state.defaults,id:nextId++,t,angle:angle%360});}
+ for(let j=0;j<p.nodes;j++){let t=.15+(j/Math.max(1,p.nodes-1))*.69;if(name==='シロツメクサ')t=.10+j*.085;if(name==='イネ')t=.13+j*.105;if(name==='タンポポ'||name==='オオバコ'||name==='カヤツリグサ'||name==='イチゴ'||name==='キャベツ')t=.07+j*.0025;if(name==='マツ（アカマツ）')t=.18+j*.053;if(name==='サツキ')t=.51+j*.044;
+  if(name==='スギ')t=.20+j*.13;
+  if(name==='ヒマワリ')t=.15+j*.11;
+  const baseAngle=j*(p.arrangement==='opposite'?90:p.arrangement==='distichous'?180:fractionAngle(name)),angles=(p.arrangement==='opposite'||name==='ヒマワリ'&&j<2)?[baseAngle,baseAngle+180]:[baseAngle];for(const angle of angles)state.leaves.push({...state.defaults,id:nextId++,t,angle:angle%360});}
  persist();syncUI();updateMatches();drawSoon();toast(`${name}の葉序モデルを読み込みました`);}
 function getTraits(){if(!state.leaves.length)return null;
  const nodes=[];for(const l of [...state.leaves].sort((a,b)=>a.t-b.t)){let n=nodes.find(n=>Math.abs(n.t-l.t)<.023);if(!n){n={t:l.t,ls:[]};nodes.push(n)}n.ls.push(l);}
@@ -1718,7 +1783,7 @@ function updateMatches(){const t=getTraits();if(!t){$('traits').innerHTML='<div>
   let shape=s.shape.includes(t.shape)?37:0;if(shape)reason.push('葉の構造・輪郭が近い');else if((t.shape==='obovate'&&s.shape.includes('ovate'))||(t.shape==='ovate'&&s.shape.includes('obovate'))||(t.shape==='ovate'&&s.shape.includes('elliptic'))||(t.shape==='elliptic'&&s.shape.includes('ovate'))||(t.shape==='lance'&&s.shape.includes('linear'))||(t.shape==='linear'&&s.shape.includes('lance'))){shape=17;reason.push('葉の輪郭が一部近い');}else if(t.shape==='palm'&&s.shape.includes('compound')){shape=9;minus.push('単葉と複葉が異なる')}else if(t.shape==='compound'&&s.shape.includes('palm')){shape=9;minus.push('単葉と複葉が異なる')}else minus.push('葉形は異なる');
   const serr=s.ser===t.ser?14:0;if(serr)reason.push('葉縁が近い');else minus.push('葉縁は異なる');
   let lobe=0;if((s.shape.includes('palm')||s.shape.includes('compound'))&&['palm','compound'].includes(t.shape)){lobe=Math.max(0,7-Math.abs((s.lobes||5)-t.lobes)*1.7);if(lobe>5)reason.push('裂片・小葉の数が近い');}
-  const idealWidth=s.name==='オオバコ'?.65:s.name==='ウルシ'?.68:s.name==='カヤツリグサ'?.014:s.name==='ソメイヨシノ'?.60:s.name==='メタセコイア'?.28:s.name==='イチゴ'?1.03:s.name==='キャベツ'?1.12:s.name==='コナラ'?.47:s.name==='クヌギ'?.27:s.name==='シイ（スダジイ）'?.46:s.name==='タンポポ'?.31:s.name==='マツ（アカマツ）'?.05:s.name==='オリーブ'?.29:s.name==='キョウチクトウ'?.36:s.shape.includes('morning')?1.04:s.shape.includes('linear')?.32:s.shape.includes('lance')?.47:s.shape.includes('fan')?1.2:s.shape.includes('palm')||s.shape.includes('compound')?1.03:s.shape.includes('trifoliate')?1.05:.77;
+  const idealWidth=s.name==='ヒマワリ'?.90:s.name==='エンドウ'?.72:s.name==='サツキ'?.30:s.name==='スギ'?.19:s.name==='オオバコ'?.65:s.name==='ウルシ'?.68:s.name==='カヤツリグサ'?.014:s.name==='ソメイヨシノ'?.60:s.name==='メタセコイア'?.28:s.name==='イチゴ'?1.03:s.name==='キャベツ'?1.12:s.name==='コナラ'?.47:s.name==='クヌギ'?.27:s.name==='シイ（スダジイ）'?.46:s.name==='タンポポ'?.31:s.name==='マツ（アカマツ）'?.05:s.name==='オリーブ'?.29:s.name==='キョウチクトウ'?.36:s.shape.includes('morning')?1.04:s.shape.includes('linear')?.32:s.shape.includes('lance')?.47:s.shape.includes('fan')?1.2:s.shape.includes('palm')||s.shape.includes('compound')?1.03:s.shape.includes('trifoliate')?1.05:.77;
   const widthScore=Math.max(0,7-10*Math.abs(t.meanWidth-idealWidth));
   return {...s,score:Math.min(100,Math.round(arr+shape+serr+lobe+widthScore)),reason,minus};
  }).sort((a,b)=>b.score-a.score);
