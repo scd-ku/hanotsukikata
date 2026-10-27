@@ -295,9 +295,9 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="small-heading">葉序 <span>茎につける単位</span></div>
   <select class="select" id="arrangement"><option value="alternate">らせん互生（約137.5°ずつ）</option><option value="distichous">2列互生（約180°ずつ）</option><option value="opposite">十字対生（2枚ずつ）</option><option value="whorled">輪生（3枚ずつ）</option><option value="rosette">ロゼット（根元に放射状）</option><option value="free">自由配置（1枚ずつ）</option></select>
   <div id="phylloInfo" class="phyllo-info" aria-live="polite" role="status">葉序の分数：見本植物を選択すると表示します。</div>
-  <div class="small-heading">葉脈の構造 <span>葉形から自動判定・変更可</span></div>
-  <select class="select" id="venation"><option value="auto">形態に応じて自動</option><option value="pinnate">羽状脈（主脈と側脈）</option><option value="palmate">掌状脈（放射状）</option><option value="parallel">平行脈</option><option value="arcuate">弓状に伸びる基部脈（オオバコ）</option><option value="dichotomous">二又分岐脈（イチョウ）</option><option value="triplinerved">三行脈（クスノキなど）</option><option value="beech">ブナ型（側脈8〜10対）</option><option value="ipomoea">アサガオ型（3主脈＋側脈）</option></select>
-  <div class="small-heading">葉身の形状を調整 <span>葉身長・幅・葉柄を独立設定</span></div>
+  <div class="venation-settings"><div class="small-heading">葉脈の構造 <span>葉形から自動判定・変更可</span></div>
+  <select class="select" id="venation"><option value="auto">形態に応じて自動</option><option value="pinnate">羽状脈（主脈と側脈）</option><option value="palmate">掌状脈（放射状）</option><option value="parallel">平行脈</option><option value="arcuate">弓状に伸びる基部脈（オオバコ）</option><option value="dichotomous">二又分岐脈（イチョウ）</option><option value="triplinerved">三行脈（クスノキなど）</option><option value="beech">ブナ型（側脈8〜10対）</option><option value="ipomoea">アサガオ型（3主脈＋側脈）</option></select></div>
+  <div class="small-heading">葉身の形状を調整 <span>選択した葉形で変更できる項目を表示</span></div>
   <div id="sliders"></div>
   <div class="color-toolbar"><strong style="font-size:12px">葉色（葉の表面）</strong>
     <div class="color-row"><input type="color" id="leafColor" value="#4d8755" aria-label="葉色を選択"><code id="leafColorHex">#4D8755</code><span id="colorSource" class="slider-hint">参考色・実測値ではありません</span></div>
@@ -311,10 +311,6 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="slider-control"><div class="slider-label"><span>茎の曲がり</span><strong id="bVal">0.35</strong></div><input id="stemBend" type="range" min="0" max="1.8" step=".05" value=".35"></div>
   <div class="toolbar-bottom"><button class="btn" id="duplicate">選択葉を複製</button><button class="btn danger" id="delete">選択葉を削除</button></div>
   <div class="divider"></div>
-  <div class="divider"></div>
-  <div class="small-heading">植物から組み立てる <span>34種類の見本</span></div>
-  <p class="preset-intro">ヘッダのボタン、または下のボタンから分類表のポップアップを開き、植物名を選ぶと葉序と葉形の3D見本を読み込みます。</p>
-  <button class="btn widebutton library-open" id="openLibraryFromPanel" type="button" aria-controls="libraryOverlay" aria-haspopup="dialog"><strong>植物から組み立てる</strong><span>種子植物の分類・葉序・葉形の3つの分類から、見本植物を選択できます。</span><em>↗</em></button>
   <div class="footer-note">自動保存対応 · 葉の右クリック／長押しで複製・削除、背景ドラッグで回転できます。データは端末のブラウザにのみ保存されます。</div>
 </aside>
 <section class="view" id="view"><canvas id="scene" aria-label="回転可能な三次元植物モデル"></canvas>
@@ -417,7 +413,7 @@ body.fullscreen-fallback{overflow:hidden}
        <div><dt>掌状脈</dt><dd>葉の基部付近から太い葉脈が手の指のように広がる構造。</dd></div>
       </dl>
       <h3>1. 使い方</h3>
-      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
+      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタンで開くポップアップから植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉形を選ぶと、その葉で調整できる長さ・幅・葉柄・鋸歯・切れ込みなどの設定だけが表示されます。葉脈・色・葉序も適宜変更できます。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
 <h3>葉序の分数の読み方・34種の一覧（v19）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
@@ -858,12 +854,38 @@ const PHYLLO_STATUS={confirmed:'研究・資料で確認',pattern:'葉序型に�
 function fractionAngle(name){const data=PHYLLOTAXIS[name];if(!data||data.fraction==='—')return 137.5;const vals=data.fraction.split('/').map(Number);return vals.length===2&&vals.every(Number.isFinite)?360*vals[0]/vals[1]:137.5;}
 function phylloDescription(name){const v=PHYLLOTAXIS[name];if(!v)return '';return `${v.fraction==='—'?'—':v.fraction+'葉序'}（${PHYLLO_STATUS[v.status]}）`;}
 function phylloShort(name){const v=PHYLLOTAXIS[name];if(!v)return '未確認';if(v.fraction==='—')return v.status==='undetermined'?'分数未確定':'分数非適用';return v.fraction+' · '+({confirmed:'文献確認',pattern:'型から算定',group:'近縁群',model:'模式値'}[v.status]||'参考');}
+// Only expose controls that actually affect the selected leaf geometry.
+// Keep the entries in sliderFields as the canonical order; each shape gets a subset.
+const SHAPE_EDIT_FIELDS={
+ ovate:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
+ elliptic:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
+ obovate:['size','width','petioleRatio','teeth','toothDepth','tilt'],
+ lance:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
+ cordate:['size','width','petioleRatio','teeth','toothDepth','tilt'],
+ morning:['size','width','petioleRatio','cut','tilt'],
+ palm:['size','width','petioleRatio','teeth','toothDepth','lobes','cut','tilt'],
+ lobed:['size','width','petioleRatio','teeth','toothDepth','cut','tilt'],
+ dandelion:['size','width','petioleRatio','lobes','cut','tilt'],
+ plantain:['size','width','petioleRatio','tilt'],
+ cabbage:['size','width','petioleRatio','tilt'],
+ beech:['size','width','petioleRatio','tilt'],
+ fan:['size','width','petioleRatio','fanNotch','fanSpread','tilt'],
+ linear:['riceLengthCm','riceWidthCm','droop','tilt'],
+ pinnateCompound:['size','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
+ peaCompound:['size','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
+ trifoliate:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
+ compound:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','lobes','tilt'],
+ coniferSpray:['size','tilt'],
+ cedarSpray:['size','tilt'],
+ needlePair:['size','tilt']
+};
+function leafEditableFields(shape){return new Set(SHAPE_EDIT_FIELDS[shape]||['size','width','petioleRatio','tilt']);}
 const sliderFields=[
  {id:'size',name:'葉身の長さ（相対）',min:.45,max:4.8,step:.05,unit:'',hint:'線形葉以外の形状を相対スケールで調整'},
  {id:'width',name:'葉身の幅 / 長さの比',min:.02,max:1.4,step:.01,unit:'',hint:'線形葉以外の長幅比を調整'},
- {id:'riceLengthCm',name:'イネ型の葉身長',min:15,max:90,step:1,unit:' cm',hint:'葉舌付近から葉身先端まで。IR64の実測例は41 cm'},
- {id:'riceWidthCm',name:'イネ型の葉身幅',min:.4,max:3,step:.05,unit:' cm',hint:'葉身中央付近の幅。IR64の実測例は0.97 cm'},
- {id:'droop',name:'イネ型の葉先の垂れ',min:0,max:125,step:5,unit:'°',hint:'葉の基部から先端に向かう湾曲の近似。実測された曲率ではありません'},
+ {id:'riceLengthCm',name:'線形葉の葉身長',min:15,max:90,step:1,unit:' cm',hint:'葉舌付近から葉身先端まで。IR64の実測例は41 cm'},
+ {id:'riceWidthCm',name:'線形葉の葉身幅',min:.4,max:3,step:.05,unit:' cm',hint:'葉身中央付近の幅。IR64の実測例は0.97 cm'},
+ {id:'droop',name:'線形葉の葉先の垂れ',min:0,max:125,step:5,unit:'°',hint:'葉の基部から先端に向かう湾曲の近似。実測された曲率ではありません'},
  {id:'petioleRatio',name:'葉柄長 / 葉身長',min:0,max:1.1,step:.01,unit:'',hint:'葉柄と葉身の長さを独立調整。アサガオ野生型の論文実測平均は約0.75' },
  {id:'apexSharpness',name:'葉先の鋭さ',min:0,max:1,step:.05,unit:'',hint:'楕円形などで丸い葉先から漸尖形に調整'},
  {id:'teeth',name:'鋸歯の数（片側）',min:0,max:22,step:1,unit:' 個'},
@@ -1260,6 +1282,14 @@ function toWorld(l,xy){
  const pet=l.size*clamp(l.petioleRatio??.12,0,1.1);
  return add(add(add(at,mul(long,pet+y)),mul(trans,x)),mul(up,.038*Math.sin(Math.min(1,Math.max(0,y/l.size))*PI)*(1-Math.min(1,Math.abs(x)/(l.size*l.width+.01)))));
 }
+function compoundAxisWorld(l){
+ // Main petiole + rachis are ONE continuous path. The first point is the stem node,
+ // not an independently projected leaflet stalk. This fixes pea's floating rachis.
+ const root=grow(l.t);
+ const base=toWorld(l,[0,0]);
+ const tip=toWorld(l,[0,l.size*1.05]);
+ return [root,base,tip];
+}
 function leafParts(l){return makeParts(l).map(p=>{
  const margin=leafOutline(p.shape,p.len,p.width/p.len,l.teeth,l.toothDepth,l.lobes,l.cut,l.fanNotch,l.fanSpread,l.apexSharpness,l.speciesName),c=Math.cos(p.rot),s=Math.sin(p.rot);
  const tf=q=>[p.o[0]+q[0]*c-q[1]*s,p.o[1]+q[0]*s+q[1]*c];
@@ -1288,11 +1318,9 @@ function drawCastShadows(C){
  ctx.beginPath();for(let i=0;i<=64;i++){const p=project(groundShadow(grow(i/64)),C);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);}ctx.stroke();
  for(const leaf of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leaf.id===leafDrag.id)continue;
   if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(leaf.shape)){
-    const end=leaf.size*1.05,a=project(groundShadow(toWorld(leaf,[0,0])),C),b=project(groundShadow(toWorld(leaf,[0,end])),C);
-    // Ground shadow of the complete petiole between stem and compound leaf rachis.
-    const root=project(groundShadow(grow(leaf.t)),C);
-    ctx.beginPath();ctx.moveTo(root.x,root.y);ctx.lineTo(a.x,a.y);ctx.lineWidth=1.5;ctx.strokeStyle='rgba(32,48,39,.17)';ctx.stroke();
-    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(32,48,39,.17)';ctx.lineWidth=1.5;ctx.stroke();
+    const axis=compoundAxisWorld(leaf).map(w=>project(groundShadow(w),C));
+    ctx.beginPath();axis.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
+    ctx.lineWidth=1.5;ctx.strokeStyle='rgba(32,48,39,.17)';ctx.stroke();
   }
   for(const part of leafParts(leaf)){
    const points=part.points.map(p=>project(groundShadow(p),C));
@@ -1310,9 +1338,10 @@ function drawDragPreview(C){
  if(!leafDrag?.active||!leafDrag.snap)return;
  const l={...leafDrag.template,t:leafDrag.snap.t,angle:leafDrag.snap.angle,id:-1};
  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
-  // The main petiole is not a leaflet stalk: connect the rachis origin back to its stem node.
-  const start=project(grow(l.t),C),end=project(toWorld(l,[0,0]),C);
-  ctx.beginPath();ctx.moveTo(start.x,start.y);ctx.lineTo(end.x,end.y);ctx.lineWidth=2.3;ctx.strokeStyle='#667e70';ctx.stroke();
+  // Preview the same continuous axis used by committed leaves.
+  const points=compoundAxisWorld(l).map(w=>project(w,C));
+  ctx.beginPath();points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
+  ctx.lineWidth=2.3;ctx.strokeStyle='#667e70';ctx.stroke();
  }
  for(const part of leafParts(l)){
   const poly=part.points.map(w=>project(w,C));
@@ -1346,10 +1375,8 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  const things=[];hitLeaves=[];
  for(const l of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leafDrag.id===l.id)continue;
   if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
-   const a=project(toWorld(l,[0,0]),C),b=project(toWorld(l,[0,l.size*1.05]),C);
-   things.push({kind:'rachis',a,b,dep:(a.depth+b.depth)/2,owner:l});
-   const root=project(grow(l.t),C);
-   things.push({kind:'primaryPetiole',a:root,b:a,dep:(root.depth+a.depth)/2,owner:l});
+   const axis=compoundAxisWorld(l).map(w=>project(w,C));
+   things.push({kind:'compoundAxis',points:axis,dep:axis.reduce((sum,p)=>sum+p.depth,0)/axis.length,owner:l});
   }
   if(l.shape==='peaCompound'){
     // A branched tendril develops in place of terminal leaflets of the pea compound leaf.
@@ -1376,9 +1403,11 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  for(const item of things){if(item.kind==='tendril'){
    ctx.beginPath();item.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
    ctx.strokeStyle=shade(item.owner.color||'#67905e',-.32);ctx.lineWidth=1.6;ctx.lineCap='round';ctx.stroke();continue;
-  }if(item.kind==='rachis'||item.kind==='primaryPetiole'){
-   ctx.beginPath();ctx.moveTo(item.a.x,item.a.y);ctx.lineTo(item.b.x,item.b.y);
-   ctx.lineWidth=['coniferSpray','cedarSpray'].includes(item.owner.shape)?1.5:2.5;ctx.strokeStyle=shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
+  }if(item.kind==='compoundAxis'){
+   ctx.beginPath();item.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
+   ctx.lineCap='round';ctx.lineJoin='round';
+   ctx.lineWidth=['coniferSpray','cedarSpray'].includes(item.owner.shape)?1.5:3;
+   ctx.strokeStyle=shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
   }
   const l=item.owner,poly=item.poly;ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
   const selected=l.id===state.selectedId;
@@ -1426,7 +1455,14 @@ function undo(){if(!history.length)return;state=JSON.parse(history.pop());active
 function reset(){commit();const yaw=state.yaw,pitch=state.pitch,zoom=state.zoom;state=defaultState();state.yaw=yaw;state.pitch=pitch;state.zoom=zoom;activePalette=state.defaults.shape;persist();syncUI();updateMatches();drawSoon();toast('新しい茎を用意しました')}
 function updateVal(id,v){const e=$(id);if(!e)return;const key=id.replace(/^v_/,''),info=sliderFields.find(f=>f.id===key);const digits=['size','width','cut','toothDepth','petioleRatio','riceWidthCm'].includes(key)?2:key==='apexSharpness'?2:0;e.textContent=Number(v).toFixed(digits)+(info?.unit||'');}
 function syncUI(){const c=current();$('arrangement').value=state.arrangement;const detail=state.presetName&&PHYLLOTAXIS[state.presetName];const phyllo=$('phylloInfo');if(phyllo){phyllo.innerHTML=detail?`<b>${escapeHTML(state.presetName)}：${escapeHTML(detail.fraction==='—'?'分数適用外・未確定':detail.fraction+'葉序')}</b> <small>${escapeHTML(PHYLLO_STATUS[detail.status])}／${escapeHTML(detail.note)}</small>`:`葉序の分数：見本を選ぶと表示します。<small>らせん互生の例：1/2（180°）、1/3（120°）、2/5（144°）、3/8（135°）、5/13（約138.46°）。</small>`;} $('hVal').textContent=Number(state.height).toFixed(1);$('bVal').textContent=Number(state.bend).toFixed(2);$('stemHeight').value=state.height;$('stemBend').value=state.bend;
- for(const item of sliderFields){const slider=$('s_'+item.id);if(slider)slider.value=c[item.id];updateVal('v_'+item.id,c[item.id]);const wrap=slider?.closest('.slider-control');if(wrap){const fan=['fanNotch','fanSpread'].includes(item.id);const rice=['riceLengthCm','riceWidthCm','droop'].includes(item.id);const broad=['size','width','petioleRatio','apexSharpness'].includes(item.id);wrap.style.display=(fan&&c.shape!=='fan'||rice&&c.shape!=='linear'||broad&&c.shape==='linear')?'none':'';}}
+ const editable=leafEditableFields(c.shape);if(state.arrangement==='free')editable.add('angle');
+ for(const item of sliderFields){
+  const slider=$('s_'+item.id);if(slider)slider.value=c[item.id];updateVal('v_'+item.id,c[item.id]);
+  const wrap=slider?.closest('.slider-control');if(wrap)wrap.style.display=editable.has(item.id)?'':'none';
+ }
+ // A needle has no conventional venation; prevent displaying a nonfunctional control.
+ const veinsControl=$('venation');const venationRow=veinsControl.closest('.venation-settings');
+ if(venationRow)venationRow.style.display=['needlePair','cedarSpray','coniferSpray'].includes(c.shape)?'none':'';
  for(const btn of $('palette').querySelectorAll('.shape-btn'))btn.classList.toggle('active',btn.dataset.shape===activePalette);
  $('leafDetail').innerHTML=detailedPreview(c);$('leafColor').value=/^#[0-9a-fA-F]{6}$/.test(c.color||'')?c.color:SHAPE_COLORS[c.shape]||'#4f8550';$('leafColorHex').textContent=$('leafColor').value.toUpperCase();$('colorSource').textContent=c.colorOrigin||'参考表示色（実測値ではありません）';$('venation').value=c.venation||'auto';
  $('currentShapeName').textContent=SHAPES.find(s=>s.id===c.shape)?.name||'葉';$('modePill').textContent=state.selectedId==null?'次に置く葉':'選択した葉';$('editIndicator').textContent=state.selectedId==null?(state.leaves.length?'数値調整はすべての葉に反映・形選択は次の葉':'茎をクリックするとこの形で追加'):'パラメータの変更がこの葉に反映';$('delete').disabled=state.selectedId==null;$('duplicate').disabled=state.selectedId==null;
@@ -1787,7 +1823,7 @@ function renderLibrary(view=currentLibraryView,animate=true){
  $('copyQrUrl').onclick=async()=>{const value='https://scd-ku.github.io/hanotsukikata/';try{await navigator.clipboard.writeText(value);$('qrCopyStatus').textContent='URLをコピーしました';}catch(_){$('qrCopyStatus').textContent='上のURLを長押ししてコピーしてください';}};
  setupLibraryResize();
  const libraryMovement=setupLibraryMove();
- $('openLibrary').onclick=$('openLibraryFromPanel').onclick=()=>{openLibrary();$('closeLibrary').focus()};
+ $('openLibrary').onclick=()=>{openLibrary();$('closeLibrary').focus()};
  $('closeLibrary').onclick=()=>{closeLibrary();$('openLibrary').focus()};
  $('libraryOverlay').addEventListener('click',e=>{if(e.target===$('libraryOverlay'))$('closeLibrary').click()});
  document.querySelectorAll('.library-tab').forEach(tab=>tab.addEventListener('click',()=>renderLibrary(tab.dataset.view,true)));
