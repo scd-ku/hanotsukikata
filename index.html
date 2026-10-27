@@ -348,7 +348,7 @@ body.fullscreen-fallback{overflow:hidden}
 </aside>
 </main>
 <div id="dragGhost" class="drag-ghost" aria-hidden="true"></div>
-<div id="leafMenu" role="menu" aria-label="葉の操作"><button id="menuDuplicate" role="menuitem">⧉ この葉を複製</button><button id="menuDelete" role="menuitem">× この葉を削除</button></div>
+<div id="leafMenu" role="menu" aria-label="葉の操作"><button id="menuDuplicate" role="menuitem">⧉ この葉を複製</button><button id="menuExportSVG" role="menuitem">↧ SVGで保存（葉・葉柄・葉脈）</button><button id="menuDelete" role="menuitem">× この葉を削除</button></div>
 <div id="libraryOverlay" class="library-overlay hidden" role="presentation">
   <section class="library-dialog" id="libraryDialog" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
     <div class="library-top library-move-handle" id="libraryMoveHandle" title="この上部をドラッグするとポップアップを移動できます">
@@ -413,7 +413,7 @@ body.fullscreen-fallback{overflow:hidden}
        <div><dt>掌状脈</dt><dd>葉の基部付近から太い葉脈が手の指のように広がる構造。</dd></div>
       </dl>
       <h3>1. 使い方</h3>
-      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタンで開くポップアップから植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉形を選ぶと、その葉で調整できる長さ・幅・葉柄・鋸歯・切れ込みなどの設定だけが表示されます。葉脈・色・葉序も適宜変更できます。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
+      <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタンで開くポップアップから植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉形を選ぶと、その葉で調整できる長さ・幅・葉柄・鋸歯・切れ込みなどの設定だけが表示されます。葉脈・色・葉序も適宜変更できます。</li><li><b>移動・削除・SVG出力：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しのメニューで複製／削除／SVGで保存ができます。SVGは選択した葉の葉身・葉柄を一つの閉じた輪郭にし、葉脈は線幅をもつ別の閉じた輪郭パスとして書き出す正面模式図です。実測スケールではありません。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
 <h3>葉序の分数の読み方・34種の一覧（v19）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
@@ -1970,6 +1970,143 @@ function finishLeafDrag(x,y,canceled=false){
  }else if(!canceled&&drag.source==='leaf')toast('葉を茎か左のパレットへ運んでください（元の位置に戻しました）');
  persist();syncUI();updateMatches();drawSoon();
 }
+
+/* v21: Individual leaf SVG export. The outer silhouette is one closed vector path,
+   including leaflets, leaf stalk, and rachis. Vein networks are separate closed paths.
+   Geometry is a frontal orthographic leaf diagram, not a screenshot of the 3D camera. */
+function leafSVGGeometry(leaf){
+ const L=Math.max(.1,Number(leaf.size)||1),parts=makeParts(leaf),isCompound=parts.length>1,
+  all=[],veins=[],axis=[];
+ function transformPart(p,q){const c=Math.cos(p.rot),t=Math.sin(p.rot);return [p.o[0]+q[0]*c-q[1]*t,p.o[1]+q[0]*t+q[1]*c]}
+ for(const part of parts){
+  const outline=leafOutline(part.shape,part.len,part.width/part.len,leaf.teeth,leaf.toothDepth,leaf.lobes,leaf.cut,leaf.fanNotch,leaf.fanSpread,leaf.apexSharpness,leaf.speciesName);
+  all.push({poly:outline.map(pt=>transformPart(part,pt)),root:part.o});
+  for(const vein of veinModel(part,leaf,outline))if(vein.pts.length>1){
+   const poly=vein.pts.map(pt=>transformPart(part,pt));veins.push({pts:poly,order:vein.order});
+  }
+ }
+ const pRatio=clamp(Number(leaf.petioleRatio)||0,0,1.1);
+ const petiole=leaf.shape==='linear'||leaf.shape==='needlePair'||leaf.shape==='cedarSpray'?0:L*pRatio;
+ // Axes and stalks are geometric material (not independent ink strokes).
+ if(isCompound){
+  axis.push({pts:[[0,-petiole],[0,leaf.shape==='trifoliate'?L*.31:leaf.shape==='compound'?L*.19:L*1.06]],width:L*(leaf.shape==='needlePair'?.035:.024)});
+  for(const part of parts){
+   const originY=part.o[1];
+   if(Math.abs(part.o[0])>.001){axis.push({pts:[[0,originY],part.o],width:L*.013});}
+  }
+  if(leaf.shape==='peaCompound'){
+   // One terminal tendril in addition to the three pairs of leaflets.
+   for(const side of [-1,0,1]){
+    const pts=[];
+    for(let j=0;j<=40;j++){
+     const t=j/40,a=t*Math.PI*2.45;
+     pts.push([L*(side*.11*t+side*.070*t*Math.cos(a)+(side===0?.045*t*Math.sin(a):0)),
+      L*(.78+.50*t-(side===0?.045*t*Math.cos(a):.065*t*Math.sin(a)))]);
+    }
+    axis.push({pts,width:L*.009});
+   }
+  }
+ }else if(petiole>0)axis.push({pts:[[0,-petiole],[0,0]],width:L*.028});
+ const points=all.flatMap(p=>p.poly).concat(axis.flatMap(a=>a.pts));
+ const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);
+ let minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+ const padding=L*.095;
+ minX-=padding;maxX+=padding;minY-=padding;maxY+=padding;
+ const span=Math.max(maxX-minX,maxY-minY),scale=Math.min(1250/span,1650/span);
+ const W=Math.max(1,Math.ceil((maxX-minX)*scale)),H=Math.max(1,Math.ceil((maxY-minY)*scale));
+ const tx=([x,y])=>[(x-minX)*scale,(maxY-y)*scale];
+ return {L,all,veins,axis,W,H,scale,tx,isCompound,petiole};
+}
+function traceLeafSilhouette(g){
+ // Compound leaf contours and the connecting rachis are unioned into a *single*
+ // editable path by tracing the outer boundary of their combined 2D silhouette.
+ const c=document.createElement('canvas');c.width=g.W;c.height=g.H;
+ const cx=c.getContext('2d',{willReadFrequently:true});
+ cx.fillStyle='#000';cx.strokeStyle='#000';cx.lineCap='round';cx.lineJoin='round';
+ // Render axes first then blades. Join widths are in modelling coordinates.
+ for(const line of g.axis){cx.beginPath();line.pts.forEach((p,i)=>{const q=g.tx(p);i?cx.lineTo(...q):cx.moveTo(...q)});cx.lineWidth=Math.max(2,line.width*g.scale);cx.stroke();}
+ for(const p of g.all){cx.beginPath();p.poly.forEach((pt,i)=>{const q=g.tx(pt);i?cx.lineTo(...q):cx.moveTo(...q)});cx.closePath();cx.fill();}
+ const data=cx.getImageData(0,0,g.W,g.H).data;
+ const {W,H}=g,bits=new Uint8Array(W*H);
+ for(let i=0;i<bits.length;i++)bits[i]=data[i*4+3]>85?1:0;
+ const filled=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&bits[y*W+x];
+ const outgoing=new Map(),edges=[];
+ function edge(x1,y1,x2,y2){let idx=edges.length;edges.push([[x1,y1],[x2,y2]]);const key=x1+','+y1;let arr=outgoing.get(key);if(!arr){arr=[];outgoing.set(key,arr);}arr.push(idx);}
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(filled(x,y)){
+  if(!filled(x,y-1))edge(x,y,x+1,y);
+  if(!filled(x+1,y))edge(x+1,y,x+1,y+1);
+  if(!filled(x,y+1))edge(x+1,y+1,x,y+1);
+  if(!filled(x-1,y))edge(x,y+1,x,y);
+ }
+ const used=new Uint8Array(edges.length),contours=[];
+ for(let start=0;start<edges.length;start++){
+  if(used[start])continue;
+  let at=start,poly=[],guard=0;
+  while(at!=null&&!used[at]&&guard++<edges.length+1){
+   used[at]=1;const e=edges[at];poly.push(e[0]);
+   const options=outgoing.get(e[1].join(','))||[];
+   at=options.find(i=>!used[i]);
+  }
+  if(poly.length>=4)contours.push(poly);
+ }
+ if(!contours.length)throw Error('輪郭を生成できませんでした');
+ function area(p){let sum=0;for(let i=0;i<p.length;i++){const a=p[i],b=p[(i+1)%p.length];sum+=a[0]*b[1]-b[0]*a[1];}return Math.abs(sum*.5)}
+ contours.sort((a,b)=>area(b)-area(a));
+ // Douglas-Peucker simplification of the traced vector boundary, keeping lobes/teeth.
+ function pointDistSq(p,a,b){const vx=b[0]-a[0],vy=b[1]-a[1],len=vx*vx+vy*vy;
+  if(len<1e-8)return (p[0]-a[0])**2+(p[1]-a[1])**2;
+  const t=clamp(((p[0]-a[0])*vx+(p[1]-a[1])*vy)/len,0,1),dx=p[0]-(a[0]+t*vx),dy=p[1]-(a[1]+t*vy);return dx*dx+dy*dy;}
+ function simplify(pts,tolerance){
+  const working=[...pts,pts[0]],keep=new Uint8Array(working.length);keep[0]=keep[working.length-1]=1;
+  const stack=[[0,working.length-1]],limit=tolerance*tolerance;
+  while(stack.length){const [a,b]=stack.pop();let largest=0,index=-1;
+   for(let i=a+1;i<b;i++){const dist=pointDistSq(working[i],working[a],working[b]);if(dist>largest){largest=dist;index=i;}}
+   if(largest>limit&&index>=0){keep[index]=1;stack.push([a,index],[index,b]);}
+  }
+  return working.filter((_,i)=>keep[i]).slice(0,-1);
+ }
+ const fmt=n=>Number(n.toFixed(2));
+ const polygon=simplify(contours[0],.84);
+ const path=polygon.map((p,i)=>`${i?'L':'M'}${fmt(p[0])} ${fmt(p[1])}`).join(' ')+' Z';
+ return {d:path,contours:contours.length,area:area(contours[0]),vertices:polygon.length};
+}
+function closedVeinPath(points,width){
+ if(points.length<2)return '';
+ const left=[],right=[];
+ for(let i=0;i<points.length;i++){
+  const prev=points[Math.max(0,i-1)],next=points[Math.min(points.length-1,i+1)];
+  const dx=next[0]-prev[0],dy=next[1]-prev[1],r=Math.hypot(dx,dy)||1;
+  const nx=-dy/r*width*.5,ny=dx/r*width*.5;
+  left.push([points[i][0]+nx,points[i][1]+ny]);right.push([points[i][0]-nx,points[i][1]-ny]);
+ }
+ const full=left.concat(right.reverse()),fmt=n=>Number(n.toFixed(2));
+ return full.map((p,i)=>`${i?'L':'M'}${fmt(p[0])} ${fmt(p[1])}`).join(' ')+' Z';
+}
+function exportLeafSVG(l){
+ if(!l)throw Error('書き出す葉が選ばれていません');
+ const g=leafSVGGeometry(l),outline=traceLeafSilhouette(g);
+ const color=/^#[0-9a-fA-F]{6}$/.test(l.color||'')?l.color:'#56875b';
+ const veinColor=shade(color,-.45),border=shade(color,-.43),title=(l.speciesName||SHAPES.find(x=>x.id===l.shape)?.name||'葉');
+ const veins=g.veins.map(v=>{
+  const pts=v.pts.map(g.tx);
+  const width=Math.max(v.order===1?2.5:v.order===2?1.5:1.05,g.scale*g.L*(v.order===1?.010:v.order===2?.005:.003));
+  const d=closedVeinPath(pts,width);
+  return d?`    <path d="${d}" data-order="${v.order}"/>`:'';
+ }).filter(Boolean).join('\n');
+ const xml=escapeHTML(title),vW=Math.round(g.W*.14),vH=Math.round(g.H*.14);
+ const svg=`<?xml version="1.0" encoding="UTF-8"?>\n`+
+ `<svg xmlns="http://www.w3.org/2000/svg" width="${vW}mm" height="${vH}mm" viewBox="0 0 ${g.W} ${g.H}" role="img" aria-label="${xml}の葉と葉柄と葉脈">\n`+
+ `  <title>${xml}：葉・葉柄・葉脈の輪郭</title>\n`+
+ `  <desc>教育用の模式輪郭です。実測スケールではありません。葉と葉柄は一つの閉じたアウトライン、葉脈は個別の閉じたアウトラインです。</desc>\n`+
+ `  <defs><clipPath id="blade-mask"><path d="${outline.d}"/></clipPath></defs>\n`+
+ `  <g id="leaf-and-petiole-outline">\n    <path id="continuous-outer-contour" d="${outline.d}" fill="${color}" fill-opacity="0.13" stroke="${border}" stroke-width="1.7" stroke-linejoin="round"/>\n  </g>\n`+
+ `  <g id="vein-outlines" fill="${veinColor}" opacity="0.75" clip-path="url(#blade-mask)">\n${veins}\n  </g>\n`+
+ `</svg>\n`;
+ const filename=(title+'_'+(l.shape||'leaf')+'_葉と葉脈.svg').replace(/[\\/:*?"<>|]/g,'_');
+ download(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),filename);
+ return {svg,outerContours:outline.contours,veinContours:g.veins.length,vertices:outline.vertices};
+}
+
 function hideLeafMenu(){leafMenu.style.display='none';contextLeafId=null;}
 function openLeafMenu(id,x,y){
  if(!state.leaves.some(l=>l.id===id))return;
@@ -1978,6 +2115,7 @@ function openLeafMenu(id,x,y){
  leafMenu.style.left=clamp(x,8,innerWidth-w-8)+'px';leafMenu.style.top=clamp(y,8,innerHeight-h-8)+'px';
 }
 $('menuDuplicate').addEventListener('click',()=>{if(contextLeafId==null)return;state.selectedId=contextLeafId;$('duplicate').click();hideLeafMenu();});
+$('menuExportSVG').addEventListener('click',()=>{const l=state.leaves.find(x=>x.id===contextLeafId);if(!l)return;try{exportLeafSVG(l)}catch(e){console.error('SVG書き出し:',e);toast('SVGを書き出せませんでした')}finally{hideLeafMenu()}});
 $('menuDelete').addEventListener('click',()=>{if(contextLeafId==null)return;state.selectedId=contextLeafId;$('delete').click();hideLeafMenu();});
 document.addEventListener('pointerdown',e=>{if(!leafMenu.contains(e.target))hideLeafMenu();},true);
 canvas.addEventListener('contextmenu',e=>{const r=canvas.getBoundingClientRect(),hit=hitTest(e.clientX-r.left,e.clientY-r.top);if(hit.type==='leaf'){e.preventDefault();openLeafMenu(hit.id,e.clientX,e.clientY);}else hideLeafMenu();});
