@@ -248,6 +248,27 @@ body.fullscreen-fallback{overflow:hidden}
 .qr-dialog-close{flex:none}
 @media(max-width:600px){.qr-dialog{padding:17px;gap:10px}.qr-brand-trigger svg{width:28px;height:28px}}
 
+
+/* v16: resize dialog by dragging its bottom-right corner; animation paths */
+.library-overlay{padding:12px}
+.library-dialog{position:relative;width:min(1080px,calc(100vw - 24px));height:min(79dvh,790px);min-width:min(430px,calc(100vw - 12px));min-height:min(380px,calc(100dvh - 12px));max-width:calc(100vw - 12px);max-height:calc(100dvh - 12px);box-sizing:border-box;container-type:inline-size}
+.library-top{flex:none;padding:12px 17px}
+.library-body{min-height:0;flex:1;overflow:auto;padding-bottom:42px}
+.library-resize-handle{position:absolute;right:0;bottom:0;width:46px;height:46px;cursor:nwse-resize;z-index:5;touch-action:none;border:0;border-top-left-radius:12px;background:linear-gradient(135deg,transparent 36%,#e5eddf 36%,#e5eddf 100%)}
+.library-resize-handle::after{content:'';position:absolute;right:10px;bottom:10px;width:19px;height:19px;background:repeating-linear-gradient(135deg,transparent 0 3px,#759780 3px 5px,transparent 5px 8px);clip-path:polygon(100% 0,100% 100%,0 100%);opacity:.8}
+.library-resize-handle:focus-visible{outline:3px solid #2c7e58;outline-offset:-3px}
+.library-resize-hint{font-size:10px;color:#6c8274;margin-left:auto;align-self:center}
+.library-motion-layer{position:fixed;inset:0;z-index:35;pointer-events:none;overflow:hidden}
+.library-motion-layer svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;display:block}
+.library-motion-ghost{position:absolute;pointer-events:none;will-change:transform,left,top;display:flex;max-width:none;box-sizing:border-box;box-shadow:0 7px 21px rgba(14,46,27,.17);z-index:1}
+.library-motion-ghost .preset-load{color:#294638!important}
+.library-chip.library-in-flight{visibility:hidden!important}
+.library-tab:disabled{opacity:.7;cursor:progress}
+@container (max-width:730px){.library-matrix.cols-2,.library-matrix.cols-1{grid-template-columns:85px repeat(2,minmax(0,1fr))}.library-matrix.cols-1{grid-template-columns:85px minmax(0,1fr)}.library-matrix.library-shape-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.library-resize-hint{display:none}}
+@container (max-width:520px){.library-matrix.cols-2{grid-template-columns:75px repeat(2,minmax(0,1fr))}.library-matrix.library-shape-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.library-dialog{width:calc(100vw - 12px);height:calc(100dvh - 12px);min-height:0;max-height:calc(100dvh - 12px)}.library-resize-handle{display:none}.library-resize-hint{display:none}.library-top h2{font-size:16px}}
+@media(prefers-reduced-motion: reduce){.library-motion-layer{display:none}}
+
 </style>
 </head>
 <body>
@@ -281,7 +302,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="toolbar-bottom"><button class="btn" id="duplicate">選択葉を複製</button><button class="btn danger" id="delete">選択葉を削除</button></div>
   <div class="divider"></div>
   <div class="divider"></div>
-  <div class="small-heading">植物から組み立てる <span>25種類の見本</span></div>
+  <div class="small-heading">植物から組み立てる <span>26種類の見本</span></div>
   <p class="preset-intro">ヘッダのボタン、または下のボタンから分類表のポップアップを開き、植物名を選ぶと葉序と葉形の3D見本を読み込みます。</p>
   <button class="btn widebutton library-open" id="openLibraryFromPanel" type="button" aria-controls="libraryOverlay" aria-haspopup="dialog"><strong>植物から組み立てる</strong><span>種子植物の分類・葉序・葉形の3つの分類から、見本植物を選択できます。</span><em>↗</em></button>
   <div class="footer-note">自動保存対応 · 葉の右クリック／長押しで複製・削除、背景ドラッグで回転できます。データは端末のブラウザにのみ保存されます。</div>
@@ -323,12 +344,12 @@ body.fullscreen-fallback{overflow:hidden}
 <div id="dragGhost" class="drag-ghost" aria-hidden="true"></div>
 <div id="leafMenu" role="menu" aria-label="葉の操作"><button id="menuDuplicate" role="menuitem">⧉ この葉を複製</button><button id="menuDelete" role="menuitem">× この葉を削除</button></div>
 <div id="libraryOverlay" class="library-overlay hidden" role="presentation">
-  <section class="library-dialog" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
+  <section class="library-dialog" id="libraryDialog" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
     <div class="library-top">
-      <div><h2 id="libraryTitle">植物から組み立てる</h2><p>「種子植物の分類」を初期表示にしています。草本植物（草）は緑、木本植物（木）はベージュで示します。植物名を押すと3D見本を読み込み、↗ は国立科学博物館の葉脈標本データベースを開きます。</p></div>
+      <div><h2 id="libraryTitle">植物から組み立てる</h2><p>「種子植物の分類」を初期表示にしています。草本植物（草）は緑、木本植物（木）はベージュで示します。植物名を押すと3D見本を読み込み、↗ は国立科学博物館の葉脈標本データベースの検索ページを開きます（検索語は植物名です）。</p></div>
       <button id="closeLibrary" class="btn">閉じる ×</button>
     </div>
-    <div class="library-body">
+    <div class="library-body" id="libraryBody">
       <div class="library-tabs" role="tablist" aria-label="植物分類の切り替え">
         <button class="library-tab active" type="button" role="tab" aria-selected="true" data-view="seed">種子植物の分類</button>
         <button class="library-tab" type="button" role="tab" aria-selected="false" data-view="phyllotaxis">葉序で分類</button>
@@ -336,10 +357,11 @@ body.fullscreen-fallback{overflow:hidden}
       </div>
       <p id="libraryIntro" class="library-intro">被子植物・裸子植物、および学校で扱う双子葉類・単子葉類と草本植物・木本植物の組み合わせで見られます。</p>
       <div id="libraryBoard" class="library-board" aria-live="polite"></div>
-      <div class="library-legend"><span class="legend-pill"><span class="legend-swatch herb"></span>草本植物</span><span class="legend-pill"><span class="legend-swatch tree"></span>木本植物</span></div>
+      <div class="library-legend"><span class="library-resize-hint">右下の斜線をドラッグしてウィンドウをリサイズできます</span><span class="legend-pill"><span class="legend-swatch herb"></span>草本植物</span><span class="legend-pill"><span class="legend-swatch tree"></span>木本植物</span></div>
       <p id="libraryFootnote" class="library-footnote">「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキは現代のAPG分類ではモクレン類です。葉序の分数は文献確認値・模式値・適用外を植物ごとに区別しています。</p>
     </div>
-  </section>
+  <div class="library-resize-handle" id="libraryResize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="植物分類ウィンドウの大きさを変更" title="ドラッグでウィンドウの大きさを変更（ダブルクリックで元に戻す）"></div>
+</section>
 </div>
 <div id="qrOverlay" class="qr-overlay hidden" role="presentation">
   <section class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
@@ -386,7 +408,7 @@ body.fullscreen-fallback{overflow:hidden}
       </dl>
       <h3>1. 使い方</h3>
       <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタン、または左側の同名ボタンを押して開くポップアップで植物名を押すとモデルを読み込みます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉を選び、長さ・幅・葉柄・鋸歯・切れ込み・葉脈・色・葉序を変更します。</li><li><b>移動と削除：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しでも複製／削除できます。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
-<h3>葉序の分数の読み方・25種の一覧（v11）</h3>
+<h3>葉序の分数の読み方・26種の一覧（v11）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
 <div style="overflow-x:auto;max-height:360px;overflow-y:auto"><table class="phyllo-table"><thead><tr><th>植物</th><th>葉序の分数</th><th>根拠・注意点</th></tr></thead><tbody>
@@ -403,7 +425,8 @@ body.fullscreen-fallback{overflow:hidden}
 <tr><td>カヤツリグサ</td><td>1/3</td><td>文献・資料確認：120°・3列に並ぶ葉。 <a href="https://orsj.org/wp-content/corsj/or67-1/or67_1_20.pdf" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>イロハモミジ</td><td>—</td><td>適用外：対生。1節から向かい合う2枚が出るため、互生の分数とは区別。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>アジサイ</td><td>—</td><td>適用外：対生。1節に2枚つくため、互生の分数では表さない。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
-<tr><td>ヤブツバキ</td><td>2/5</td><td>模式設定：互生。2/5は模式的な初期配置であり、この種の実測確認値ではない。 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>サザンカ</td><td>2/5</td><td>模式設定：互生。2/5は教育用モデル値です。葉形や鋸歯のほか、新梢や葉脈の毛も識別点です。 <a href="https://tbg.kahaku.go.jp/recommend/illustrated/result.php?name=%E3%82%B5%E3%82%B6%E3%83%B3%E3%82%AB" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>ツバキ</td><td>2/5</td><td>模式設定：互生。2/5は模式的な初期配置であり、この種の実測確認値ではない。 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>トチノキ</td><td>—</td><td>適用外：対生。1節に2枚の掌状複葉。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>クスノキ</td><td>2/5</td><td>模式設定：互生。2/5は教材モデルであり、種の代表値としては未確認。 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>オリーブ</td><td>—</td><td>適用外：十字対生。2枚ずつ向かい合い、次の対が約90°ずれる。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
@@ -470,7 +493,7 @@ body.fullscreen-fallback{overflow:hidden}
       <ul>
        <li><b>イネ（Oryza sativa）：</b>Chatterjee ほか (2016) は IR64 の葉身長41 cm、葉身幅0.97 cmを記録。見本はこの例を採用し、葉身長15〜90 cm、幅0.4〜3 cmを別々に調整可能にしました。「15〜89 cm」という広い比較範囲は<b>イネ属24種の調査結果</b>であり、栽培イネ1品種の通常範囲ではありません。葉は茎とほぼ平行に立ち上がり、先端側がしなる曲線で表示します。葉鞘・葉舌・葉耳は簡略化しています。3Dモデルの長さ換算（15 cm/モデル単位）は教材上の任意尺度で、茎の高さは実寸表示ではありません。</li>
        <li><b>クスノキ（Cinnamomum camphora）：</b>Flora of Chinaの形態記載は葉身6〜12 × 2.5〜5.5 cm、葉柄2〜3 cm、離基三出脈、卵状楕円形で急尖。見本の長幅比0.44、葉柄/葉身比0.18は形態記載から調整した表示用の近似値です。従来の3本の直線状の脈を廃し、基部近くから左右に湾曲して上る主側脈を追加しました。</li>
-       <li><b>ヤブツバキ（Camellia japonica）：</b>Sealy（1958）等の記載では葉身おおむね5〜10.5 × 2.5〜6 cm、葉柄8〜15 mmで、葉縁は細鋸歯〜円鋸歯に近い鈍鋸歯、葉先は短く漸尖（やや鈍く尖るものもある）。見本を24歯/片側の鋸歯と、尖った楕円形に変更しました。ただし歯の個数・深さは写真と形態記載に基づく<b>表示用近似値で、論文の実測歯数ではありません</b>。</li>
+       <li><b>ツバキ（Camellia japonica）：</b>Sealy（1958）等の記載では葉身おおむね5〜10.5 × 2.5〜6 cm、葉柄8〜15 mmで、葉縁は細鋸歯〜円鋸歯に近い鈍鋸歯、葉先は短く漸尖（やや鈍く尖るものもある）。見本を24歯/片側の鋸歯と、尖った楕円形に変更しました。ただし歯の個数・深さは写真と形態記載に基づく<b>表示用近似値で、論文の実測歯数ではありません</b>。</li>
       </ul>
       <p class="method-note">葉身長と葉柄長は別の部位です。特にイネ科の葉では、見かけ上の「葉柄」を描かず、葉鞘から葉身が続く配置として近似しています。モデルの拡大率、曲率、鋸歯の数は実物の観察結果と分けて扱ってください。</p>
       <h3>5. アサガオ（Ipomoea nil）の修正・実測資料（v5）</h3>
@@ -561,7 +584,8 @@ const SPECIES=[
  {name:'マツ（アカマツ）',latin:'Pinus densiflora',arr:['alternate'],shape:['needlePair'],ser:0,desc:'裸子植物。短枝に2本1組の針葉が束生する。長枝では短枝がらせん状に配列する。',source:'https://www.kahaku.go.jp/research/db/botany/wild_p100/spring/35_akamatu.html',label:'国立科学博物館'},
  {name:'イロハモミジ',latin:'Acer palmatum',arr:['opposite'],shape:['palm'],ser:1,lobes:5,desc:'対生・掌状深裂の単葉。5〜7裂片と細かな鋸歯。',source:'https://landscapeplants.oregonstate.edu/plants/acer-palmatum',label:'Oregon State University'},
  {name:'トチノキ',latin:'Aesculus turbinata',arr:['opposite'],shape:['compound'],ser:1,lobes:7,desc:'対生・掌状複葉。5〜7枚の小葉が1本の葉柄につく。',source:'https://www.ffpri.go.jp/kys/business/jumokuen/jumoku/zukan/totinoki.html',label:'森林総合研究所'},
- {name:'ヤブツバキ',latin:'Camellia japonica',arr:['alternate','distichous'],shape:['elliptic','ovate'],ser:1,desc:'互生・革質で光沢のある楕円形。葉縁は細鋸歯〜鈍鋸歯、先端は短い漸尖。',source:'https://camellia.iflora.cn/Species/Detail?latin=Camellia+japonica',label:'International Camellia Register'},
+ {name:'ツバキ',latin:'Camellia japonica',arr:['alternate','distichous'],shape:['elliptic','ovate'],ser:1,desc:'互生・革質で光沢のある楕円形。葉縁は細鋸歯〜鈍鋸歯、先端は短い漸尖。',source:'https://camellia.iflora.cn/Species/Detail?latin=Camellia+japonica',label:'International Camellia Register'},
+ {name:'サザンカ',latin:'Camellia sasanqua',arr:['alternate','distichous'],shape:['elliptic','ovate'],ser:1,desc:'ツバキより小さめの楕円形〜長楕円形の葉。互生、縁に細かな鋸歯。若い枝・葉柄・葉裏の主脈付近に毛があることが、無毛のツバキとの重要な識別点（毛は模式3Dでは省略）。',source:'https://tbg.kahaku.go.jp/recommend/illustrated/result.php?name=%E3%82%B5%E3%82%B6%E3%83%B3%E3%82%AB',label:'国立科学博物館 筑波実験植物園'},
  {name:'アジサイ',latin:'Hydrangea macrophylla',arr:['opposite'],shape:['ovate','elliptic'],ser:1,desc:'対生で鋸歯をもつ広い卵形の葉。',source:'https://plants.ces.ncsu.edu/plants/hydrangea-macrophylla/',label:'NC State Extension'},
  {name:'シソ',latin:'Perilla frutescens',arr:['opposite'],shape:['ovate'],ser:1,desc:'対生・卵形・鋸歯。茎は四角い。',source:'https://www.gbif.org/species/search?q=Perilla%20frutescens',label:'GBIF検索'},
  {name:'ホウセンカ',latin:'Impatiens balsamina',arr:['alternate'],shape:['lance'],ser:1,desc:'らせん互生（下部では対生も）。葉身4〜12×1.5〜3 cmほどの披針形、先端は漸尖、縁は明瞭な鋸歯、側脈は4〜7対。',source:'https://www.worldfloraonline.org/taxon/wfo-0000730261',label:'Flora of China / WFO'},
@@ -603,7 +627,8 @@ const PRESETS={
  'イロハモミジ':{color:'#56864e',arrangement:'opposite',shape:'palm',size:1.03,width:.99,teeth:14,toothDepth:.09,lobes:7,cut:.74,tilt:22,nodes:4},
  'アジサイ':{color:'#3e804a',arrangement:'opposite',shape:'ovate',size:1.16,width:.85,teeth:13,toothDepth:.1,lobes:5,cut:.6,tilt:23,nodes:4},
  'ヘチマ':{color:'#548c47',arrangement:'alternate',shape:'palm',size:1.25,width:1.1,teeth:5,toothDepth:.04,lobes:5,cut:.48,tilt:27,nodes:6},
- 'ヤブツバキ':{color:'#305f3b',arrangement:'alternate',shape:'elliptic',size:1.10,width:.49,teeth:22,toothDepth:.12,apexSharpness:.66,petioleRatio:.13,lobes:5,cut:.6,tilt:24,nodes:6},
+ 'ツバキ':{color:'#305f3b',arrangement:'alternate',shape:'elliptic',size:1.10,width:.49,teeth:22,toothDepth:.12,apexSharpness:.66,petioleRatio:.13,lobes:5,cut:.6,tilt:24,nodes:6},
+ 'サザンカ':{color:'#3b7644',arrangement:'alternate',shape:'elliptic',venation:'pinnate',size:.82,width:.46,teeth:19,toothDepth:.09,apexSharpness:.48,petioleRatio:.09,lobes:5,cut:.6,tilt:25,nodes:6,height:4.4},
  'シロツメクサ':{color:'#5d9b54',arrangement:'alternate',shape:'trifoliate',size:1.04,width:1.04,teeth:0,toothDepth:0,lobes:3,cut:.55,tilt:25,nodes:6},
  'トチノキ':{color:'#528149',arrangement:'opposite',shape:'compound',size:1.22,width:1.05,teeth:8,toothDepth:.035,lobes:7,cut:.55,tilt:20,nodes:4},
  'イチョウ':{color:'#7da448',arrangement:'alternate',shape:'fan',size:1.12,width:1.3,teeth:0,toothDepth:0,lobes:5,cut:.5,fanNotch:.25,fanSpread:156,tilt:19,nodes:5},
@@ -693,7 +718,13 @@ const PHYLLOTAXIS={
   "note": "対生。1節に2枚つくため、互生の分数では表さない。",
   "source": "https://jspp.org/hiroba/q_and_a/detail.html?id=4197"
  },
- "ヤブツバキ": {
+ "サザンカ": {
+  "fraction": "2/5",
+  "status": "model",
+  "note": "互生。2/5は教育用モデルの初期配列であり、サザンカの固定値と断定しない。",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/"
+ },
+ "ツバキ": {
   "fraction": "2/5",
   "status": "model",
   "note": "互生。2/5は模式的な初期配置であり、この種の実測確認値ではない。",
@@ -804,7 +835,8 @@ function setting(key,value,skipCommit=false){
  if(key==='shape')activePalette=value;syncUI();persist();drawSoon();updateMatches();
 }
 function grow(y){const t=clamp(y,0,1);if(state.arrangement==='rosette')return V(0,.19*t,0);return V(.22*state.bend*Math.sin(t*PI*1.35),state.height*t,.25*state.bend*Math.sin(t*PI*1.85));}
-// Invisible attachment nodes. Leaves snap to these positions rather than to arbitrary stem heights.
+// Invisible stem internodes. A leaf can attach only at these nodes, never between them.
+// Preset plants keep their own measured/modelled node heights; custom stems use 10 nodes.
 function stemSnapNodes(){
  if(state.arrangement==='rosette')return [.08];
  const name=state.presetName,p=name&&PRESETS[name];
@@ -1069,7 +1101,7 @@ function veinModel(p,l,outline){
  }
  // Penninerved: gradually curving secondaries; broadleaf margins are used to constrain tips.
  push(line([0,0],[0,L*.982],23),1);
- const count=l.speciesName==='クヌギ'?16:l.speciesName==='コナラ'?10:l.speciesName==='ヤブツバキ'?8:sh==='lance'?7:sh==='lobed'?6:sh==='cordate'?5:6;
+ const count=l.speciesName==='クヌギ'?16:l.speciesName==='コナラ'?10:l.speciesName==='ツバキ'?8:sh==='lance'?7:sh==='lobed'?6:sh==='cordate'?5:6;
  for(let side of [-1,1])for(let i=0;i<count;i++){
   const y0=L*(.16+i*.106),y1=Math.min(L*.945,y0+L*(.155-.038*i/count));
   const pts=[];for(let k=0;k<=14;k++){const t=k/14,y=y0+(y1-y0)*t,lim=Math.abs(widthAtY(outline,y,side));const x=side*lim*.86*Math.pow(Math.sin(t*PI*.5),.82);pts.push([x,y]);}
@@ -1231,14 +1263,14 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
    }ctx.restore();}
   hitLeaves.push({id:l.id,poly,dep:item.dep});
  }
- // Keep nodes as invisible hit targets; never render circular markers.
+ // Keep stem nodes as invisible hit targets; do not draw circular markers.
  hitNodes=[];
  for(const t of stemSnapNodes()){
   const p=project(grow(t),C);
   if(p.y<12||p.y>C.h-12)continue;
   hitNodes.push({x:p.x,y:p.y,r:clamp(C.base*.06,12,21),t});
  }
- // Leaf perimeter already highlights selection; avoid circles at nodes.
+ // The selected leaf is highlighted at its outline; no node circles are drawn.
  drawDragPreview(C);
  $('count').textContent=`葉 ${state.leaves.length}枚 / 節 ${new Set(state.leaves.map(l=>l.t.toFixed(3))).size}`;
 }
@@ -1308,7 +1340,7 @@ function bindPhotoSampler(){
 }
 function buildUI(){for(const item of SHAPES){let b=document.createElement('button');b.className='shape-btn';b.type='button';b.draggable=false;b.dataset.shape=item.id;b.title=item.hint;b.innerHTML=makePreview(item.id)+`<span>${item.name}</span>`;b.addEventListener('click',()=>{if(performance.now()<suppressPaletteClickUntil)return;activePalette=item.id;commit();if(state.selectedId!=null){const leaf=current();leaf.shape=item.id;leaf.lobes=state.defaults.lobes;leaf.color=SHAPE_COLORS[item.id];leaf.venation='auto';leaf.colorOrigin='形状別の参考色';if(item.id==='morning')Object.assign(leaf,{width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,venation:'ipomoea'});if(item.id==='linear'){leaf.riceLengthCm=41;leaf.riceWidthCm=.97;leaf.size=41/15;leaf.width=.97/41;leaf.petioleRatio=0;leaf.droop=68;leaf.tilt=72;}else if(leaf.size>2.25){leaf.size=1.05;leaf.width=.8;}updateMatches();toast('選択した葉の形を変更しました');}else{state.defaults.shape=item.id;state.defaults.color=SHAPE_COLORS[item.id];state.defaults.colorOrigin='形状別の参考色';state.defaults.venation='auto';if(item.id==='morning')Object.assign(state.defaults,{width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,venation:'ipomoea'});if(item.id==='linear'){state.defaults.riceLengthCm=41;state.defaults.riceWidthCm=.97;state.defaults.size=41/15;state.defaults.width=.97/41;state.defaults.petioleRatio=0;state.defaults.droop=68;state.defaults.tilt=72;}else if(state.defaults.size>2.25){state.defaults.size=1.05;state.defaults.width=.8;}}persist();syncUI();drawSoon();});b.addEventListener('pointerdown',e=>beginPalettePointer(e,item.id,b));$('palette').appendChild(b);}
  for(const item of sliderFields){const el=document.createElement('div');el.className='slider-control';el.innerHTML=`<div class="slider-label"><span>${item.name}</span><strong id="v_${item.id}"></strong></div><input id="s_${item.id}" type="range" min="${item.min}" max="${item.max}" step="${item.step}"><div class="slider-hint">${item.hint||''}</div>`;$('sliders').appendChild(el);let held=false;const input=el.querySelector('input');input.addEventListener('pointerdown',()=>{commit();held=true});input.addEventListener('input',()=>{const v=Number(input.value);if(!held)commit();held=true;setting(item.id,v,true)});input.addEventListener('change',()=>{held=false;persist()});input.addEventListener('pointerup',()=>held=false);}
- const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/database/';
+ const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/';
  const LIBRARY_META={
   'アサガオ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'heart'},
   'ヘチマ':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
@@ -1323,7 +1355,8 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
   'カヤツリグサ':{habit:'herb',seedGroup:'angio',cotyledon:'monocot',phylloGroup:'whorledLike',shapeGroup:'linearLike'},
   'イロハモミジ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'lobed'},
   'アジサイ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'simpleBroad'},
-  'ヤブツバキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
+  'ツバキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
+  'サザンカ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
   'トチノキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'compound'},
   'クスノキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
   'オリーブ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'linearLike'},
@@ -1375,7 +1408,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
    const button=document.createElement('button');button.type='button';button.className='preset-load';const pData=PHYLLOTAXIS[name];button.innerHTML=`<span>${escapeHTML(name)}</span><span class="preset-fraction no-ruby">${escapeHTML(pData?phylloShort(name):'要確認')}</span>`;button.title=name+'：'+(pData?pData.note:'葉序情報なし');button.setAttribute('aria-label',name+'の見本を読み込む');
    button.addEventListener('click',()=>{loadPreset(name);for(const b of document.querySelectorAll('.preset-load'))b.classList.toggle('selected',b===button)});
    const anchor=document.createElement('a');anchor.className='preset-lookup';anchor.href=LEAF_DB;anchor.target='_blank';anchor.rel='noopener noreferrer';anchor.textContent='↗';anchor.title='国立科学博物館 葉脈標本データベースで「'+name+'」を検索する';anchor.setAttribute('aria-label',name+'の葉脈標本を探すため、科博データベースを開く');
-   anchor.addEventListener('click',()=>toast('科博の検索画面で「'+name+'」を入力してください'));
+   anchor.addEventListener('click',()=>{if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(name).catch(()=>{});toast('科博の標本検索画面へ移動します。検索語「'+name+'」を入力してください。')});
    item.append(button,anchor);return item;
  }
  function libraryNamesSorted(){return Object.keys(PRESETS).sort((a,b)=>a.localeCompare(b,'ja'));}
@@ -1426,9 +1459,109 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
    }
    wrap.appendChild(matrix);return wrap;
  }
- function collectRects(){const rects={};Object.entries(libraryItems).forEach(([name,el])=>{if(el.isConnected)rects[name]=el.getBoundingClientRect()});return rects}
- function animateLibraryItems(before){Object.entries(libraryItems).forEach(([name,el])=>{const first=before[name];const last=el.getBoundingClientRect();if(!first||!last.width||!last.height)return;const dx=first.left-last.left,dy=first.top-last.top;if(Math.abs(dx)<1&&Math.abs(dy)<1)return;el.style.transition='none';el.style.transform=`translate(${dx}px,${dy}px)`;requestAnimationFrame(()=>{el.style.transition='transform .45s cubic-bezier(.22,.82,.28,1), box-shadow .2s';el.style.transform='translate(0,0)';setTimeout(()=>{el.style.transition='';},500)})})}
- function renderLibrary(view=currentLibraryView,animate=true){
+ 
+ function collectRects(){const rects={};Object.entries(libraryItems).forEach(([name,el])=>{if(el.isConnected)rects[name]=el.getBoundingClientRect()});return rects;}
+ let libraryMotion=null;
+ function stopLibraryMotion(){
+   if(!libraryMotion)return;
+   cancelAnimationFrame(libraryMotion.raf||0);
+   if(libraryMotion.layer?.isConnected)libraryMotion.layer.remove();
+   for(const el of Object.values(libraryItems))el.classList.remove('library-in-flight');
+   for(const tab of document.querySelectorAll('.library-tab'))tab.disabled=false;
+   libraryMotion=null;
+ }
+ function animateLibraryItems(before){
+   stopLibraryMotion();
+   const changes=[];
+   for(const [name,el] of Object.entries(libraryItems)){
+     const a=before[name],b=el.getBoundingClientRect();
+     if(!a||!b.width||!b.height)continue;
+     if(Math.hypot(a.left-b.left,a.top-b.top)<12)continue;
+     if(!Number.isFinite(a.left+b.left+a.top+b.top))continue;
+     changes.push({name,el,a,b,habit:LIBRARY_META[name]?.habit||'herb'});
+   }
+   if(!changes.length)return;
+   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+   for(const tab of document.querySelectorAll('.library-tab'))tab.disabled=true;
+   const layer=document.createElement('div');layer.className='library-motion-layer';layer.setAttribute('aria-hidden','true');
+   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   const width=window.innerWidth,height=window.innerHeight;
+   svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('preserveAspectRatio','none');layer.append(svg);
+   const dur=2900,stagger=65,start=performance.now();
+   changes.sort((a,b)=>a.a.top-b.a.top||a.a.left-b.a.left);
+   const geometry=[];
+   changes.forEach((d,i)=>{
+     const sx=d.a.left+d.a.width/2,sy=d.a.top+d.a.height/2,ex=d.b.left+d.b.width/2,ey=d.b.top+d.b.height/2;
+     const distance=Math.hypot(ex-sx,ey-sy);
+     const bend=Math.min(65,Math.max(10,distance*.09));
+     const sign=(i%2)?-1:1;
+     const cx=(sx+ex)/2+sign*bend*(ey-sy)/Math.max(1,distance);
+     const cy=(sy+ey)/2-sign*bend*(ex-sx)/Math.max(1,distance);
+     const curve=`M ${sx} ${sy} Q ${cx} ${cy} ${ex} ${ey}`;
+     const base=document.createElementNS('http://www.w3.org/2000/svg','path');base.setAttribute('d',curve);base.setAttribute('fill','none');base.setAttribute('stroke',d.habit==='tree'?'#c5ae8b':'#7ea987');base.setAttribute('stroke-width','1.3');base.setAttribute('stroke-opacity','.28');svg.append(base);
+     const trace=document.createElementNS('http://www.w3.org/2000/svg','path');trace.setAttribute('d',curve);trace.setAttribute('fill','none');trace.setAttribute('stroke',d.habit==='tree'?'#b28e5e':'#4b9366');trace.setAttribute('stroke-width','2.2');trace.setAttribute('stroke-linecap','round');svg.append(trace);
+     const len=trace.getTotalLength();trace.style.strokeDasharray=String(len);trace.style.strokeDashoffset=String(len);
+     const ghost=d.el.cloneNode(true);ghost.classList.remove('library-in-flight');ghost.classList.add('library-motion-ghost');ghost.querySelectorAll('button,a').forEach(el=>{el.tabIndex=-1;el.removeAttribute('href')});ghost.style.left='0';ghost.style.top='0';ghost.style.width=`${Math.max(d.a.width,d.b.width)}px`;ghost.style.height=`${d.a.height}px`;ghost.style.transform=`translate(${d.a.left}px,${d.a.top}px)`;
+     layer.append(ghost);d.el.classList.add('library-in-flight');
+     geometry.push({...d,sx,sy,ex,ey,cx,cy,trace,len,ghost,delay:i*stagger});
+   });
+   document.body.appendChild(layer);
+   libraryMotion={layer,raf:0};
+   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+   function frame(now){
+     if(!libraryMotion||libraryMotion.layer!==layer)return;
+     let complete=true;
+     const elapsed=now-start;
+     for(const g of geometry){
+       const linear=Math.max(0,Math.min(1,(elapsed-g.delay)/dur));
+       if(linear<1)complete=false;
+       const v=ease(linear),u=1-v;
+       const x=u*u*g.sx+2*u*v*g.cx+v*v*g.ex;
+       const y=u*u*g.sy+2*u*v*g.cy+v*v*g.ey;
+       const w=g.a.width+(g.b.width-g.a.width)*v;
+       const h=g.a.height+(g.b.height-g.a.height)*v;
+       g.ghost.style.width=w+'px';g.ghost.style.height=h+'px';
+       g.ghost.style.transform=`translate(${x-w/2}px,${y-h/2}px)`;
+       g.trace.style.strokeDashoffset=String(g.len*(1-v));
+       if(linear===1){g.el.classList.remove('library-in-flight');g.ghost.style.visibility='hidden';}
+     }
+     if(complete)stopLibraryMotion();else libraryMotion.raf=requestAnimationFrame(frame);
+   }
+   libraryMotion.raf=requestAnimationFrame(frame);
+ }
+ function setupLibraryResize(){
+   const dialog=$('libraryDialog'),handle=$('libraryResize');
+   let drag=null;
+   handle.addEventListener('pointerdown',e=>{
+     if(e.button!==0)return;
+     stopLibraryMotion();
+     e.preventDefault();
+     const rect=dialog.getBoundingClientRect();
+     drag={x:e.clientX,y:e.clientY,w:rect.width,h:rect.height,id:e.pointerId};
+     handle.setPointerCapture(e.pointerId);
+   });
+   handle.addEventListener('pointermove',e=>{
+     if(!drag||drag.id!==e.pointerId)return;
+     const w=Math.min(window.innerWidth-12,Math.max(Math.min(430,window.innerWidth-12),drag.w+e.clientX-drag.x));
+     const h=Math.min(window.innerHeight-12,Math.max(Math.min(380,window.innerHeight-12),drag.h+e.clientY-drag.y));
+     dialog.style.width=w+'px';dialog.style.height=h+'px';
+   });
+   const end=e=>{if(!drag)return;drag=null;if(currentLibraryView==='phyllotaxis')renderLibrary(currentLibraryView,false);};
+   handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',end);
+   handle.addEventListener('dblclick',()=>{dialog.style.width='';dialog.style.height='';renderLibrary(currentLibraryView,false)});
+   handle.addEventListener('keydown',e=>{
+     const move={ArrowRight:[30,0],ArrowLeft:[-30,0],ArrowDown:[0,30],ArrowUp:[0,-30]}[e.key];
+     if(!move)return;e.preventDefault();
+     const r=dialog.getBoundingClientRect();
+     dialog.style.width=Math.max(430,Math.min(window.innerWidth-12,r.width+move[0]))+'px';
+     dialog.style.height=Math.max(380,Math.min(window.innerHeight-12,r.height+move[1]))+'px';
+     if(currentLibraryView==='phyllotaxis')renderLibrary(currentLibraryView,false);
+   });
+   const body=$('libraryBody');
+   body.addEventListener('scroll',()=>{if(libraryMotion)stopLibraryMotion()},{passive:true});
+   window.addEventListener('resize',()=>{if(libraryMotion)stopLibraryMotion()});
+ }
+function renderLibrary(view=currentLibraryView,animate=true){
    currentLibraryView=view;
    const before=animate?collectRects():{};
    const cfg=LIBRARY_CONFIG[view];
@@ -1438,7 +1571,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
    const board=$('libraryBoard');board.innerHTML='';
    const cellMap={};
    for(const section of cfg.sections){
-     const node=section.type==='shapeGrid'?createShapeSection(section):(view==='phyllotaxis'&&window.innerWidth<=1000?createPhylloTabletSection(section):createMatrixSection(section));
+     const node=section.type==='shapeGrid'?createShapeSection(section):(view==='phyllotaxis'&&(window.innerWidth<=1000||$('libraryDialog').clientWidth<=830)?createPhylloTabletSection(section):createMatrixSection(section));
      board.appendChild(node);
      node.querySelectorAll('[data-cellkey]').forEach(c=>{cellMap[c.dataset.cellkey]=c;c.innerHTML=''})
    }
@@ -1456,7 +1589,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
    if(animate)requestAnimationFrame(()=>animateLibraryItems(before));
  }
  function openLibrary(){ $('libraryOverlay').classList.remove('hidden'); renderLibrary('seed', false); }
- function closeLibrary(){ $('libraryOverlay').classList.add('hidden'); }
+ function closeLibrary(){stopLibraryMotion();$('libraryOverlay').classList.add('hidden'); }
  for(const name of Object.keys(PRESETS))if(!LIBRARY_META[name])console.warn('分類情報がない見本:',name);
  
  $('venation').onchange=e=>setting('venation',e.target.value);
@@ -1469,6 +1602,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  qrOverlay.addEventListener('click',e=>{if(e.target===qrOverlay)closeQR();});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!qrOverlay.classList.contains('hidden'))closeQR();});
  $('copyQrUrl').onclick=async()=>{const value='https://scd-ku.github.io/hanotsukikata/';try{await navigator.clipboard.writeText(value);$('qrCopyStatus').textContent='URLをコピーしました';}catch(_){$('qrCopyStatus').textContent='上のURLを長押ししてコピーしてください';}};
+ setupLibraryResize();
  $('openLibrary').onclick=$('openLibraryFromPanel').onclick=()=>{openLibrary();$('closeLibrary').focus()};
  $('closeLibrary').onclick=()=>{closeLibrary();$('openLibrary').focus()};
  $('libraryOverlay').addEventListener('click',e=>{if(e.target===$('libraryOverlay'))$('closeLibrary').click()});
