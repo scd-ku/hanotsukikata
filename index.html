@@ -278,6 +278,12 @@ body.fullscreen-fallback{overflow:hidden}
 .library-dialog{will-change:transform}
 @media(max-width:600px){.library-top.library-move-handle{cursor:default;touch-action:auto}.library-move-hint{display:none}}
 
+
+/* v25 — free unconnected leaves live in the 3D scene; no boxed palette ghost */
+.drag-ghost{width:86px;height:102px;border:0;background:transparent;border-radius:0;box-shadow:none;backdrop-filter:none;gap:0}
+.drag-ghost svg{width:80px;height:94px;opacity:.92;filter:grayscale(1) saturate(0) contrast(.96) drop-shadow(0 2px 3px #0002)}
+.drag-ghost.snap{background:transparent;border:0}
+@media(max-width:600px){.drag-ghost{width:69px;height:83px}.drag-ghost svg{width:66px;height:79px}}
 </style>
 </head>
 <body>
@@ -295,7 +301,7 @@ body.fullscreen-fallback{overflow:hidden}
   <select class="select" id="arrangement"><option value="alternate">らせん互生（約137.5°ずつ）</option><option value="distichous">2列互生（約180°ずつ）</option><option value="opposite">十字対生（2枚ずつ）</option><option value="whorled">輪生（3枚ずつ）</option><option value="rosette">ロゼット（根元に放射状）</option><option value="free">自由配置（1枚ずつ）</option></select>
   <div id="phylloInfo" class="phyllo-info" aria-live="polite" role="status">葉序の分数：見本植物を選択すると表示します。</div>
   <div class="venation-settings"><div class="small-heading">葉脈の構造 <span>葉形から自動判定・変更可</span></div>
-  <select class="select" id="venation"><option value="auto">形態に応じて自動</option><option value="pinnate">羽状脈（主脈と側脈）</option><option value="palmate">掌状脈（放射状）</option><option value="parallel">平行脈</option><option value="arcuate">弓状に伸びる基部脈（オオバコ）</option><option value="dichotomous">二又分岐脈（イチョウ）</option><option value="triplinerved">三行脈（クスノキなど）</option><option value="beech">ブナ型（側脈8〜10対）</option><option value="oleander">キョウチクトウ型（多数の側脈）</option><option value="ipomoea">アサガオ型（3主脈＋側脈）</option></select></div>
+  <select class="select" id="venation"><option value="auto">形態に応じて自動</option><option value="pinnate">羽状脈（主脈と側脈）</option><option value="palmate">掌状脈（放射状）</option><option value="parallel">平行脈</option><option value="arcuate">弓状に伸びる基部脈（オオバコ）</option><option value="dichotomous">二又分岐脈（イチョウ）</option><option value="triplinerved">三行脈（クスノキなど）</option><option value="beech">ブナ型（側脈8〜10対）</option><option value="ipomoea">アサガオ型（3主脈＋側脈）</option></select></div>
   <div class="small-heading">葉身の形状を調整 <span>選択した葉形で変更できる項目を表示</span></div>
   <div id="sliders"></div>
   <div class="color-toolbar"><strong style="font-size:12px">葉色（葉の表面）</strong>
@@ -313,18 +319,18 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="footer-note">自動保存対応 · 葉の右クリック／長押しで複製・削除、背景ドラッグで回転できます。データは端末のブラウザにのみ保存されます。</div>
 </aside>
 <section class="view" id="view"><canvas id="scene" aria-label="回転可能な三次元植物モデル"></canvas>
-  <div class="viewport-top"><div class="labeltag"><span class="green-dot"></span> INTERACTIVE 3D / 植物の葉のつき方</div><div class="view-controls"><button class="btn" id="showVeins" aria-pressed="true">葉脈 ON</button><button class="iconbtn" id="zoomIn" title="拡大">＋</button><button class="iconbtn" id="zoomOut" title="縮小">−</button><button class="iconbtn" id="home" title="視点リセット">⌖</button><button class="iconbtn" id="toggleFullscreen" type="button" aria-label="3D画面を全画面表示" title="3D画面を全画面表示" aria-pressed="false">⛶</button></div></div>
-  <div class="view-copyright">© Science Communication Design Laboratory</div><div class="statbar" id="count">葉 0枚 / 節 0</div><div class="view-bottom"><div class="tip" id="tip">✦ 葉をドラッグ → 茎に近づけて離す ／ 右クリック・長押しで複製・削除</div></div><div class="toast" id="toast"></div>
+  <div class="viewport-top"><div class="labeltag"><span class="green-dot"></span> INTERACTIVE 3D / 植物の葉のつき方</div><div class="view-controls"><button class="btn" id="showVeins" aria-pressed="true">葉脈 ON</button><button class="iconbtn" id="zoomIn" title="拡大">＋</button><button class="iconbtn" id="zoomOut" title="縮小">−</button><button class="iconbtn" id="home" title="視点リセット">⌖</button><button class="iconbtn" id="viewTop" title="真上から見る" aria-label="真上から見る">↑</button><button class="iconbtn" id="viewBottom" title="真下から見る" aria-label="真下から見る">↓</button><button class="iconbtn" id="toggleFullscreen" type="button" aria-label="3D画面を全画面表示" title="3D画面を全画面表示" aria-pressed="false">⛶</button></div></div>
+  <div class="view-copyright">© Science Communication Design Laboratory</div><div class="statbar" id="count">葉 0枚 / 節 0</div><div class="view-bottom"><div class="tip" id="tip">✦ パレットから出すとグレーの葉に／茎につけなくても置けます／あとからドラッグで接続 ／ ↑↓で真上・真下</div></div><div class="toast" id="toast"></div>
 </section>
 <aside class="side right">
   <p class="section-kicker">02 / IDENTIFY</p><h2 class="h2">似ている植物を探す</h2>
   <p class="match-intro">配置した葉の<strong>葉序・葉の構造・輪郭・鋸歯</strong>を比較。近い形態をもつ身近な植物を表示します。</p>
   <div class="morph-card"><h3>いまの植物の特徴</h3><div class="meta-grid" id="traits"><div><small>葉序</small><strong>—</strong></div><div><small>葉形</small><strong>—</strong></div><div><small>葉縁</small><strong>—</strong></div><div><small>葉の数</small><strong>—</strong></div></div></div>
   <div class="small-heading" style="margin-top:18px">形態が近い候補 <span id="resultCount">—</span></div>
-  <div id="matches"><div class="empty">茎に葉をつけると、特徴の近い植物がここに表示されます。</div></div>
+  <div id="matches"><div class="empty">グレーの葉は未接続です。茎に葉をつけると、特徴の近い植物がここに表示されます。</div></div>
   <div class="divider"></div>
   <div class="small-heading">調べるときの注意</div>
-  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は39分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
+  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は35分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
   <button id="openHelpAside" class="btn widebutton">葉脈・葉形・色の研究根拠と参考資料を見る</button>
   <div class="small-heading">今回の修正に使った資料</div>
     <div class="source-item"><a href="https://doi.org/10.1371/journal.pone.0164532" target="_blank" rel="noopener">Chatterjee et al. (2016) — イネの形態計測 ↗</a>栽培イネIR64の葉身41 × 0.97 cm。</div>
@@ -363,7 +369,7 @@ body.fullscreen-fallback{overflow:hidden}
       <p id="libraryIntro" class="library-intro">被子植物・裸子植物、および学校で扱う双子葉類・単子葉類と草本植物・木本植物の組み合わせで見られます。</p>
       <div id="libraryBoard" class="library-board" aria-live="polite"></div>
       <div class="library-legend"><span class="library-resize-hint">右下の斜線をドラッグしてウィンドウをリサイズできます</span><span class="legend-pill"><span class="legend-swatch herb"></span>草本植物</span><span class="legend-pill"><span class="legend-swatch tree"></span>木本植物</span></div>
-      <p id="libraryFootnote" class="library-footnote">「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキとモクレンは現代のAPG分類ではモクレン類で、真正双子葉類とは区別されます。葉序の分数は文献確認値・模式値・適用外を植物ごとに区別しています。</p>
+      <p id="libraryFootnote" class="library-footnote">「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキは現代のAPG分類ではモクレン類です。葉序の分数は文献確認値・模式値・適用外を植物ごとに区別しています。</p>
     </div>
   <div class="library-resize-handle" id="libraryResize" role="separator" aria-orientation="vertical" tabindex="0" aria-label="植物分類ウィンドウの大きさを変更" title="ドラッグでウィンドウの大きさを変更（ダブルクリックで元に戻す）"></div>
 </section>
@@ -382,7 +388,7 @@ body.fullscreen-fallback{overflow:hidden}
   <section class="help-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
     <div class="help-top"><h2 id="helpTitle">植物の葉のつき方 · 特徴・使い方・出典</h2><button id="closeHelp" class="btn">閉じる ×</button></div>
     <div class="help-body">
-      <h3>このアプリの特徴</h3>
+      <h3>このアプリの特徴</h3><p><b>v23追加：</b>ミント（スペアミント）、バジル、キョウチクトウ、モクレン（シモクレン）。ミント・バジルは対生、キョウチクトウは主に3輪生、モクレンは互生です。キョウチクトウは有毒のため採集・接触に注意してください。葉序の分数は模式値・適用外を区別しています。</p>
       <p>「植物の葉のつき方」は、3D空間で茎に葉を挿し、葉序・葉身形状・葉柄・葉脈を組み合わせて植物の特徴を観察する理科教材です。見本には葉序の分数（1/2・1/3・2/5・3/8・5/13など）と出典・不確実性を明記します。<b>見本植物を「種子植物の分類」「葉序で分類」「葉形で分類」の3つの見方で切り替えて選択</b>でき、<b>裸子植物（イチョウ・アカマツ・メタセコイア）</b>も見本として読み込めます。葉を自由に組み立て、似ている植物を候補として比較します。</p>
       <p class="method-note">葉の特徴だけでは種名を確定できません。類似度の数値は形態の一致点に基づく<b>教材上の指標</b>で、同定の確率ではありません。葉の形・葉序を確認し、花・果実・芽・葉の裏面などの観察と併用してください。</p>
       <h3>専門用語の読み方</h3>
@@ -413,15 +419,10 @@ body.fullscreen-fallback{overflow:hidden}
       </dl>
       <h3>1. 使い方</h3>
       <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタンで開くポップアップから植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉形を選ぶと、その葉で調整できる長さ・幅・葉柄・鋸歯・切れ込みなどの設定だけが表示されます。葉脈・色・葉序も適宜変更できます。</li><li><b>移動・削除・SVG出力：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しのメニューで複製／削除／SVGで保存ができます。SVGは選択した葉の葉身・葉柄を一つの閉じた輪郭にし、葉脈は線幅をもつ別の閉じた輪郭パスとして書き出す正面模式図です。実測スケールではありません。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
-<h3>葉序の分数の読み方・38種の一覧（v23）</h3>
+<h3>葉序の分数の読み方・34種の一覧（v19）</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
 <div style="overflow-x:auto;max-height:360px;overflow-y:auto"><table class="phyllo-table"><thead><tr><th>植物</th><th>葉序の分数</th><th>根拠・注意点</th></tr></thead><tbody>
-<tr><td>ミント（スペアミント）</td><td>—</td><td>適用外：対生（1節2枚）。<a href="https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata" target="_blank" rel="noopener">出典↗</a></td></tr>
-<tr><td>バジル</td><td>—</td><td>適用外：対生・十字対生。<a href="https://plants.ces.ncsu.edu/plants/ocimum-basilicum/" target="_blank" rel="noopener">出典↗</a></td></tr>
-<tr><td>キョウチクトウ</td><td>—</td><td>適用外：3輪生を模式化、対生の場合もある。<a href="https://plants.ces.ncsu.edu/plants/nerium-oleander/" target="_blank" rel="noopener">出典↗</a></td></tr>
-<tr><td>モクレン</td><td>2/5</td><td>模式設定：互生の代表的開度。種の不変な実測値ではない。<a href="https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora" target="_blank" rel="noopener">出典↗</a></td></tr>
-
 <tr><td>ヒマワリ</td><td>—</td><td>未確定：下部は対生、上部は互生。全茎の固定分数は置きません。 <a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>エンドウ</td><td>2/5</td><td>模式設定：互生する羽状複葉。小葉ではなく、複葉の付け根で葉序を数えます。 <a href="https://www.jircas.go.jp/en/database/thaivege/085" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>サツキ</td><td>2/5</td><td>模式設定：互生で枝先に集まる。種固有の固定値ではありません。 <a href="https://ryokka-c.jp/info/woodplant/4794/" target="_blank" rel="noopener">出典↗</a></td></tr>
@@ -458,13 +459,7 @@ body.fullscreen-fallback{overflow:hidden}
 <tr><td>メタセコイア</td><td>—</td><td>適用外：小枝上に葉が対生。1節2枚であり互生の分数は付けない。 <a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">出典↗</a></td></tr>
 </tbody></table></div>
 <p><b>参考論文：</b><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4607949/" target="_blank" rel="noopener">Okabe (2015), Biophysical optimality of the golden angle in phyllotaxis</a>、<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6408360/" target="_blank" rel="noopener">The unified rule of phyllotaxis explaining both spiral and non-spiral arrangements (2019)</a>、<a href="https://jspp.org/hiroba/q_and_a/detail.html?id=4197" target="_blank" rel="noopener">日本植物生理学会：対生葉序について</a>。分数と角度は模式的な表現です。</p>
-      <h3>v23：新しく追加した4種類（理科教材としての注意）</h3>
-<p><b>ミント（スペアミント；<i>Mentha spicata</i>）</b>：節ごとの対生葉。細長い卵状披針形で、葉縁の鋸歯が明瞭です。<a href="https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata" target="_blank" rel="noopener">Burke Herbarium ↗</a></p>
-<p><b>バジル（<i>Ocimum basilicum</i>）</b>：節ごとの対生葉。ミントより幅の広い卵形で、縁は全縁から浅い鋸歯まで変異します。<a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:452874-1/general-information" target="_blank" rel="noopener">Kew ↗</a></p>
-<p><b>キョウチクトウ（<i>Nerium oleander</i>）</b>：1節から3枚が120°ずつ出る3輪生を模式化（対生の場合もあります）。葉は細長い全縁、中央主脈から多数の側脈がほぼ平行に伸びます。<b>全草有毒です。授業では不用意に採取・切断せず、口に入れないでください。</b><a href="https://plants.ces.ncsu.edu/plants/nerium-oleander/" target="_blank" rel="noopener">NC State Extension ↗</a></p>
-<p><b>モクレン（<i>Magnolia liliiflora</i>）</b>：互生・全縁の倒卵形～楕円形、羽状の網状脈。葉身は長さ10〜18 cm、幅5〜13 cmなどの記載を参考にしています。<b>APG分類ではモクレン類（magnoliids）</b>で、真正双子葉類ではありません。<a href="https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora" target="_blank" rel="noopener">Oregon State University ↗</a></p>
-<p class="method-note">葉序の分数は確定値とは限りません。対生・輪生には互生の分数を付けず、モクレンの2/5は教育用模式値として区別しています。実際の毛、茎の断面、葉の内部構造などはモデルでは省略しています。</p>
-<h3>v19：ウルシの葉柄修正と追加4種の形態・出典</h3>
+      <h3>v19：ウルシの葉柄修正と追加4種の形態・出典</h3>
 <p><b>ウルシ</b>：葉軸の始点と茎の節をつなぐ主葉柄の描画が欠けていたため補完しました。エンドウなどの複葉にも同様の接続補正を行いました。葉の節への自動スナップは維持しています。</p>
 <p><b>ブナ（<i>Fagus crenata</i>）</b>：2列互生、丸い波状鈍鋸歯、7〜11対の目立つ側脈をブナ型の輪郭と葉脈として追加。<a href="https://www1.ous.ac.jp/garden/hada/plantsdic/angiospermae/dicotyledoneae/choripetalae/fagaceae/buna/buna.htm" target="_blank" rel="noopener">岡山理科大学 植物図鑑 ↗</a></p>
 <p><b>セイタカアワダチソウ（<i>Solidago altissima</i>）</b>：互生、細い披針形、3本の目立つ葉脈、低い鋸歯。<a href="https://www.naro.go.jp/laboratory/nilgs/weedlist/w0100/w0110/066478.html" target="_blank" rel="noopener">農研機構 ↗</a></p>
@@ -585,7 +580,7 @@ body.fullscreen-fallback{overflow:hidden}
         <li><a href="https://www.inaturalist.org/" target="_blank" rel="noopener">iNaturalist.</a> — 植物写真との比較（画像の撮影条件は標準化されていません）。</li>
       </ol>
       <h3>8. 教材としての限界</h3>
-      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は39分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
+      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は35分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
     </div>
   </section>
 </div>
@@ -616,10 +611,9 @@ const SHAPES=[
 ];
 const ARR={alternate:'らせん互生',distichous:'2列互生',opposite:'対生',whorled:'輪生',rosette:'ロゼット',free:'自由配置',mixed:'混合・不規則'};
 const SPECIES=[
- {name:'ミント（スペアミント）',latin:'Mentha spicata',arr:['opposite'],shape:['lance','elliptic'],ser:1,desc:'シソ科の多年草。節ごとに2枚の葉が向かい合ってつく対生。細長い卵状披針形で明瞭な鋸歯、短い葉柄と網状の羽状脈をもつ。本見本はスペアミントを代表例とする。',source:'https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata',label:'Burke Herbarium'},
- {name:'バジル',latin:'Ocimum basilicum',arr:['opposite'],shape:['ovate','elliptic'],ser:0,desc:'シソ科の芳香性草本。対生・十字対生で、比較的幅広い卵形～楕円形の葉。縁は全縁から浅い鋸歯まで変化し、葉柄がある。',source:'https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:452874-1/general-information',label:'Kew Plants of the World Online'},
- {name:'キョウチクトウ',latin:'Nerium oleander',arr:['whorled','opposite'],shape:['lance'],ser:0,desc:'キョウチクトウ科の常緑木本。細長い全縁の革質葉が同じ節から3枚ずつ輪生（2枚の対生もあり得る）。明瞭な主脈と多数のほぼ平行な側脈。全草有毒のため観察時には触れたり口に入れたりしない。',source:'https://plants.ces.ncsu.edu/plants/nerium-oleander/',label:'NC State Extension'},
- {name:'モクレン',latin:'Magnolia liliiflora',arr:['alternate'],shape:['obovate','elliptic','ovate'],ser:0,desc:'モクレン科の落葉性木本。互生する単葉で、倒卵形～楕円状卵形、鋸歯のない全縁、羽状の網状脈。学校理科の旧来の双子葉類に相当するが、APG分類ではモクレン類（magnoliids）で真正双子葉類とは異なる。',source:'https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora',label:'Oregon State University'},
+ {name:'ミント',latin:'Mentha spicata',arr:['opposite'],shape:['ovate'],ser:1,desc:'対生する卵状披針形の鋸歯葉。スペアミントを代表例とする。茎は四角く、葉縁には鋸歯がある。',source:'https://plants.ces.ncsu.edu/plants/mentha-spicata/',label:'植物形態資料'},
+ {name:'バジル',latin:'Ocimum basilicum',arr:['opposite'],shape:['ovate'],ser:0,desc:'対生する幅広い卵形の葉。葉縁は全縁から浅い鋸歯で、細い葉柄をもつ。',source:'https://plants.ces.ncsu.edu/plants/ocimum-basilicum/',label:'植物形態資料'},
+ {name:'モクレン',latin:'Magnolia liliiflora',arr:['alternate'],shape:['obovate'],ser:0,desc:'シモクレンを代表例とする。互生する倒卵形から楕円形の全縁葉で、羽状の葉脈と比較的短い葉柄をもつ。',source:'https://powo.science.kew.org/results?q=Magnolia%20liliiflora',label:'植物形態資料'},
  {name:'ブナ',latin:'Fagus crenata',arr:['distichous','alternate'],shape:['beech','ovate'],ser:1,desc:'落葉高木。葉は短い葉柄で2列互生し、広卵形で縁に規則的な波状鈍鋸歯がある。7〜11対のほぼ平行な側脈が縁の突起へ達する。',source:'https://www1.ous.ac.jp/garden/hada/plantsdic/angiospermae/dicotyledoneae/choripetalae/fagaceae/buna/buna.htm',label:'岡山理科大学 植物図鑑'},
  {name:'セイタカアワダチソウ',latin:'Solidago altissima',arr:['alternate'],shape:['lance'],ser:1,desc:'キク科の多年草。細長い披針形の葉が互生し、葉柄は不明瞭。葉の長軸方向に3本の太い脈が目立ち、縁に低い鋸歯がある。',source:'https://www.naro.go.jp/laboratory/nilgs/weedlist/w0100/w0110/066478.html',label:'農研機構'},
  {name:'ススキ',latin:'Miscanthus sinensis',arr:['distichous','alternate'],shape:['linear'],ser:0,desc:'イネ科の多年草。2列互生・線形の葉身、葉鞘、平行脈。中央の白い主脈、細かな鋸歯のある葉縁と弧を描く葉先が特徴。',source:'https://www.kahaku.go.jp/research/db/botany/wild_p100/autumn/27_susuki.html',label:'国立科学博物館'},
@@ -663,10 +657,10 @@ const SPECIES=[
 ];
 const SHAPE_COLORS={beech:'#67935b',peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
 const PRESETS={
- 'ミント（スペアミント）':{color:'#5a9852',arrangement:'opposite',shape:'lance',venation:'pinnate',size:.91,width:.44,petioleRatio:.085,apexSharpness:.52,teeth:13,toothDepth:.115,tilt:28,nodes:6,height:4.5},
- 'バジル':{color:'#65a159',arrangement:'opposite',shape:'ovate',venation:'pinnate',size:1.00,width:.73,petioleRatio:.30,apexSharpness:.20,teeth:4,toothDepth:.022,tilt:22,nodes:6,height:4.45},
- 'キョウチクトウ':{color:'#386a44',arrangement:'whorled',shape:'lance',venation:'oleander',size:1.32,width:.205,petioleRatio:.065,apexSharpness:.62,teeth:0,toothDepth:0,tilt:37,nodes:5,height:5.3},
- 'モクレン':{color:'#60925b',arrangement:'alternate',shape:'obovate',venation:'pinnate',size:1.32,width:.70,petioleRatio:.19,teeth:0,toothDepth:0,tilt:24,nodes:6,height:5.05},
+ 'ミント':{color:'#5b9c58',arrangement:'opposite',shape:'ovate',venation:'pinnate',size:1.02,width:.51,petioleRatio:.10,apexSharpness:.55,teeth:14,toothDepth:.13,tilt:22,nodes:5,height:4.2},
+ 'バジル':{color:'#4d944b',arrangement:'opposite',shape:'ovate',venation:'pinnate',size:1.11,width:.78,petioleRatio:.25,apexSharpness:.25,teeth:4,toothDepth:.026,tilt:26,nodes:5,height:4.4},
+ 'キョウチクトウ':{color:'#357744',arrangement:'whorled',shape:'lance',venation:'pinnate',size:1.48,width:.25,petioleRatio:.05,apexSharpness:.64,teeth:0,toothDepth:0,tilt:21,nodes:4,height:5.0},
+ 'モクレン':{color:'#5c884d',arrangement:'alternate',shape:'obovate',venation:'pinnate',size:1.23,width:.75,petioleRatio:.23,apexSharpness:.22,teeth:0,toothDepth:0,tilt:24,nodes:6,height:5.0},
  'ブナ':{color:'#609058',arrangement:'distichous',shape:'beech',venation:'beech',size:1.09,width:.65,petioleRatio:.10,apexSharpness:.25,teeth:0,toothDepth:0,tilt:22,nodes:7,height:4.7},
  'セイタカアワダチソウ':{color:'#648950',arrangement:'alternate',shape:'lance',venation:'triplinerved',size:1.27,width:.28,petioleRatio:.012,apexSharpness:.57,teeth:8,toothDepth:.038,tilt:25,nodes:9,height:5.7},
  'ススキ':{color:'#729953',arrangement:'distichous',shape:'linear',venation:'parallel',riceLengthCm:60,riceWidthCm:1.2,size:60/15,width:1.2/60,petioleRatio:0,droop:70,teeth:0,toothDepth:0,tilt:66,nodes:7,height:6.5},
@@ -703,10 +697,10 @@ const PRESETS={
  'アサガオ':{color:'#478b53',arrangement:'alternate',shape:'morning',venation:'ipomoea',size:1.12,width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,tilt:18,nodes:5}
 };
 const PHYLLOTAXIS={
- "ミント（スペアミント）": {"fraction":"—","status":"inapplicable","note":"対生（通常は十字対生）。1節に2枚つくため互生の分数表記は適用しない。","source":"https://www.burkeherbarium.org/imagecollection/taxon.php?Taxon=Mentha+spicata"},
- "バジル": {"fraction":"—","status":"inapplicable","note":"対生・十字対生。1節2枚のため互生の分数表記は適用しない。","source":"https://plants.ces.ncsu.edu/plants/ocimum-basilicum/"},
- "キョウチクトウ": {"fraction":"—","status":"inapplicable","note":"同一節から3枚つく輪生（3輪生）の教材例。2枚の対生となる場合もある。互生の分数表記は適用しない。","source":"https://plants.ces.ncsu.edu/plants/nerium-oleander/"},
- "モクレン": {"fraction":"2/5","status":"model","note":"互生する葉の模式開度として2/5（144°）を用いる。モクレン種に固有の固定値と確認したものではない。","source":"https://landscapeplants.oregonstate.edu/plants/magnolia-liliiflora"},
+ "ミント": {"fraction":"—","status":"inapplicable","note":"対生で、互生の開度を表す分数は適用しない。","source":"https://plants.ces.ncsu.edu/plants/mentha-spicata/"},
+ "バジル": {"fraction":"—","status":"inapplicable","note":"対生で、互生の開度を表す分数は適用しない。","source":"https://plants.ces.ncsu.edu/plants/ocimum-basilicum/"},
+ "キョウチクトウ": {"fraction":"—","status":"inapplicable","note":"主として3輪生。互生の分数葉序は適用しない。","source":"https://plants.ces.ncsu.edu/plants/nerium-oleander/"},
+ "モクレン": {"fraction":"2/5","status":"model","note":"互生の教育用模式値。種に固有の実測値ではない。","source":"https://powo.science.kew.org/results?q=Magnolia%20liliiflora"},
  "ブナ": {"fraction":"1/2","status":"pattern","note":"2列互生（平面配列）のモデル。枝の形態により変化する可能性がある。","source":"https://bsapubs.onlinelibrary.wiley.com/doi/10.3732/ajb.91.12.1981"},
  "セイタカアワダチソウ": {"fraction":"2/5","status":"model","note":"互生。2/5（144°）は教材モデルの仮の配置であり、実測による固定値ではない。","source":"https://www.naro.go.jp/laboratory/nilgs/weedlist/w0100/w0110/066478.html"},
  "ススキ": {"fraction":"1/2","status":"pattern","note":"180°・2列互生から算定したモデル。葉は葉鞘から伸びる。","source":"https://plantdatabase.kpu.ca/PlantPrint/misi"},
@@ -922,6 +916,9 @@ const sliderFields=[
 const $=id=>document.getElementById(id);
 const baseDefault={shape:'ovate',size:1.05,width:.8,riceLengthCm:41,riceWidthCm:.97,droop:68,petioleRatio:.12,apexSharpness:0,teeth:9,toothDepth:.09,lobes:5,cut:.67,fanNotch:.23,fanSpread:155,tilt:20,angle:20,venation:'auto',color:'#4f8550',colorOrigin:'参考表示色'};
 const defaultState=()=>({height:4.6,bend:.35,arrangement:'alternate',presetName:null,defaults:{...baseDefault},leaves:[],selectedId:null,yaw:-.45,pitch:.37,zoom:1,revision:1});
+// Loose leaves share the leaf data model; loose=true and position={x,y,z} keep
+// them in world coordinates so they remain in place when the camera rotates.
+
 let state=defaultState();try{const prev=JSON.parse(localStorage.getItem('leaflab-puzzle-v1')||'null');if(prev?.revision===1&&Array.isArray(prev.leaves)&&prev.leaves.length<260)state={...defaultState(),...prev,defaults:{...baseDefault,...prev.defaults},leaves:prev.leaves.map(l=>({...baseDefault,...l}))};}catch{}
 let activePalette=state.defaults.shape,nextId=1,history=[],requestPending=false,savedDisplay='';for(const l of state.leaves)nextId=Math.max(nextId,l.id+1);
 const canvas=$('scene'),view=$('view'),ctx=canvas.getContext('2d'),PI=Math.PI,clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),rad=x=>x*PI/180;
@@ -1174,23 +1171,6 @@ function veinModel(p,l,outline){
    push(pts,Math.abs(offset)<.12?1:2);
   }return veins;
  }
- if(mode==='oleander'){
-  // Oleander: pinnate venation with a thick midrib and numerous, nearly parallel lateral veins.
-  // Unlike monocot parallel venation, lateral veins originate at the midrib.
-  push(line([0,L*.015],[0,L*.98],34),1);
-  for(const side of [-1,1]){
-   for(let i=0;i<17;i++){
-    const y0=L*(.075+i*.046),pts=[];
-    for(let j=0;j<=12;j++){
-     const t=j/12,y=y0+L*.053*t;
-     const half=Math.abs(widthAtY(outline,y,side));
-     pts.push([side*half*.92*t,y]);
-    }
-    push(pts,2);
-   }
-  }
-  return veins;
- }
  if(mode==='triplinerved'){
   // Cinnamomum camphora: central primary with paired basal/suprabasal
   // ascending arcuate primaries, not three straight radial rays.
@@ -1297,8 +1277,21 @@ function makeParts(l){const d=l;
  }
  return [{o:[0,0],rot:0,len:d.size,width:d.size*d.width,shape:d.shape,key:0}];
 }
+function leafRoot(l){
+ const p=l.position;
+ return l.loose&&p&&[p.x,p.y,p.z].every(Number.isFinite)?V(p.x,p.y,p.z):grow(l.t??.5);
+}
+// Inverse of project() on the depth=0 camera plane. This makes a loose leaf's
+// attachment origin coincide with the pointer, including overhead views.
+function screenToWorld(clientX,clientY,C=cameras()){
+ const r=canvas.getBoundingClientRect();
+ const dx=(clientX-r.left-C.cx)/C.base,dy=(C.cy-(clientY-r.top))/C.base;
+ const cp=Math.cos(state.pitch),sp=Math.sin(state.pitch),co=Math.cos(state.yaw),si=Math.sin(state.yaw);
+ const dz=-sp*dy;
+ return {x:co*dx+si*dz,y:(state.arrangement==='rosette'?.30:state.height*.50)+cp*dy,z:-si*dx+co*dz};
+}
 function toWorld(l,xy){
- const at=grow(l.t),a=rad(l.angle),tilt=rad(l.tilt),H=V(Math.cos(a),0,Math.sin(a));
+ const at=leafRoot(l),a=rad(l.angle),tilt=rad(l.tilt),H=V(Math.cos(a),0,Math.sin(a));
  const trans=V(-Math.sin(a),0,Math.cos(a)),long=V(H.x*Math.cos(tilt),Math.sin(tilt),H.z*Math.cos(tilt));
  const up=norm(cross(trans,long));let x=xy[0],y=xy[1];
  if(l.shape==='linear'){
@@ -1324,7 +1317,7 @@ function toWorld(l,xy){
 function compoundAxisWorld(l){
  // Main petiole + rachis are ONE continuous path. The first point is the stem node,
  // not an independently projected leaflet stalk. This fixes pea's floating rachis.
- const root=grow(l.t);
+ const root=leafRoot(l);
  const base=toWorld(l,[0,0]);
  const tip=toWorld(l,[0,l.size*1.05]);
  return [root,base,tip];
@@ -1335,7 +1328,7 @@ function leafParts(l){return makeParts(l).map(p=>{
  const points=margin.map(q=>toWorld(l,tf(q)));
  const veins=veinModel(p,l,margin).map(v=>({points:v.pts.map(q=>toWorld(l,tf(q))),order:v.order}));
  const grouped=['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape);
- return {points,veins,petiole:[grouped?toWorld(l,[0,p.o[1]]):grow(l.t),toWorld(l,p.o)],owner:l};
+ return {points,veins,petiole:[grouped?toWorld(l,[0,p.o[1]]):leafRoot(l),toWorld(l,p.o)],owner:l};
 });}
 const cameras=()=>{
  const r=view.getBoundingClientRect();
@@ -1374,8 +1367,10 @@ function drawCastShadows(C){
  ctx.restore();
 }
 function drawDragPreview(C){
- if(!leafDrag?.active||!leafDrag.snap)return;
- const l={...leafDrag.template,t:leafDrag.snap.t,angle:leafDrag.snap.angle,id:-1};
+ if(!leafDrag?.active)return;
+ const l=leafDrag.snap?{...leafDrag.template,loose:false,position:null,t:leafDrag.snap.t,angle:leafDrag.snap.angle,id:-1}:
+   leafDrag.loosePosition?{...leafDrag.template,loose:true,position:leafDrag.loosePosition,id:-1}:null;
+ if(!l)return;
  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
   // Preview the same continuous axis used by committed leaves.
   const points=compoundAxisWorld(l).map(w=>project(w,C));
@@ -1390,7 +1385,7 @@ function drawDragPreview(C){
   ctx.restore();
   if(l.shape!=='linear'&&l.shape!=='needlePair'){const pts=part.petiole.map(w=>project(w,C));ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);ctx.lineTo(pts[1].x,pts[1].y);ctx.lineWidth=2.1;ctx.strokeStyle='#667e70';ctx.stroke();}
  }
- const stem=project(grow(leafDrag.snap.t),C);ctx.save();ctx.beginPath();ctx.moveTo(stem.x-11,stem.y);ctx.lineTo(stem.x+11,stem.y);ctx.strokeStyle='#2c8250';ctx.lineWidth=4;ctx.lineCap='round';ctx.stroke();ctx.restore();
+ if(leafDrag.snap){const stem=project(grow(leafDrag.snap.t),C);ctx.save();ctx.beginPath();ctx.moveTo(stem.x-11,stem.y);ctx.lineTo(stem.x+11,stem.y);ctx.strokeStyle='#2c8250';ctx.lineWidth=4;ctx.lineCap='round';ctx.stroke();ctx.restore();}
 }
 // Occlusion correction: stem and leaf surfaces are compared at their actual
 // projected intersection, rather than ordering the entire leaf by its average
@@ -1518,23 +1513,23 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  things.sort((a,b)=>a.dep-b.dep);
  for(const item of things){if(item.kind==='tendril'){
    ctx.beginPath();item.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
-   ctx.strokeStyle=shade(item.owner.color||'#67905e',-.32);ctx.lineWidth=1.6;ctx.lineCap='round';ctx.stroke();continue;
+   ctx.strokeStyle=item.owner.loose?'#7a8580':shade(item.owner.color||'#67905e',-.32);ctx.lineWidth=1.6;ctx.lineCap='round';ctx.stroke();continue;
   }if(item.kind==='compoundAxis'){
    ctx.beginPath();item.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
    ctx.lineCap='round';ctx.lineJoin='round';
    ctx.lineWidth=['coniferSpray','cedarSpray'].includes(item.owner.shape)?1.5:3;
-   ctx.strokeStyle=shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
+   ctx.strokeStyle=item.owner.loose?'#7e8a84':shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
   }
   const l=item.owner,poly=item.poly;ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
   const selected=l.id===state.selectedId;
-  const baseColor=l.color||SHAPE_COLORS[l.shape]||'#4f8550';
+  const baseColor=l.loose?'#a3aeaa':(l.color||SHAPE_COLORS[l.shape]||'#4f8550');
   let minY=Math.min(...poly.map(p=>p.y)),maxY=Math.max(...poly.map(p=>p.y));
   const gradient=ctx.createLinearGradient(0,minY,0,maxY||minY+1);
   gradient.addColorStop(0,shade(baseColor,.105));gradient.addColorStop(.52,baseColor);gradient.addColorStop(1,shade(baseColor,-.16));
   ctx.fillStyle=gradient;ctx.fill('nonzero');
-  ctx.strokeStyle=selected?'#214c32':shade(baseColor,-.24);ctx.lineWidth=selected?2.25:.9;ctx.stroke();
+  ctx.strokeStyle=selected?(l.loose?'#596b63':'#214c32'):shade(baseColor,-.24);ctx.lineWidth=selected?2.25:.9;ctx.stroke();
   if(l.shape!=='linear'&&l.shape!=='needlePair'){const pet=item.petiole;ctx.beginPath();ctx.moveTo(pet[0].x,pet[0].y);ctx.lineTo(pet[1].x,pet[1].y);ctx.strokeStyle=shade(baseColor,-.21);ctx.lineWidth=clamp(scale*.017,1.2,2.8);ctx.stroke();}
-  if(l.speciesName==='ツユクサ'){const sleeveTop=project(grow(l.t),C),sleeveBottom=project(grow(Math.max(.01,l.t-.032)),C);ctx.beginPath();ctx.moveTo(sleeveBottom.x,sleeveBottom.y);ctx.lineTo(sleeveTop.x,sleeveTop.y);ctx.lineWidth=clamp(scale*.045,3.0,7.5);ctx.strokeStyle=shade(baseColor,.22);ctx.globalAlpha=.84;ctx.stroke();ctx.globalAlpha=1;}
+  if(l.speciesName==='ツユクサ'&&!l.loose){const sleeveTop=project(grow(l.t),C),sleeveBottom=project(grow(Math.max(.01,l.t-.032)),C);ctx.beginPath();ctx.moveTo(sleeveBottom.x,sleeveBottom.y);ctx.lineTo(sleeveTop.x,sleeveTop.y);ctx.lineWidth=clamp(scale*.045,3.0,7.5);ctx.strokeStyle=shade(baseColor,.22);ctx.globalAlpha=.84;ctx.stroke();ctx.globalAlpha=1;}
   if(veinsVisible){ctx.save();ctx.beginPath();poly.forEach((q,i)=>i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y));ctx.closePath();ctx.clip();
    for(const v of item.veins){if(v.points.length<2)continue;ctx.beginPath();v.points.forEach((q,i)=>i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y));
     ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=v.order===1?1.65:v.order===2?.95:.50;
@@ -1556,7 +1551,8 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  }
  // The selected leaf is highlighted at its outline; no node circles are drawn.
  drawDragPreview(C);
- $('count').textContent=`葉 ${state.leaves.length}枚 / 節 ${new Set(state.leaves.map(l=>l.t.toFixed(3))).size}`;
+ const attached=state.leaves.filter(l=>!l.loose),loose=state.leaves.length-attached.length;
+ $('count').textContent=`接続 ${attached.length}枚 / 未接続 ${loose}枚 / 節 ${new Set(attached.map(l=>l.t.toFixed(3))).size}`;
 }
 function drawSoon(){if(!requestPending){requestPending=true;requestAnimationFrame(render)}}
 function polygonHit(x,y,pts){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)inside=!inside;}return inside;}
@@ -1564,7 +1560,7 @@ function hitTest(x,y){for(let i=hitLeaves.length-1;i>=0;i--)if(polygonHit(x,y,hi
  for(const n of hitNodes){if(Math.hypot(x-n.x,y-n.y)<n.r)return {type:'node',t:n.t};}
  let best={d:Infinity,t:.5};for(let i=0;i<=160;i++){let t=i/160,p=project(grow(t),cameras()),d=Math.hypot(x-p.x,y-p.y);if(d<best.d)best={d,t};}if(best.d<27)return {type:'node',t:snapStemT(best.t)};return {type:'none'};}
 function addLeaf(t,shape=activePalette){t=snapStemT(t);if(state.leaves.length>190){toast('葉は190枚まで配置できます');return;}commit();const base={...state.defaults,shape},arr=state.arrangement;
- const nodes=state.leaves.reduce((n,l)=>n.some(v=>Math.abs(v-l.t)<.024)?n:(n.push(l.t),n),[]).sort((a,b)=>a-b);
+ const nodes=state.leaves.filter(l=>!l.loose).reduce((n,l)=>n.some(v=>Math.abs(v-l.t)<.024)?n:(n.push(l.t),n),[]).sort((a,b)=>a-b);
  const idx=nodes.length,baseAngle=(arr==='opposite'?idx*90:arr==='distichous'?idx*180:idx*(state.presetName?fractionAngle(state.presetName):137.5))%360;
  let angles=arr==='opposite'?[baseAngle,baseAngle+180]:arr==='whorled'?[baseAngle,baseAngle+120,baseAngle+240]:arr==='rosette'?[baseAngle]:arr==='free'?[base.angle]:[baseAngle];
  if(arr==='rosette')t=.07+(idx%3)*.007;
@@ -1585,7 +1581,7 @@ function syncUI(){const c=current();$('arrangement').value=state.arrangement;con
  if(venationRow)venationRow.style.display=['needlePair','cedarSpray','coniferSpray'].includes(c.shape)?'none':'';
  for(const btn of $('palette').querySelectorAll('.shape-btn'))btn.classList.toggle('active',btn.dataset.shape===activePalette);
  $('leafDetail').innerHTML=detailedPreview(c);$('leafColor').value=/^#[0-9a-fA-F]{6}$/.test(c.color||'')?c.color:SHAPE_COLORS[c.shape]||'#4f8550';$('leafColorHex').textContent=$('leafColor').value.toUpperCase();$('colorSource').textContent=c.colorOrigin||'参考表示色（実測値ではありません）';$('venation').value=c.venation||'auto';
- $('currentShapeName').textContent=SHAPES.find(s=>s.id===c.shape)?.name||'葉';$('modePill').textContent=state.selectedId==null?'次に置く葉':'選択した葉';$('editIndicator').textContent=state.selectedId==null?(state.leaves.length?'数値調整はすべての葉に反映・形選択は次の葉':'茎をクリックするとこの形で追加'):'パラメータの変更がこの葉に反映';$('delete').disabled=state.selectedId==null;$('duplicate').disabled=state.selectedId==null;
+ $('currentShapeName').textContent=SHAPES.find(s=>s.id===c.shape)?.name||'葉';$('modePill').textContent=state.selectedId==null?'次に置く葉':c.loose?'未接続の葉':'選択した葉';$('editIndicator').textContent=state.selectedId==null?(state.leaves.length?'数値調整はすべての葉に反映・形選択は次の葉':'茎をクリックするとこの形で追加'):c.loose?'未接続の葉：グレーのまま移動・再接続できます':'パラメータの変更がこの葉に反映';$('delete').disabled=state.selectedId==null;$('duplicate').disabled=state.selectedId==null;
 }
 function detailedPreview(c){
  const parts=makeParts(c),data=[],vertices=[];
@@ -1633,7 +1629,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  for(const item of sliderFields){const el=document.createElement('div');el.className='slider-control';el.innerHTML=`<div class="slider-label"><span>${item.name}</span><strong id="v_${item.id}"></strong></div><input id="s_${item.id}" type="range" min="${item.min}" max="${item.max}" step="${item.step}"><div class="slider-hint">${item.hint||''}</div>`;$('sliders').appendChild(el);let held=false;const input=el.querySelector('input');input.addEventListener('pointerdown',()=>{commit();held=true});input.addEventListener('input',()=>{const v=Number(input.value);if(!held)commit();held=true;setting(item.id,v,true)});input.addEventListener('change',()=>{held=false;persist()});input.addEventListener('pointerup',()=>held=false);}
  const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/';
  const LIBRARY_META={
-  'ミント（スペアミント）':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'linearLike'},
+  'ミント':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'simpleBroad'},
   'バジル':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'simpleBroad'},
   'キョウチクトウ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'whorledLike',shapeGroup:'linearLike'},
   'モクレン':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
@@ -1675,7 +1671,7 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  const LIBRARY_CONFIG={
   seed:{
    intro:'被子植物・裸子植物、および学校で扱う双子葉類・単子葉類と草本植物・木本植物の組み合わせで見られます。',
-   footnote:'「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキとモクレンは現代のAPG分類ではモクレン類で、真正双子葉類とは区別されます。',
+   footnote:'「種子植物の分類」は、学校理科の学習に合わせた見せ方です。クスノキは現代のAPG分類ではモクレン類です。',
    sections:[
     {type:'matrix',title:'被子植物',note:'種子が果実に包まれる植物。学校理科で用いる双子葉類・単子葉類で示します。',cols:['双子葉類','単子葉類'],rows:['草本植物','木本植物'],colsClass:'cols-2',key:(n,m)=>m.seedGroup==='angio'?(m.habit==='herb'?'草本植物':'木本植物')+'|'+(m.cotyledon==='monocot'?'単子葉類':'双子葉類'):null},
     {type:'matrix',title:'裸子植物',note:'種子がむき出しになる植物。現在の見本では木本植物のみです。',cols:['裸子植物'],rows:['草本植物','木本植物'],colsClass:'cols-1',key:(n,m)=>m.seedGroup==='gym'?(m.habit==='herb'?'草本植物':'木本植物')+'|裸子植物':null}
@@ -1964,12 +1960,12 @@ function renderLibrary(view=currentLibraryView,animate=true){
  });
  document.addEventListener('fullscreenchange',applyFullscreenLabel);
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fauxFullscreen)leaveFauxFullscreen();});
- $('undo').onclick=undo;$('reset').onclick=reset;$('home').onclick=()=>{state.yaw=-.45;state.pitch=.37;state.zoom=1;persist();drawSoon()};$('zoomIn').onclick=()=>{state.zoom=clamp(state.zoom*1.18,.4,3);persist();drawSoon()};$('zoomOut').onclick=()=>{state.zoom=clamp(state.zoom/1.18,.4,3);persist();drawSoon()};
+ $('undo').onclick=undo;$('reset').onclick=reset;$('home').onclick=()=>{state.yaw=-.45;state.pitch=.37;state.zoom=1;persist();drawSoon()};$('viewTop').onclick=()=>{state.pitch=1.56;persist();drawSoon()};$('viewBottom').onclick=()=>{state.pitch=-1.56;persist();drawSoon()};$('zoomIn').onclick=()=>{state.zoom=clamp(state.zoom*1.18,.4,3);persist();drawSoon()};$('zoomOut').onclick=()=>{state.zoom=clamp(state.zoom/1.18,.4,3);persist();drawSoon()};
  $('delete').onclick=()=>{if(state.selectedId==null)return;commit();state.leaves=state.leaves.filter(l=>l.id!==state.selectedId);state.selectedId=null;persist();syncUI();updateMatches();drawSoon()};
- $('duplicate').onclick=()=>{let original=state.leaves.find(l=>l.id===state.selectedId);if(!original)return;commit();state.leaves.push({...original,id:nextId++,angle:(original.angle+45)%360,t:clamp(original.t+.032,.02,.96)});state.selectedId=state.leaves.at(-1).id;persist();syncUI();updateMatches();drawSoon()};
+ $('duplicate').onclick=()=>{let original=state.leaves.find(l=>l.id===state.selectedId);if(!original)return;commit();state.leaves.push({...original,id:nextId++,angle:(original.angle+45)%360,t:clamp(original.t+.032,.02,.96),position:original.loose?{x:original.position.x+.25,y:original.position.y+.18,z:original.position.z}:null});state.selectedId=state.leaves.at(-1).id;persist();syncUI();updateMatches();drawSoon()};
  $('save').onclick=()=>{const link=document.createElement('a');link.href=canvas.toDataURL('image/png');link.download='leaf-lab-plant.png';link.click();toast('3Dモデルを画像に保存しました')};
  $('exportJSON').onclick=()=>download(new Blob([JSON.stringify({application:'LEAF LAB',version:6,model:state},null,2)],{type:'application/json'}),'leaf-lab-project.json');
- $('importJSON').onclick=()=>$('fileInput').click();$('fileInput').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const obj=JSON.parse(await file.text());const s=obj.model;if(!s||!Array.isArray(s.leaves)||s.leaves.length>200||!s.defaults)throw Error('invalid');commit();state={...defaultState(),...s};state.defaults={...baseDefault,...s.defaults};state.leaves=state.leaves.filter(l=>SHAPES.some(a=>a.id===l.shape)&&Number.isFinite(l.t)).map(l=>({...baseDefault,...l,t:clamp(l.t,0,1)}));state.selectedId=null;activePalette=state.defaults.shape;nextId=Math.max(1,...state.leaves.map(l=>l.id+1));syncUI();persist();updateMatches();drawSoon();toast('プロジェクトを読み込みました')}catch{toast('読み込めないJSONファイルです')}finally{e.target.value=''}};
+ $('importJSON').onclick=()=>$('fileInput').click();$('fileInput').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const obj=JSON.parse(await file.text());const s=obj.model;if(!s||!Array.isArray(s.leaves)||s.leaves.length>200||!s.defaults)throw Error('invalid');commit();state={...defaultState(),...s};state.defaults={...baseDefault,...s.defaults};state.leaves=state.leaves.filter(l=>SHAPES.some(a=>a.id===l.shape)&&Number.isFinite(l.t)&&(!l.loose||l.position&&[l.position.x,l.position.y,l.position.z].every(Number.isFinite))).map(l=>({...baseDefault,...l,t:clamp(l.t,0,1)}));state.selectedId=null;activePalette=state.defaults.shape;nextId=Math.max(1,...state.leaves.map(l=>l.id+1));syncUI();persist();updateMatches();drawSoon();toast('プロジェクトを読み込みました')}catch{toast('読み込めないJSONファイルです')}finally{e.target.value=''}};
 
  syncUI();updateMatches();drawSoon();}
 
@@ -1980,28 +1976,28 @@ function loadPreset(name){const p=PRESETS[name];if(!p)return;commit();const oldC
   if(name==='ツツジ')t=.47+j*.055;
   if(name==='セイタカアワダチソウ')t=.13+j*.075;
   if(name==='ススキ')t=.12+j*.10;
-  const baseAngle=j*(p.arrangement==='opposite'?90:p.arrangement==='distichous'?180:p.arrangement==='whorled'?60:fractionAngle(name)),angles=p.arrangement==='whorled'?[baseAngle,baseAngle+120,baseAngle+240]:(p.arrangement==='opposite'||name==='ヒマワリ'&&j<2)?[baseAngle,baseAngle+180]:[baseAngle];for(const angle of angles)state.leaves.push({...state.defaults,id:nextId++,t,angle:angle%360});}
+  const baseAngle=j*(p.arrangement==='opposite'?90:p.arrangement==='distichous'?180:fractionAngle(name)),angles=(p.arrangement==='opposite'||name==='ヒマワリ'&&j<2)?[baseAngle,baseAngle+180]:[baseAngle];for(const angle of angles)state.leaves.push({...state.defaults,id:nextId++,t,angle:angle%360});}
  persist();syncUI();updateMatches();drawSoon();toast(`${name}の葉序モデルを読み込みました`);}
-function getTraits(){if(!state.leaves.length)return null;
- const nodes=[];for(const l of [...state.leaves].sort((a,b)=>a.t-b.t)){let n=nodes.find(n=>Math.abs(n.t-l.t)<.023);if(!n){n={t:l.t,ls:[]};nodes.push(n)}n.ls.push(l);}
- let num=nodes.map(n=>n.ls.length),arr='mixed';if(nodes.every(n=>n.t<.13)&&state.leaves.length>=3)arr='rosette';else if(num.every(n=>n===3))arr='whorled';else if(num.every(n=>n===2))arr='opposite';else if(num.every(n=>n===1)){
+function getTraits(){const attached=state.leaves.filter(l=>!l.loose);if(!attached.length)return null;
+ const nodes=[];for(const l of [...attached].sort((a,b)=>a.t-b.t)){let n=nodes.find(n=>Math.abs(n.t-l.t)<.023);if(!n){n={t:l.t,ls:[]};nodes.push(n)}n.ls.push(l);}
+ let num=nodes.map(n=>n.ls.length),arr='mixed';if(nodes.every(n=>n.t<.13)&&attached.length>=3)arr='rosette';else if(num.every(n=>n===3))arr='whorled';else if(num.every(n=>n===2))arr='opposite';else if(num.every(n=>n===1)){
   arr='alternate';if(nodes.length>2){let gaps=nodes.slice(1).map((n,i)=>{let a=n.ls[0].angle-nodes[i].ls[0].angle;return Math.abs(((a%360+360)%360)-180)});if(gaps.reduce((s,v)=>s+v,0)/gaps.length<21)arr='distichous';}
  } else if(num.length===1)arr=num[0]===1?'free':'mixed';
- const counts={};for(const l of state.leaves)counts[l.shape]=(counts[l.shape]||0)+1;const shape=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0];
- const subset=state.leaves.filter(l=>l.shape===shape);const ser=subset.reduce((a,l)=>a+((l.teeth>1&&l.toothDepth>.015)?1:0),0)/subset.length>=.5?1:0;
+ const counts={};for(const l of attached)counts[l.shape]=(counts[l.shape]||0)+1;const shape=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0];
+ const subset=attached.filter(l=>l.shape===shape);const ser=subset.reduce((a,l)=>a+((l.teeth>1&&l.toothDepth>.015)?1:0),0)/subset.length>=.5?1:0;
  const nLobes=Math.round(subset.reduce((a,l)=>a+l.lobes,0)/subset.length),meanWidth=subset.reduce((a,l)=>a+l.width,0)/subset.length;
- const adequateNodes=nodes.length>=2||state.leaves.length>=3;
- return {arr:adequateNodes?arr:'free',shape,ser,lobes:nLobes,meanWidth,nodes:nodes.length,count:state.leaves.length,adequateNodes};
+ const adequateNodes=nodes.length>=2||attached.length>=3;
+ return {arr:adequateNodes?arr:'free',shape,ser,lobes:nLobes,meanWidth,nodes:nodes.length,count:attached.length,adequateNodes};
 }
 function escapeHTML(text){return String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function updateMatches(){const t=getTraits();if(!t){$('traits').innerHTML='<div><small>葉序</small><strong>—</strong></div><div><small>葉形</small><strong>—</strong></div><div><small>葉縁</small><strong>—</strong></div><div><small>葉の数</small><strong>0枚</strong></div>';$('matches').innerHTML='<div class="empty">茎に葉をつけると、特徴の近い植物がここに表示されます。</div>';$('resultCount').textContent='—';return;}
+function updateMatches(){const t=getTraits();if(!t){$('traits').innerHTML='<div><small>葉序</small><strong>—</strong></div><div><small>葉形</small><strong>—</strong></div><div><small>葉縁</small><strong>—</strong></div><div><small>葉の数</small><strong>0枚</strong></div>';$('matches').innerHTML='<div class="empty">グレーの葉は未接続です。茎に葉をつけると、特徴の近い植物がここに表示されます。</div>';$('resultCount').textContent='—';return;}
  $('traits').innerHTML=`<div><small>葉序</small><strong>${t.adequateNodes?(ARR[t.arr]||'未判定'):'保留（節が不足）'}</strong></div><div><small>最も多い葉形</small><strong>${SHAPES.find(s=>s.id===t.shape)?.name}</strong></div><div><small>葉縁</small><strong>${t.ser?'鋸歯あり':'全縁寄り'}</strong></div><div><small>葉の数 / 節</small><strong>${t.count}枚 / ${t.nodes}節</strong></div>`;
  const ranking=SPECIES.map(s=>{
   let reason=[],minus=[];let arr=0;if(!t.adequateNodes){arr=16;reason.push('葉序は未確定');}else if(s.arr.includes(t.arr)){arr=42;reason.push('葉序が一致');}else if(t.arr==='alternate'&&s.arr.includes('distichous'))arr=35;else if(t.arr==='distichous'&&s.arr.includes('alternate'))arr=35;else if(t.arr==='mixed')arr=6;else minus.push('葉序は異なる');
   let shape=s.shape.includes(t.shape)?37:0;if(shape)reason.push('葉の構造・輪郭が近い');else if((t.shape==='obovate'&&s.shape.includes('ovate'))||(t.shape==='ovate'&&s.shape.includes('obovate'))||(t.shape==='ovate'&&s.shape.includes('elliptic'))||(t.shape==='elliptic'&&s.shape.includes('ovate'))||(t.shape==='lance'&&s.shape.includes('linear'))||(t.shape==='linear'&&s.shape.includes('lance'))){shape=17;reason.push('葉の輪郭が一部近い');}else if(t.shape==='palm'&&s.shape.includes('compound')){shape=9;minus.push('単葉と複葉が異なる')}else if(t.shape==='compound'&&s.shape.includes('palm')){shape=9;minus.push('単葉と複葉が異なる')}else minus.push('葉形は異なる');
   const serr=s.ser===t.ser?14:0;if(serr)reason.push('葉縁が近い');else minus.push('葉縁は異なる');
   let lobe=0;if((s.shape.includes('palm')||s.shape.includes('compound'))&&['palm','compound'].includes(t.shape)){lobe=Math.max(0,7-Math.abs((s.lobes||5)-t.lobes)*1.7);if(lobe>5)reason.push('裂片・小葉の数が近い');}
-  const idealWidth=s.name==='ミント（スペアミント）'?.44:s.name==='バジル'?.73:s.name==='キョウチクトウ'?.205:s.name==='モクレン'?.70:s.name==='ブナ'?.65:s.name==='セイタカアワダチソウ'?.28:s.name==='ススキ'?.020:s.name==='ツツジ'?.55:s.name==='ヒマワリ'?.90:s.name==='エンドウ'?.72:s.name==='サツキ'?.30:s.name==='スギ'?.19:s.name==='オオバコ'?.65:s.name==='ウルシ'?.68:s.name==='カヤツリグサ'?.014:s.name==='ソメイヨシノ'?.60:s.name==='メタセコイア'?.28:s.name==='イチゴ'?1.03:s.name==='キャベツ'?1.12:s.name==='コナラ'?.47:s.name==='クヌギ'?.27:s.name==='シイ（スダジイ）'?.46:s.name==='タンポポ'?.31:s.name==='マツ（アカマツ）'?.05:s.name==='オリーブ'?.29:s.name==='キョウチクトウ'?.36:s.shape.includes('morning')?1.04:s.shape.includes('linear')?.32:s.shape.includes('lance')?.47:s.shape.includes('fan')?1.2:s.shape.includes('palm')||s.shape.includes('compound')?1.03:s.shape.includes('trifoliate')?1.05:.77;
+  const idealWidth=s.name==='ミント'?.51:s.name==='バジル'?.78:s.name==='キョウチクトウ'?.25:s.name==='モクレン'?.75:s.name==='ブナ'?.65:s.name==='セイタカアワダチソウ'?.28:s.name==='ススキ'?.020:s.name==='ツツジ'?.55:s.name==='ヒマワリ'?.90:s.name==='エンドウ'?.72:s.name==='サツキ'?.30:s.name==='スギ'?.19:s.name==='オオバコ'?.65:s.name==='ウルシ'?.68:s.name==='カヤツリグサ'?.014:s.name==='ソメイヨシノ'?.60:s.name==='メタセコイア'?.28:s.name==='イチゴ'?1.03:s.name==='キャベツ'?1.12:s.name==='コナラ'?.47:s.name==='クヌギ'?.27:s.name==='シイ（スダジイ）'?.46:s.name==='タンポポ'?.31:s.name==='マツ（アカマツ）'?.05:s.name==='オリーブ'?.29:s.name==='キョウチクトウ'?.36:s.shape.includes('morning')?1.04:s.shape.includes('linear')?.32:s.shape.includes('lance')?.47:s.shape.includes('fan')?1.2:s.shape.includes('palm')||s.shape.includes('compound')?1.03:s.shape.includes('trifoliate')?1.05:.77;
   const widthScore=Math.max(0,7-10*Math.abs(t.meanWidth-idealWidth));
   return {...s,score:Math.min(100,Math.round(arr+shape+serr+lobe+widthScore)),reason,minus};
  }).sort((a,b)=>b.score-a.score);
@@ -2034,7 +2030,7 @@ function nearestStemScreen(x,y){
  return best&&best.distance<=Math.min(78,Math.max(53,r.width*.095))?{t:snapStemT(best.t),distance:best.distance}:null;
 }
 function autoAngleAt(t){
- const below=state.leaves.filter(l=>l.t<t-.022);const arr=state.arrangement;
+ const below=state.leaves.filter(l=>!l.loose&&l.t<t-.022);const arr=state.arrangement;
  const idx=[...new Set(below.map(l=>l.t.toFixed(2)))].length;
  return (arr==='distichous'?idx*180:arr==='opposite'?idx*90:arr==='whorled'?idx*120:idx*(state.presetName?fractionAngle(state.presetName):137.5))%360;
 }
@@ -2053,37 +2049,42 @@ function updateLeafDrag(x,y){
  if(!leafDrag?.active)return;
  leafDrag.x=x;leafDrag.y=y;
  const near=nearestStemScreen(x,y),isTrash=leafDrag.source==='leaf'&&inReturnZone(x,y);
- leafDrag.snap=near&&!isTrash?{t:near.t,angle:aimAngle(near.t,x,y,leafDrag.template,leafDrag.source==='leaf'?leafDrag.template.angle:null)}:null;
+ const r=canvas.getBoundingClientRect(),inside=pointerInside(r,x,y);
+ leafDrag.snap=near&&!isTrash?{t:near.t,angle:aimAngle(near.t,x,y,leafDrag.template,leafDrag.template.loose?null:leafDrag.template.angle)}:null;
+ leafDrag.loosePosition=inside&&!leafDrag.snap?screenToWorld(x+(leafDrag.offsetX||0),y+(leafDrag.offsetY||0)):null;
  paletteReturn.classList.toggle('trash-hover',isTrash);
- ghost.style.display=leafDrag.snap?'none':'flex';ghost.style.left=x+'px';ghost.style.top=y+'px';ghost.classList.toggle('snap',!!leafDrag.snap);
- ghost.lastElementChild.textContent=isTrash?'離すと削除':leafDrag.snap?'茎に吸着':'未接続（グレー）';
+ ghost.style.display=(inside||leafDrag.snap)?'none':'flex';
+ ghost.style.left=x+'px';ghost.style.top=y+'px';ghost.classList.toggle('snap',!!leafDrag.snap);
  drawSoon();
 }
 function beginLeafDrag(source,id,shape,x,y){
  const original=source==='leaf'?state.leaves.find(l=>l.id===id):null;
  const template=original?{...original}:makeLeafTemplate(shape);
- leafDrag={source,id,template,x,y,active:true,snap:null};view.classList.add('dragging-leaf');
- ghost.innerHTML=makePreview(template.shape)+'<span>未接続（グレー）</span>';
+ let offsetX=0,offsetY=0;
+ if(original?.loose){const pt=project(leafRoot(original),cameras()),r=canvas.getBoundingClientRect();offsetX=r.left+pt.x-x;offsetY=r.top+pt.y-y;}
+ leafDrag={source,id,template,x,y,active:true,snap:null,loosePosition:null,offsetX,offsetY};view.classList.add('dragging-leaf');
+ // The pointer carries the real gray leaf silhouette, not a small boxed icon.
+ ghost.innerHTML=makePreview(template.shape);
  ghost.style.display='flex';updateLeafDrag(x,y);
 }
 function finishLeafDrag(x,y,canceled=false){
  if(!leafDrag)return;
  const drag=leafDrag;
- // Re-evaluate destination at final pointer location, independent of last move frame.
  updateLeafDrag(x,y);
- const snap=drag.snap,isTrash=drag.source==='leaf'&&inReturnZone(x,y);
+ const snap=drag.snap,loosePosition=drag.loosePosition,isTrash=drag.source==='leaf'&&inReturnZone(x,y);
  leafDrag=null;ghost.style.display='none';paletteReturn.classList.remove('trash-hover');view.classList.remove('dragging-leaf');
  if(!canceled&&isTrash){commit();state.leaves=state.leaves.filter(l=>l.id!==drag.id);state.selectedId=null;toast('葉をパレットに戻して削除しました');}
- else if(!canceled&&snap){
+ else if(!canceled&&(snap||loosePosition)){
+  if(drag.source==='palette'&&state.leaves.length>=190){toast('葉は190枚まで配置できます');drawSoon();return;}
+  commit();
+  const changes=snap?{t:snap.t,angle:snap.angle,loose:false,position:null}:{t:.5,angle:drag.template.angle??0,loose:true,position:loosePosition};
   if(drag.source==='palette'){
-   if(state.leaves.length>=190){toast('葉は190枚まで配置できます');drawSoon();return;}
-   commit();let newLeaf={...drag.template,id:nextId++,t:snap.t,angle:snap.angle};state.leaves.push(newLeaf);state.selectedId=newLeaf.id;activePalette=newLeaf.shape;
-   toast('茎に葉を1枚挿しました');
+   const newLeaf={...drag.template,id:nextId++,...changes};state.leaves.push(newLeaf);state.selectedId=newLeaf.id;activePalette=newLeaf.shape;
   }else{
-   commit();const target=state.leaves.find(l=>l.id===drag.id);if(target){target.t=snap.t;target.angle=snap.angle;state.selectedId=target.id;}
-   toast('葉を茎に挿し直しました');
+   const target=state.leaves.find(l=>l.id===drag.id);if(target){Object.assign(target,changes);state.selectedId=target.id;}
   }
- }else if(!canceled&&drag.source==='leaf')toast('葉を茎か左のパレットへ運んでください（元の位置に戻しました）');
+  toast(snap?'茎の節に接続しました':'グレーの葉を3D空間に置きました（あとから移動・接続できます）');
+ }else if(!canceled&&drag.source==='leaf')toast('葉を元の位置に戻しました');
  persist();syncUI();updateMatches();drawSoon();
 }
 
@@ -2274,7 +2275,7 @@ canvas.addEventListener('pointermove',e=>{
   if(leafDrag?.active)updateLeafDrag(e.clientX,e.clientY);
   else if(dragging.hit.type!=='leaf'){
    state.yaw=dragging.yaw-dx*.009; // corrected: content follows the pointer horizontally
-   state.pitch=clamp(dragging.pitch+dy*.007,-.38,1.25);drawSoon();
+   state.pitch=clamp(dragging.pitch+dy*.007,-1.56,1.56);drawSoon();
   }
  }
 });
