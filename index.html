@@ -284,6 +284,54 @@ body.fullscreen-fallback{overflow:hidden}
 .drag-ghost svg{width:80px;height:94px;opacity:.92;filter:grayscale(1) saturate(0) contrast(.96) drop-shadow(0 2px 3px #0002)}
 .drag-ghost.snap{background:transparent;border:0}
 @media(max-width:600px){.drag-ghost{width:69px;height:83px}.drag-ghost svg{width:66px;height:79px}}
+
+/* v26 — slide-away left/right menus; canvas expands in freed space */
+@media(min-width:901px){
+  .shell{--left-drawer-width:285px;--right-drawer-width:340px;grid-template-columns:var(--left-drawer-width) minmax(0,1fr) var(--right-drawer-width);transition:grid-template-columns .32s cubic-bezier(.2,.7,.2,1);overflow:hidden}
+  .shell>.side{min-width:0;max-width:100%;transition:transform .32s cubic-bezier(.2,.7,.2,1),opacity .26s ease}
+  body.panel-left-collapsed .shell{--left-drawer-width:0px}
+  body.panel-right-collapsed .shell{--right-drawer-width:0px}
+  body.panel-left-collapsed .shell>.left,body.panel-right-collapsed .shell>.right{pointer-events:none;opacity:0;padding-left:0;padding-right:0;border:0;overflow:hidden}
+  body.panel-left-collapsed .shell>.left{transform:translateX(-100%)}
+  body.panel-right-collapsed .shell>.right{transform:translateX(100%)}
+}
+@media(min-width:901px) and (max-width:1180px){.shell{--left-drawer-width:240px;--right-drawer-width:290px}}
+/* Always keep a small handle at each edge of the 3D stage. */
+.panel-toggle{position:absolute;top:51%;transform:translateY(-50%);z-index:16;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:114px;width:30px;padding:11px 4px;background:#ffffffee;color:#3c6f52;border:1px solid #b7cdb8;box-shadow:0 3px 16px #173b2730;cursor:pointer;touch-action:manipulation;transition:background .16s,box-shadow .16s;backdrop-filter:blur(7px)}
+.panel-toggle:hover,.panel-toggle:focus-visible{background:#e8f3e5;box-shadow:0 3px 17px #173b2740}
+.panel-toggle:focus-visible{outline:2px solid #287b58;outline-offset:-2px}
+.panel-toggle-left{left:0;border-radius:0 10px 10px 0;border-left:0}
+.panel-toggle-right{right:0;border-radius:10px 0 0 10px;border-right:0}
+.panel-toggle .panel-toggle-label{writing-mode:vertical-rl;white-space:nowrap;font-size:10px;font-weight:750;letter-spacing:.1em}
+.panel-toggle .panel-toggle-arrow{font-size:18px;font-weight:700;line-height:1}
+.panel-screen{display:none}
+@media(max-width:900px){
+  .shell{display:block;position:relative;height:auto;min-height:0;max-width:none;overflow:visible}
+  .shell>.view{width:100%;height:calc(100dvh - var(--drawer-header-height,72px));min-height:340px;max-height:none;grid-column:auto;grid-row:auto;order:0}
+  .shell>.side{display:block;position:fixed;top:var(--drawer-header-height,72px);bottom:0;height:auto;max-width:82vw;width:min(340px,82vw);min-width:0;z-index:22;overflow-y:auto;background:#fff;padding:18px 16px;box-shadow:0 9px 34px #21362836;transition:transform .32s cubic-bezier(.2,.7,.2,1),visibility .32s;grid-column:auto;grid-row:auto}
+  .shell>.left{left:0;right:auto;border-right:1px solid var(--line);border-left:0}
+  .shell>.right{right:0;left:auto;border-left:1px solid var(--line);border-right:0;border-top:0}
+  body.panel-left-collapsed .shell>.left{transform:translateX(-105%);visibility:hidden;pointer-events:none}
+  body.panel-right-collapsed .shell>.right{transform:translateX(105%);visibility:hidden;pointer-events:none}
+  .panel-toggle{position:fixed;top:53%;z-index:25;transform:translateY(-50%);transition:left .32s cubic-bezier(.2,.7,.2,1),right .32s cubic-bezier(.2,.7,.2,1),background .16s}
+  .panel-toggle-left{left:0}
+  .panel-toggle-right{right:0}
+  body:not(.panel-left-collapsed) .panel-toggle-left{left:min(340px,82vw)}
+  body:not(.panel-right-collapsed) .panel-toggle-right{right:min(340px,82vw)}
+  .panel-screen{position:fixed;inset:var(--drawer-header-height,72px) 0 0;z-index:20;background:#19271d46}
+  body.panel-overlay-open .panel-screen{display:block}
+  .view .viewport-top{left:42px;right:42px}
+}
+@media(max-width:600px){
+  .shell>.view{height:calc(100dvh - var(--drawer-header-height,72px));min-height:300px}
+  .shell>.side{padding:17px 14px}
+  .panel-toggle{top:55%;width:30px;min-height:103px}
+  .view .viewport-top{left:38px;right:38px}
+  .view .labeltag{display:none}
+  .view .view-controls{margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+}
+@media(prefers-reduced-motion:reduce){.shell,.shell>.side,.panel-toggle{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -292,7 +340,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="header-actions"><button class="btn" id="undo" title="1操作戻す">↶ 戻す</button><button class="btn" id="reset">新しく作る</button><button class="btn primary" id="save">保存する ↓</button></div>
 </header>
 <main class="shell">
-<aside class="side left">
+<aside class="side left" id="leftPanel" aria-label="葉を組み立てるメニュー">
   <p class="section-kicker">01 / BUILD</p><h2 class="h2">葉を組み立てる</h2><p class="sub">葉をつかんで茎へ運びます。灰色の葉が茎に近づくと最寄りの節に吸着し、離すと緑になります。茎についた葉もドラッグで別の節へ挿し直せます。</p>
   <div class="small-heading">葉の形 <span>21パターン</span></div>
   <div class="palette" id="palette"></div><div id="paletteReturn" aria-label="葉を戻して削除する領域">↶ 葉をここへ戻すと削除</div>
@@ -319,10 +367,12 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="footer-note">自動保存対応 · 葉の右クリック／長押しで複製・削除、背景ドラッグで回転できます。データは端末のブラウザにのみ保存されます。</div>
 </aside>
 <section class="view" id="view"><canvas id="scene" aria-label="回転可能な三次元植物モデル"></canvas>
+  <button class="panel-toggle panel-toggle-left" type="button" id="toggleLeftPanel" aria-label="葉を組み立てるメニューを閉じる" aria-controls="leftPanel" aria-expanded="true" title="左メニューを出し入れ"><span class="panel-toggle-arrow" aria-hidden="true">‹</span><span class="panel-toggle-label" aria-hidden="true">葉の設定</span></button>
+  <button class="panel-toggle panel-toggle-right" type="button" id="toggleRightPanel" aria-label="似ている植物を探すメニューを閉じる" aria-controls="rightPanel" aria-expanded="true" title="右メニューを出し入れ"><span class="panel-toggle-arrow" aria-hidden="true">›</span><span class="panel-toggle-label" aria-hidden="true">植物を探す</span></button>
   <div class="viewport-top"><div class="labeltag"><span class="green-dot"></span> INTERACTIVE 3D / 植物の葉のつき方</div><div class="view-controls"><button class="btn" id="showVeins" aria-pressed="true">葉脈 ON</button><button class="iconbtn" id="zoomIn" title="拡大">＋</button><button class="iconbtn" id="zoomOut" title="縮小">−</button><button class="iconbtn" id="home" title="視点リセット">⌖</button><button class="iconbtn" id="viewTop" title="真上から見る" aria-label="真上から見る">↑</button><button class="iconbtn" id="viewBottom" title="真下から見る" aria-label="真下から見る">↓</button><button class="iconbtn" id="toggleFullscreen" type="button" aria-label="3D画面を全画面表示" title="3D画面を全画面表示" aria-pressed="false">⛶</button></div></div>
   <div class="view-copyright">© Science Communication Design Laboratory</div><div class="statbar" id="count">葉 0枚 / 節 0</div><div class="view-bottom"><div class="tip" id="tip">✦ パレットから出すとグレーの葉に／茎につけなくても置けます／あとからドラッグで接続 ／ ↑↓で真上・真下</div></div><div class="toast" id="toast"></div>
 </section>
-<aside class="side right">
+<aside class="side right" id="rightPanel" aria-label="似ている植物を探すメニュー">
   <p class="section-kicker">02 / IDENTIFY</p><h2 class="h2">似ている植物を探す</h2>
   <p class="match-intro">配置した葉の<strong>葉序・葉の構造・輪郭・鋸歯</strong>を比較。近い形態をもつ身近な植物を表示します。</p>
   <div class="morph-card"><h3>いまの植物の特徴</h3><div class="meta-grid" id="traits"><div><small>葉序</small><strong>—</strong></div><div><small>葉形</small><strong>—</strong></div><div><small>葉縁</small><strong>—</strong></div><div><small>葉の数</small><strong>—</strong></div></div></div>
@@ -351,6 +401,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div class="divider"></div>
   <div class="small-heading">作業データ</div><div class="toolbar-bottom"><button class="btn" id="exportJSON">JSONを書き出す</button><button class="btn" id="importJSON">読み込む</button><input id="fileInput" type="file" accept=".json,application/json" hidden></div>
 </aside>
+<div id="panelScreen" class="panel-screen" aria-hidden="true"></div>
 </main>
 <div id="dragGhost" class="drag-ghost" aria-hidden="true"></div>
 <div id="leafMenu" role="menu" aria-label="葉の操作"><button id="menuDuplicate" role="menuitem">⧉ この葉を複製</button><button id="menuExportSVG" role="menuitem">↧ SVGで保存（葉・葉柄・葉脈）</button><button id="menuDelete" role="menuitem">× この葉を削除</button></div>
@@ -2387,7 +2438,51 @@ function initializeFurigana(){
 }
 
 buildUI();
+
+/* v26 — independently retractable desktop panels; overlay drawers on tablets/phones. */
+function setupSidePanels(){
+ const leftButton=$('toggleLeftPanel'),rightButton=$('toggleRightPanel');
+ const mq=window.matchMedia('(max-width:900px)');
+ let compact=mq.matches;
+ const key=()=>compact?'hanotsukikata-panels-compact-v1':'hanotsukikata-panels-wide-v1';
+ const defaults=()=>compact?{left:false,right:false}:{left:true,right:true};
+ let shown=defaults();
+ function readState(){
+   compact=mq.matches;
+   shown=defaults();
+   try{const v=JSON.parse(localStorage.getItem(key())||'null');if(v&&typeof v.left==='boolean'&&typeof v.right==='boolean')shown={left:v.left,right:v.right};}catch{}
+   if(compact&&shown.left&&shown.right)shown.right=false;
+ }
+ function saveState(){try{localStorage.setItem(key(),JSON.stringify(shown));}catch{}}
+ function apply(){
+   document.body.classList.toggle('panel-left-collapsed',!shown.left);
+   document.body.classList.toggle('panel-right-collapsed',!shown.right);
+   document.body.classList.toggle('panel-overlay-open',compact&&(shown.left||shown.right));
+   leftButton.setAttribute('aria-expanded',String(shown.left));
+   rightButton.setAttribute('aria-expanded',String(shown.right));
+   leftButton.setAttribute('aria-label',`葉を組み立てるメニューを${shown.left?'閉じる':'開く'}`);
+   rightButton.setAttribute('aria-label',`似ている植物を探すメニューを${shown.right?'閉じる':'開く'}`);
+   leftButton.querySelector('.panel-toggle-arrow').textContent=shown.left?'‹':'›';
+   rightButton.querySelector('.panel-toggle-arrow').textContent=shown.right?'›':'‹';
+   if(typeof drawSoon==='function')drawSoon();
+ }
+ function toggle(which){
+   shown[which]=!shown[which];
+   if(compact&&shown[which])shown[which==='left'?'right':'left']=false;
+   saveState();apply();
+ }
+ leftButton.addEventListener('click',()=>toggle('left'));
+ rightButton.addEventListener('click',()=>toggle('right'));
+ $('panelScreen').addEventListener('click',()=>{if(!compact)return;shown={left:false,right:false};saveState();apply()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&compact&&(shown.left||shown.right)&&$('libraryOverlay').classList.contains('hidden')&&$('helpOverlay').classList.contains('hidden')){shown={left:false,right:false};saveState();apply();}});
+ function sizeHeader(){document.documentElement.style.setProperty('--drawer-header-height',Math.ceil(document.querySelector('header').getBoundingClientRect().height)+'px');}
+ sizeHeader();if(typeof ResizeObserver!=='undefined')new ResizeObserver(sizeHeader).observe(document.querySelector('header'));
+ window.addEventListener('resize',()=>{sizeHeader();if(mq.matches!==compact){readState();apply();}});
+ readState();apply();
+}
+
 initializeFurigana();
+setupSidePanels();
 })();
 </script>
 </body>
