@@ -342,7 +342,7 @@ body.fullscreen-fallback{overflow:hidden}
 <main class="shell">
 <aside class="side left" id="leftPanel" aria-label="葉を組み立てるメニュー">
   <p class="section-kicker">01 / BUILD</p><h2 class="h2">葉を組み立てる</h2><p class="sub">葉をつかんで茎へ運びます。灰色の葉が茎に近づくと最寄りの節に吸着し、離すと緑になります。茎についた葉もドラッグで別の節へ挿し直せます。</p>
-  <div class="small-heading">葉の形 <span>21パターン</span></div>
+  <div class="small-heading">葉の形 <span>24パターン</span></div>
   <div class="palette" id="palette"></div><div id="paletteReturn" aria-label="葉を戻して削除する領域">↶ 葉をここへ戻すと削除</div>
   <div class="selected-preview"><div id="leafDetail" aria-label="葉形・葉脈の正面模式図"></div><span class="pill" id="modePill">次に置く葉</span><div><strong id="currentShapeName">卵形</strong><small id="editIndicator">パレットを選択中</small></div></div>
   <div class="small-heading">葉序 <span>茎につける単位</span></div>
@@ -630,8 +630,14 @@ body.fullscreen-fallback{overflow:hidden}
         <li><a href="https://www.ffpri.go.jp/kys/business/jumokuen/jumoku/zukan/" target="_blank" rel="noopener">森林総合研究所 九州支所 樹木図鑑.</a> — 各植物の観察資料。</li>
         <li><a href="https://www.inaturalist.org/" target="_blank" rel="noopener">iNaturalist.</a> — 植物写真との比較（画像の撮影条件は標準化されていません）。</li>
       </ol>
+      <h3>v27：ミモザ・アカシア・ポプラ・ヒノキ</h3>
+      <p><b>ミモザ</b>はフサアカシア（<i>Acacia dealbata</i>）として、<b>アカシア</b>はギンヨウアカシア（<i>Acacia baileyana</i>）として区別しています。同じアカシア属でも羽片数が異なります。いずれも2回羽状複葉で、1つの複葉の付け根を1枚の葉と数えます。羽片・小葉を別々の茎の節として数えません。なおニセアカシアは別属（<i>Robinia</i>）で、今回のアカシアとは異なります。<a href="https://mikawanoyasou.org/data/husaakasia.htm" target="_blank" rel="noopener">フサアカシア↗</a>／<a href="https://www.worldfloraonline.org/taxon/wfo-0000189913" target="_blank" rel="noopener">ギンヨウアカシア↗</a></p>
+      <p><b>エンドウ</b>は既存の見本（小葉3対＋先端の巻きひげ）を維持しています。今回追加した二回羽状複葉と比較できます。</p>
+      <p><b>ポプラ</b>はセイヨウハコヤナギ（<i>Populus nigra</i> 'Italica'）の三角状の互生葉、鋸歯、長く扁平な葉柄を模式化しています。<a href="https://plantdatabase.kpu.ca/PlantPrint/poni" target="_blank" rel="noopener">資料↗</a></p>
+      <p><b>ヒノキ</b>は十字対生する鱗片葉を扁平な小枝の周囲に重ねて模式化。裏面に特徴的なY字状の白色気孔帯は微細構造のため省略しています。<a href="https://www1.ous.ac.jp/garden/hada/plantsdic/gymnospermae/cupressaceae/hinoki/hinoki3.htm" target="_blank" rel="noopener">資料↗</a></p>
+      <p>いずれも研究標本の実測3D形状ではなく、葉序・葉形の違いを比較するための教育用近似表現です。</p>
       <h3>8. 教材としての限界</h3>
-      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は35分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
+      <p>本作は標本データの数値再構成ではなく、研究に基づく<b>形態形質の教育用パラメトリック模式図</b>です。左右対称化と節の簡略化を行い、実物の葉脈全枝や個体変異は省略しています。植物候補は登録済み分類群の限定集合に対する相対スコアで、分類学上の種同定や識別確率を示しません。</p>
     </div>
   </section>
 </div>
@@ -651,6 +657,9 @@ const SHAPES=[
   {id:'dandelion',name:'タンポポ型',hint:'後方へ向いた裂片をもつ根生葉'},
   {id:'plantain',name:'オオバコ型',hint:'広い卵形の根生葉。基部から弧状の葉脈'},
   {id:'cabbage',name:'キャベツ型',hint:'丸く波打つ結球葉'},
+  {id:'bipinnateCompound',name:'二回羽状複葉',hint:'ミモザ・アカシア型、羽片の両側に多数の小葉'},
+  {id:'cypressSpray',name:'ヒノキ型の鱗片葉',hint:'扁平な小枝に十字対生する小さな鱗片葉'},
+  {id:'deltoid',name:'三角形',hint:'ポプラ型の三角状〜菱形の単葉'},
   {id:'pinnateCompound',name:'奇数羽状複葉',hint:'ウルシ型、左右5対と先端の小葉'},
   {id:'peaCompound',name:'巻きひげのある羽状複葉',hint:'エンドウ型、3対の小葉と先端の枝分かれした巻きひげ'},
   {id:'cedarSpray',name:'スギ型の針状葉',hint:'枝にらせん状に多数付く短い針状の葉'},
@@ -662,6 +671,10 @@ const SHAPES=[
 ];
 const ARR={alternate:'らせん互生',distichous:'2列互生',opposite:'対生',whorled:'輪生',rosette:'ロゼット',free:'自由配置',mixed:'混合・不規則'};
 const SPECIES=[
+ {name:'ミモザ',latin:'Acacia dealbata',arr:['alternate'],shape:['bipinnateCompound'],ser:0,desc:'フサアカシアを代表例とする。互生する2回羽状複葉。長い葉軸に多数の羽片が付き、羽片に細長い小葉が密生する。ギンヨウアカシアと区別して表示。',source:'https://mikawanoyasou.org/data/husaakasia.htm',label:'三河の植物観察'},
+ {name:'アカシア',latin:'Acacia baileyana',arr:['alternate'],shape:['bipinnateCompound'],ser:0,desc:'本教材のアカシアはギンヨウアカシア Acacia baileyana。互生する銀青緑色の2回羽状複葉で、羽片は通常2〜4対。ミモザ（フサアカシア）とは羽片数などが異なる。ニセアカシア（Robinia pseudoacacia）ではない。',source:'https://www.worldfloraonline.org/taxon/wfo-0000189913',label:'World Flora Online'},
+ {name:'ポプラ',latin:"Populus nigra 'Italica'",arr:['alternate'],shape:['deltoid'],ser:1,desc:'セイヨウハコヤナギ（イタリアポプラ）を代表例とする。互生、三角形から菱状卵形で、葉縁に細鋸歯。扁平で比較的長い葉柄をもつ。',source:'https://plantdatabase.kpu.ca/PlantPrint/poni',label:'KPU植物データベース'},
+ {name:'ヒノキ',latin:'Chamaecyparis obtusa',arr:['opposite'],shape:['cypressSpray'],ser:0,desc:'裸子植物。扁平な小枝に密着した鱗片葉が十字対生する。裏面の気孔帯がY字形に見えるが、教材の簡略モデルでは葉の微細な裏面構造は省略。',source:'https://nikko-bg.jp/nikko-old/5_jokyo/species/Chamaecyparis_obtusa.html',label:'東京大学日光植物園'},
  {name:'ミント',latin:'Mentha spicata',arr:['opposite'],shape:['ovate'],ser:1,desc:'対生する卵状披針形の鋸歯葉。スペアミントを代表例とする。茎は四角く、葉縁には鋸歯がある。',source:'https://plants.ces.ncsu.edu/plants/mentha-spicata/',label:'植物形態資料'},
  {name:'バジル',latin:'Ocimum basilicum',arr:['opposite'],shape:['ovate'],ser:0,desc:'対生する幅広い卵形の葉。葉縁は全縁から浅い鋸歯で、細い葉柄をもつ。',source:'https://plants.ces.ncsu.edu/plants/ocimum-basilicum/',label:'植物形態資料'},
  {name:'モクレン',latin:'Magnolia liliiflora',arr:['alternate'],shape:['obovate'],ser:0,desc:'シモクレンを代表例とする。互生する倒卵形から楕円形の全縁葉で、羽状の葉脈と比較的短い葉柄をもつ。',source:'https://powo.science.kew.org/results?q=Magnolia%20liliiflora',label:'植物形態資料'},
@@ -706,8 +719,12 @@ const SPECIES=[
  {name:'カタバミ',latin:'Oxalis corniculata',arr:['alternate'],shape:['trifoliate'],ser:0,desc:'互生・3小葉。各小葉は倒心形で先端がくぼむ。',source:'https://www.gbif.org/species/search?q=Oxalis%20corniculata',label:'GBIF検索'},
  {name:'アカメガシワ',latin:'Mallotus japonicus',arr:['alternate'],shape:['ovate'],ser:0,desc:'互生・広い卵形〜菱状卵形で浅い鋸歯や蜜腺がある。',source:'https://www.gbif.org/species/search?q=Mallotus%20japonicus',label:'GBIF検索'}
 ];
-const SHAPE_COLORS={beech:'#67935b',peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
+const SHAPE_COLORS={bipinnateCompound:'#6d9a73',cypressSpray:'#417d52',deltoid:'#5f9751',beech:'#67935b',peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
 const PRESETS={
+ 'ミモザ':{color:'#83a999',arrangement:'alternate',shape:'bipinnateCompound',venation:'none',size:1.38,width:.66,petioleRatio:.09,teeth:0,toothDepth:0,tilt:20,nodes:4,height:4.8},
+ 'アカシア':{color:'#8ba7ab',arrangement:'alternate',shape:'bipinnateCompound',venation:'none',size:1.20,width:.65,petioleRatio:.08,teeth:0,toothDepth:0,tilt:19,nodes:5,height:4.7},
+ 'ポプラ':{color:'#4e9851',arrangement:'alternate',shape:'deltoid',venation:'pinnate',size:1.16,width:.91,petioleRatio:.52,apexSharpness:.48,teeth:17,toothDepth:.075,tilt:24,nodes:6,height:5.0},
+ 'ヒノキ':{color:'#377750',arrangement:'opposite',shape:'cypressSpray',venation:'none',size:1.02,width:.23,petioleRatio:0,teeth:0,toothDepth:0,tilt:24,nodes:5,height:5.1},
  'ミント':{color:'#5b9c58',arrangement:'opposite',shape:'ovate',venation:'pinnate',size:1.02,width:.51,petioleRatio:.10,apexSharpness:.55,teeth:14,toothDepth:.13,tilt:22,nodes:5,height:4.2},
  'バジル':{color:'#4d944b',arrangement:'opposite',shape:'ovate',venation:'pinnate',size:1.11,width:.78,petioleRatio:.25,apexSharpness:.25,teeth:4,toothDepth:.026,tilt:26,nodes:5,height:4.4},
  'キョウチクトウ':{color:'#357744',arrangement:'whorled',shape:'lance',venation:'pinnate',size:1.48,width:.25,petioleRatio:.05,apexSharpness:.64,teeth:0,toothDepth:0,tilt:21,nodes:4,height:5.0},
@@ -748,6 +765,10 @@ const PRESETS={
  'アサガオ':{color:'#478b53',arrangement:'alternate',shape:'morning',venation:'ipomoea',size:1.12,width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,tilt:18,nodes:5}
 };
 const PHYLLOTAXIS={
+ 'ミモザ':{fraction:'2/5',status:'model',note:'フサアカシアの互生葉。2/5は教材用の例示値で、種に固有の実測値ではない。羽片や小葉の配列は葉序に数えない。',source:'https://mikawanoyasou.org/data/husaakasia.htm'},
+ 'アカシア':{fraction:'2/5',status:'model',note:'ギンヨウアカシアの互生葉。2/5は教材モデルの値。小葉の配置と茎の節での葉序は別である。',source:'https://www.worldfloraonline.org/taxon/wfo-0000189913'},
+ 'ポプラ':{fraction:'2/5',status:'model',note:'互生。2/5は模式値であり、本品種の固定的実測値ではない。',source:'https://plantdatabase.kpu.ca/PlantPrint/poni'},
+ 'ヒノキ':{fraction:'—',status:'inapplicable',note:'鱗片葉は十字対生。互生の分数葉序は適用しない。',source:'https://www1.ous.ac.jp/garden/hada/plantsdic/gymnospermae/cupressaceae/hinoki/hinoki3.htm'},
  "ミント": {"fraction":"—","status":"inapplicable","note":"対生で、互生の開度を表す分数は適用しない。","source":"https://plants.ces.ncsu.edu/plants/mentha-spicata/"},
  "バジル": {"fraction":"—","status":"inapplicable","note":"対生で、互生の開度を表す分数は適用しない。","source":"https://plants.ces.ncsu.edu/plants/ocimum-basilicum/"},
  "キョウチクトウ": {"fraction":"—","status":"inapplicable","note":"主として3輪生。互生の分数葉序は適用しない。","source":"https://plants.ces.ncsu.edu/plants/nerium-oleander/"},
@@ -938,6 +959,9 @@ const SHAPE_EDIT_FIELDS={
  beech:['size','width','petioleRatio','tilt'],
  fan:['size','width','petioleRatio','fanNotch','fanSpread','tilt'],
  linear:['riceLengthCm','riceWidthCm','droop','tilt'],
+ bipinnateCompound:['size','petioleRatio','tilt'],
+ cypressSpray:['size','tilt'],
+ deltoid:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
  pinnateCompound:['size','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
  peaCompound:['size','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
  trifoliate:['size','width','petioleRatio','apexSharpness','teeth','toothDepth','tilt'],
@@ -1006,7 +1030,17 @@ function snapStemT(t){
 }
 
 function leafOutline(shape,len,width,teeth,deep,lobes,cut,fanNotch=.23,fanSpread=155,apexSharpness=0,speciesName=''){
- const n=180,pts=[];
+ const n=(shape==='lance'||shape==='ovate')&&len<.17?24:180,pts=[];
+ if(shape==='deltoid'){
+  // Populus nigra 'Italica': triangular to rhombic-ovate; simple toothed blade.
+  for(const side of [1,-1])for(let i=0;i<=n;i++){
+   const t=side===1?i/n:1-i/n;
+   const broad=t<.22?Math.pow(t/.22,.62):Math.pow(Math.max(0,(1-t)/.78),.77);
+   const dent=teeth&&t>.06&&t<.95?1+deep*.42*Math.pow(Math.max(0,Math.sin(teeth*PI*t)),9):1;
+   pts.push([side*width*len*.56*broad*dent,len*t]);
+  }
+  return pts;
+ }
  if(shape==='beech'){
   // Fagus crenata: soft, rounded marginal crenations arranged with the lateral veins.
   // Educational Bezier-free silhouette, not an actual leaf scan.
@@ -1137,7 +1171,7 @@ function shade(hex,amt){const rgb=parseRGB(hex);return toHex(amt>0?mixRGB(rgb,[2
 function widthAtY(poly,y,side){const hits=[];for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length];if((a[1]<=y&&b[1]>y)||(b[1]<=y&&a[1]>y)){const x=a[0]+(b[0]-a[0])*(y-a[1])/(b[1]-a[1]);if(side*x>=-1e-5)hits.push(x);}}return hits.length?(side>0?Math.max(...hits):Math.min(...hits)):0;}
 function inside2D(p,pts){let yes=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])yes=!yes;}return yes;}
 function veinModel(p,l,outline){
- if(['needlePair','cedarSpray'].includes(l.shape)||l.venation==='none')return [];
+ if(['needlePair','cedarSpray','cypressSpray','bipinnateCompound'].includes(l.shape)||l.venation==='none')return [];
  const veins=[],L=p.len, W=p.width,sh=p.shape;
  function push(local,order=2){const pieces=[];let chain=[];for(const q of local){if(inside2D(q,outline)||Math.abs(q[0])<1e-8&&q[1]===0){chain.push(q)}else{if(chain.length>=2)pieces.push(chain);chain=[];}}if(chain.length>=2)pieces.push(chain);for(const pts of pieces)veins.push({pts,order});}
  function line(a,b,steps=7){return Array.from({length:steps+1},(_,i)=>{let t=i/steps;return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]});}
@@ -1286,7 +1320,57 @@ function veinModel(p,l,outline){
  }
  return veins;
 }
+
+function pinnuleBranches(l){
+ const n=l.speciesName==='アカシア'?3:6,L=l.size,branches=[];
+ for(let i=0;i<n;i++)for(const side of [-1,1]){
+  const by=L*(.19+i*(.72/Math.max(1,n-1)));
+  const tip=[side*L*(l.speciesName==='アカシア'?.35:.39),by+L*.12];
+  branches.push({origin:[0,by],tip,side,i});
+ }
+ return branches;
+}
+function cypressBranches(l){
+ const L=l.size,branches=[];
+ for(let i=0;i<4;i++)for(const side of [-1,1]){
+  const yy=L*(.19+i*.185);
+  branches.push({origin:[0,yy],tip:[side*L*.31,yy+L*.185],side,i});
+ }
+ return branches;
+}
+function spraysBranches(l){return l.shape==='bipinnateCompound'?pinnuleBranches(l):l.shape==='cypressSpray'?cypressBranches(l):[];}
 function makeParts(l){const d=l;
+ if(d.shape==='bipinnateCompound'){
+  const L=d.size,parts=[];
+  // Schematic bipinnate leaf; fewer pairs are drawn than on living specimens
+  // to keep the interactive 3D canvas responsive.
+  const pairs=d.speciesName==='アカシア'?9:10;
+  for(const br of pinnuleBranches(d)){
+   const dx=br.tip[0]-br.origin[0],dy=br.tip[1]-br.origin[1],norm=Math.hypot(dx,dy),px=-dy/norm,py=dx/norm;
+   for(let j=0;j<pairs;j++)for(const side of [-1,1]){
+    const t=.10+(j+.3)/pairs*.83;
+    const drop=Math.sin(PI*t)*.85+.15;
+    const base=[br.origin[0]+dx*t,br.origin[1]+dy*t];
+    const ang=Math.atan2(px*side,py*side);
+    parts.push({o:base,rot:ang,len:L*.077*drop,width:L*.018,shape:'lance',key:parts.length});
+   }
+  }
+  return parts;
+ }
+ if(d.shape==='cypressSpray'){
+  const L=d.size,parts=[];
+  const branches=[{origin:[0,0],tip:[0,L*1.02]},...cypressBranches(d)];
+  for(const branch of branches){
+   const dx=branch.tip[0]-branch.origin[0],dy=branch.tip[1]-branch.origin[1];
+   for(let i=0;i<10;i++)for(const side of [-1,1]){
+    const t=(i+.6)/11;
+    const o=[branch.origin[0]+dx*t+side*L*.008,branch.origin[1]+dy*t];
+    const a=Math.atan2(dx,dy)+side*.42;
+    parts.push({o,rot:a,len:L*.095,width:L*.070,shape:'ovate',key:parts.length});
+   }
+  }
+  return parts;
+ }
  if(d.shape==='peaCompound'){
    const parts=[];
    // Broad paired stipules subtend the whole leaf; three opposite leaflet pairs arise higher on rachis.
@@ -1378,8 +1462,8 @@ function leafParts(l){return makeParts(l).map(p=>{
  const tf=q=>[p.o[0]+q[0]*c-q[1]*s,p.o[1]+q[0]*s+q[1]*c];
  const points=margin.map(q=>toWorld(l,tf(q)));
  const veins=veinModel(p,l,margin).map(v=>({points:v.pts.map(q=>toWorld(l,tf(q))),order:v.order}));
- const grouped=['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape);
- return {points,veins,petiole:[grouped?toWorld(l,[0,p.o[1]]):leafRoot(l),toWorld(l,p.o)],owner:l};
+ const grouped=['pinnateCompound','coniferSpray','peaCompound','cedarSpray','bipinnateCompound','cypressSpray'].includes(l.shape);
+ return {points,veins,petiole:[grouped?toWorld(l,(l.shape==='bipinnateCompound'||l.shape==='cypressSpray')?p.o:[0,p.o[1]]):leafRoot(l),toWorld(l,p.o)],owner:l};
 });}
 const cameras=()=>{
  const r=view.getBoundingClientRect();
@@ -1400,7 +1484,7 @@ function drawCastShadows(C){
  ctx.strokeStyle='rgba(38,50,42,.22)';ctx.lineWidth=clamp(C.base*.022,1.4,5);
  ctx.beginPath();for(let i=0;i<=64;i++){const p=project(groundShadow(grow(i/64)),C);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);}ctx.stroke();
  for(const leaf of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leaf.id===leafDrag.id)continue;
-  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(leaf.shape)){
+  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray','bipinnateCompound','cypressSpray'].includes(leaf.shape)){
     const axis=compoundAxisWorld(leaf).map(w=>project(groundShadow(w),C));
     ctx.beginPath();axis.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
     ctx.lineWidth=1.5;ctx.strokeStyle='rgba(32,48,39,.17)';ctx.stroke();
@@ -1422,11 +1506,15 @@ function drawDragPreview(C){
  const l=leafDrag.snap?{...leafDrag.template,loose:false,position:null,t:leafDrag.snap.t,angle:leafDrag.snap.angle,id:-1}:
    leafDrag.loosePosition?{...leafDrag.template,loose:true,position:leafDrag.loosePosition,id:-1}:null;
  if(!l)return;
- if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
+ if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray','bipinnateCompound','cypressSpray'].includes(l.shape)){
   // Preview the same continuous axis used by committed leaves.
   const points=compoundAxisWorld(l).map(w=>project(w,C));
   ctx.beginPath();points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
   ctx.lineWidth=2.3;ctx.strokeStyle='#667e70';ctx.stroke();
+  for(const br of spraysBranches(l)){
+   const p=project(toWorld(l,br.origin),C),q=project(toWorld(l,br.tip),C);
+   ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.lineWidth=1.4;ctx.stroke();
+  }
  }
  for(const part of leafParts(l)){
   const poly=part.points.map(w=>project(w,C));
@@ -1536,9 +1624,13 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
  paintStemStroke(Array.from({length:97},(_,k)=>project(grow(k/96),C)),stemThickness);
  const things=[];hitLeaves=[];
  for(const l of state.leaves){if(leafDrag?.active&&leafDrag.source==='leaf'&&leafDrag.id===l.id)continue;
-  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray'].includes(l.shape)){
+  if(['pinnateCompound','coniferSpray','peaCompound','cedarSpray','bipinnateCompound','cypressSpray'].includes(l.shape)){
    const axis=compoundAxisWorld(l).map(w=>project(w,C));
    things.push({kind:'compoundAxis',points:axis,dep:axis.reduce((sum,p)=>sum+p.depth,0)/axis.length,owner:l});
+   for(const br of spraysBranches(l)){
+    const pts=[project(toWorld(l,br.origin),C),project(toWorld(l,br.tip),C)];
+    things.push({kind:'compoundAxis',points:pts,dep:(pts[0].depth+pts[1].depth)/2,owner:l,branch:true});
+   }
   }
   if(l.shape==='peaCompound'){
     // A branched tendril develops in place of terminal leaflets of the pea compound leaf.
@@ -1568,7 +1660,7 @@ function render(){requestPending=false;const C=rectCanvas();ctx.clearRect(0,0,C.
   }if(item.kind==='compoundAxis'){
    ctx.beginPath();item.points.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));
    ctx.lineCap='round';ctx.lineJoin='round';
-   ctx.lineWidth=['coniferSpray','cedarSpray'].includes(item.owner.shape)?1.5:3;
+   ctx.lineWidth=['coniferSpray','cedarSpray','cypressSpray'].includes(item.owner.shape)?1.5:3;
    ctx.strokeStyle=item.owner.loose?'#7e8a84':shade(item.owner.color||'#56804b',-.23);ctx.stroke();continue;
   }
   const l=item.owner,poly=item.poly;ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
@@ -1629,7 +1721,7 @@ function syncUI(){const c=current();$('arrangement').value=state.arrangement;con
  }
  // A needle has no conventional venation; prevent displaying a nonfunctional control.
  const veinsControl=$('venation');const venationRow=veinsControl.closest('.venation-settings');
- if(venationRow)venationRow.style.display=['needlePair','cedarSpray','coniferSpray'].includes(c.shape)?'none':'';
+ if(venationRow)venationRow.style.display=['needlePair','cedarSpray','coniferSpray','cypressSpray','bipinnateCompound'].includes(c.shape)?'none':'';
  for(const btn of $('palette').querySelectorAll('.shape-btn'))btn.classList.toggle('active',btn.dataset.shape===activePalette);
  $('leafDetail').innerHTML=detailedPreview(c);$('leafColor').value=/^#[0-9a-fA-F]{6}$/.test(c.color||'')?c.color:SHAPE_COLORS[c.shape]||'#4f8550';$('leafColorHex').textContent=$('leafColor').value.toUpperCase();$('colorSource').textContent=c.colorOrigin||'参考表示色（実測値ではありません）';$('venation').value=c.venation||'auto';
  $('currentShapeName').textContent=SHAPES.find(s=>s.id===c.shape)?.name||'葉';$('modePill').textContent=state.selectedId==null?'次に置く葉':c.loose?'未接続の葉':'選択した葉';$('editIndicator').textContent=state.selectedId==null?(state.leaves.length?'数値調整はすべての葉に反映・形選択は次の葉':'茎をクリックするとこの形で追加'):c.loose?'未接続の葉：グレーのまま移動・再接続できます':'パラメータの変更がこの葉に反映';$('delete').disabled=state.selectedId==null;$('duplicate').disabled=state.selectedId==null;
@@ -1680,6 +1772,10 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  for(const item of sliderFields){const el=document.createElement('div');el.className='slider-control';el.innerHTML=`<div class="slider-label"><span>${item.name}</span><strong id="v_${item.id}"></strong></div><input id="s_${item.id}" type="range" min="${item.min}" max="${item.max}" step="${item.step}"><div class="slider-hint">${item.hint||''}</div>`;$('sliders').appendChild(el);let held=false;const input=el.querySelector('input');input.addEventListener('pointerdown',()=>{commit();held=true});input.addEventListener('input',()=>{const v=Number(input.value);if(!held)commit();held=true;setting(item.id,v,true)});input.addEventListener('change',()=>{held=false;persist()});input.addEventListener('pointerup',()=>held=false);}
  const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/';
  const LIBRARY_META={
+  'ミモザ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'compound'},
+  'アカシア':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'compound'},
+  'ポプラ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
+  'ヒノキ':{habit:'tree',seedGroup:'gym',cotyledon:'gym',phylloGroup:'opposite',shapeGroup:'fanNeedle'},
   'ミント':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'simpleBroad'},
   'バジル':{habit:'herb',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'simpleBroad'},
   'キョウチクトウ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'whorledLike',shapeGroup:'linearLike'},
@@ -2154,7 +2250,7 @@ function leafSVGGeometry(leaf){
   }
  }
  const pRatio=clamp(Number(leaf.petioleRatio)||0,0,1.1);
- const petiole=leaf.shape==='linear'||leaf.shape==='needlePair'||leaf.shape==='cedarSpray'?0:L*pRatio;
+ const petiole=leaf.shape==='linear'||leaf.shape==='needlePair'||leaf.shape==='cedarSpray'||leaf.shape==='cypressSpray'?0:L*pRatio;
  // Axes and stalks are geometric material (not independent ink strokes).
  if(isCompound){
   axis.push({pts:[[0,-petiole],[0,leaf.shape==='trifoliate'?L*.31:leaf.shape==='compound'?L*.19:L*1.06]],width:L*(leaf.shape==='needlePair'?.035:.024)});
@@ -2162,6 +2258,7 @@ function leafSVGGeometry(leaf){
    const originY=part.o[1];
    if(Math.abs(part.o[0])>.001){axis.push({pts:[[0,originY],part.o],width:L*.013});}
   }
+  for(const br of spraysBranches(leaf))axis.push({pts:[br.origin,br.tip],width:L*.010});
   if(leaf.shape==='peaCompound'){
    // One terminal tendril in addition to the three pairs of leaflets.
    for(const side of [-1,0,1]){
