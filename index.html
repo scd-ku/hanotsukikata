@@ -342,7 +342,7 @@ body.fullscreen-fallback{overflow:hidden}
 <main class="shell">
 <aside class="side left" id="leftPanel" aria-label="葉を組み立てるメニュー">
   <p class="section-kicker">01 / BUILD</p><h2 class="h2">葉を組み立てる</h2><p class="sub">葉をつかんで茎へ運びます。灰色の葉が茎に近づくと最寄りの節に吸着し、離すと緑になります。茎についた葉もドラッグで別の節へ挿し直せます。</p>
-  <div class="small-heading">葉の形 <span>24パターン</span></div>
+  <div class="small-heading">葉の形 <span>26パターン</span></div>
   <div class="palette" id="palette"></div><div id="paletteReturn" aria-label="葉を戻して削除する領域">↶ 葉をここへ戻すと削除</div>
   <div class="selected-preview"><div id="leafDetail" aria-label="葉形・葉脈の正面模式図"></div><span class="pill" id="modePill">次に置く葉</span><div><strong id="currentShapeName">卵形</strong><small id="editIndicator">パレットを選択中</small></div></div>
   <div class="small-heading">葉序 <span>茎につける単位</span></div>
@@ -380,7 +380,7 @@ body.fullscreen-fallback{overflow:hidden}
   <div id="matches"><div class="empty">グレーの葉は未接続です。茎に葉をつけると、特徴の近い植物がここに表示されます。</div></div>
   <div class="divider"></div>
   <div class="small-heading">調べるときの注意</div>
-  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は35分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
+  <p class="guide"><b>「似ている」と「同定できた」は異なります。</b> この教材は46分類群の例示データと、分類形質の一致度による簡易スコアの比較です。正答確率やAIによる種同定ではありません。花・果実・托葉・葉脈・生育環境も確かめてください。</p>
   <button id="openHelpAside" class="btn widebutton">葉脈・葉形・色の研究根拠と参考資料を見る</button>
   <div class="small-heading">今回の修正に使った資料</div>
     <div class="source-item"><a href="https://doi.org/10.1371/journal.pone.0164532" target="_blank" rel="noopener">Chatterjee et al. (2016) — イネの形態計測 ↗</a>栽培イネIR64の葉身41 × 0.97 cm。</div>
@@ -439,8 +439,8 @@ body.fullscreen-fallback{overflow:hidden}
   <section class="help-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
     <div class="help-top"><h2 id="helpTitle">植物の葉のつき方 · 特徴・使い方・出典</h2><button id="closeHelp" class="btn">閉じる ×</button></div>
     <div class="help-body">
-      <h3>このアプリの特徴</h3><p><b>v23追加：</b>ミント（スペアミント）、バジル、キョウチクトウ、モクレン（シモクレン）。ミント・バジルは対生、キョウチクトウは主に3輪生、モクレンは互生です。キョウチクトウは有毒のため採集・接触に注意してください。葉序の分数は模式値・適用外を区別しています。</p>
-      <p>「植物の葉のつき方」は、3D空間で茎に葉を挿し、葉序・葉身形状・葉柄・葉脈を組み合わせて植物の特徴を観察する理科教材です。見本には葉序の分数（1/2・1/3・2/5・3/8・5/13など）と出典・不確実性を明記します。<b>見本植物を「種子植物の分類」「葉序で分類」「葉形で分類」の3つの見方で切り替えて選択</b>でき、<b>裸子植物（イチョウ・アカマツ・メタセコイア）</b>も見本として読み込めます。葉を自由に組み立て、似ている植物を候補として比較します。</p>
+      <h3>このアプリの特徴</h3><p><b>v28追加：</b>エンジュ（マメ科）、ケヤキ（ニレ科）、カツラ（カツラ科）、ニッキ＝ニッケイ（クスノキ科）。エンジュは奇数羽状複葉（モデルは6対＋先端の1枚）、ケヤキは基部がやや非対称の鋸歯葉、カツラは丸い心形葉と対生、ニッキは3本の目立つ基部脈を模式化しています。出典：<a href="https://plants.ces.ncsu.edu/plants/styphnolobium-japonicum/" target="_blank" rel="noopener">NC State Extension</a>、<a href="https://www.worldfloraonline.org/taxon/wfo-0001143208" target="_blank" rel="noopener">World Flora Online</a>、<a href="https://www.rinya.maff.go.jp/hokkaido/komagatake_fc/guide/22_katura.html" target="_blank" rel="noopener">林野庁</a>、<a href="https://www.medicalherb.or.jp/archives/268485" target="_blank" rel="noopener">日本メディカルハーブ協会</a>。</p><p><b>v23追加：</b>ミント（スペアミント）、バジル、キョウチクトウ、モクレン（シモクレン）。ミント・バジルは対生、キョウチクトウは主に3輪生、モクレンは互生です。キョウチクトウは有毒のため採集・接触に注意してください。葉序の分数は模式値・適用外を区別しています。</p>
+      <p>「植物の葉のつき方」は、3D空間で茎に葉を挿し、葉序・葉身形状・葉柄・葉脈を組み合わせて植物の特徴を観察する理科教材です。46種類の見本には葉序の分数（1/2・1/3・2/5・3/8・5/13など）と出典・不確実性を明記します。<b>見本植物を「種子植物の分類」「葉序で分類」「葉形で分類」の3つの見方で切り替えて選択</b>でき、<b>裸子植物（イチョウ・アカマツ・メタセコイア）</b>も見本として読み込めます。葉を自由に組み立て、似ている植物を候補として比較します。</p>
       <p class="method-note">葉の特徴だけでは種名を確定できません。類似度の数値は形態の一致点に基づく<b>教材上の指標</b>で、同定の確率ではありません。葉の形・葉序を確認し、花・果実・芽・葉の裏面などの観察と併用してください。</p>
       <h3>専門用語の読み方</h3>
       <p>専門用語にはふりがなを表示しています。タイトルの右にある「ふりがな ON／OFF」で切り替えられます。設定はこのブラウザに保存されます。以下は観察するときによく使う用語です。</p>
@@ -470,10 +470,14 @@ body.fullscreen-fallback{overflow:hidden}
       </dl>
       <h3>1. 使い方</h3>
       <ol><li><b>見本から始める：</b>ヘッダの「植物から組み立てる」ボタンで開くポップアップから植物名を押すとモデルを読み込みます。ポップアップの上部をドラッグすると位置を移動でき、右下の取っ手で大きさを変更できます。</li><li><b>葉を加える：</b>葉形パレットから葉をドラッグして茎に近づけ、最も近い節に吸着したら離します。茎に刺さる前は灰色、刺さった葉は緑になります。</li><li><b>形態を調整：</b>葉形を選ぶと、その葉で調整できる長さ・幅・葉柄・鋸歯・切れ込みなどの設定だけが表示されます。葉脈・色・葉序も適宜変更できます。</li><li><b>移動・削除・SVG出力：</b>葉を引き抜いて移動します。パレットへ戻すと削除。右クリック・iPad長押しのメニューで複製／削除／SVGで保存ができます。SVGは選択した葉の葉身・葉柄を一つの閉じた輪郭にし、葉脈は線幅をもつ別の閉じた輪郭パスとして書き出す正面模式図です。実測スケールではありません。</li><li><b>観察・検索：</b>背景をドラッグして回転、ホイール／2本指でズーム。「⛶」で3D画面の全画面表示と解除を切り替えます（Escキーでも解除）。右側の候補の一致点を読み、資料リンクを開きます。</li><li><b>保存と再利用：</b>「保存する」で作業データを保存でき、JSONを読み込んで再開できます。</li></ol>
-<h3>葉序の分数の読み方・34種の一覧（v19）</h3>
+<h3>葉序の分数の読み方・植物別の注記</h3>
 <p>互生の葉序では、<b>葉が順番に何枚つく間に茎の周りを何回転するか</b>を分数で表します。2/5葉序では5枚で2回転し、隣接する葉の開きは 360°×2/5＝144°です。イチゴは葉が短縮茎から広がるため、一見ロゼットでも葉の発生順序は2/5です。<b>対生・短枝の束生などには互生の分数を機械的に付けません。</b></p>
 <p class="method-note">下表では「文献・資料確認」「近縁群の代表例」「型から算定」「模式設定」「未確定」「適用外」を区別しています。特に「模式設定」はその植物の実測値ではありません。同じ植物でも葉序転移が起こることがあります。葉柄や小葉は1枚の複葉の一部であり、葉序を数える際は葉柄の付け根を数えます。</p>
 <div style="overflow-x:auto;max-height:360px;overflow-y:auto"><table class="phyllo-table"><thead><tr><th>植物</th><th>葉序の分数</th><th>根拠・注意点</th></tr></thead><tbody>
+<tr><td>エンジュ</td><td>2/5</td><td>模式設定：奇数羽状複葉、7〜17小葉。複葉全体を1枚の葉として数える。 <a href="https://plants.ces.ncsu.edu/plants/styphnolobium-japonicum/" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>ケヤキ</td><td>1/2</td><td>型から算定：2列互生、非対称の基部と鋸歯。 <a href="https://tbg.kahaku.go.jp/recommend/illustrated/result.php?name=%E3%82%B1%E3%83%A4%E3%82%AD" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>カツラ</td><td>—</td><td>適用外：長枝は対生、短枝に1枚つく場合がある。 <a href="https://www.rinya.maff.go.jp/hokkaido/komagatake_fc/guide/22_katura.html" target="_blank" rel="noopener">出典↗</a></td></tr>
+<tr><td>ニッキ（ニッケイ）</td><td>2/5</td><td>模式設定：互生、基部付近から伸びる3主脈。分数は種固有の実測値ではない。 <a href="https://www.medicalherb.or.jp/archives/268485" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>ヒマワリ</td><td>—</td><td>未確定：下部は対生、上部は互生。全茎の固定分数は置きません。 <a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:119003-2/general-information" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>エンドウ</td><td>2/5</td><td>模式設定：互生する羽状複葉。小葉ではなく、複葉の付け根で葉序を数えます。 <a href="https://www.jircas.go.jp/en/database/thaivege/085" target="_blank" rel="noopener">出典↗</a></td></tr>
 <tr><td>サツキ</td><td>2/5</td><td>模式設定：互生で枝先に集まる。種固有の固定値ではありません。 <a href="https://ryokka-c.jp/info/woodplant/4794/" target="_blank" rel="noopener">出典↗</a></td></tr>
@@ -647,6 +651,8 @@ const SHAPES=[
   {id:'ovate',name:'卵形',hint:'基部が幅広い単葉'},
   {id:'elliptic',name:'楕円形',hint:'中央が幅広い単葉'},
   {id:'beech',name:'ブナ型',hint:'波状の鈍鋸歯、左右ほぼ平行な側脈をもつ卵形葉'},
+  {id:'zelkova',name:'ケヤキ型',hint:'左右非対称の葉の基部、鋭い鋸歯、側脈が縁へ向かう'},
+  {id:'katsura',name:'カツラ型',hint:'丸みの強い心形葉、浅い心形の基部と波状の鈍鋸歯'},
   {id:'obovate',name:'倒卵形',hint:'コナラに見られる先寄りに広い葉'},
   {id:'lance',name:'披針形',hint:'細長く先端が尖る'},
   {id:'linear',name:'線形',hint:'イネ科などの葉'},
@@ -671,6 +677,10 @@ const SHAPES=[
 ];
 const ARR={alternate:'らせん互生',distichous:'2列互生',opposite:'対生',whorled:'輪生',rosette:'ロゼット',free:'自由配置',mixed:'混合・不規則'};
 const SPECIES=[
+ {name:'エンジュ',latin:'Styphnolobium japonicum',arr:['alternate'],shape:['pinnateCompound'],ser:0,desc:'マメ科の落葉高木。互生する奇数羽状複葉で、7〜17枚（モデルは13枚）の卵形〜楕円形の小葉が1枚の複葉を構成する。小葉の縁は全縁。旧学名 Sophora japonica。',source:'https://plants.ces.ncsu.edu/plants/styphnolobium-japonicum/',label:'NC State Extension'},
+ {name:'ケヤキ',latin:'Zelkova serrata',arr:['distichous','alternate'],shape:['zelkova'],ser:1,desc:'ニレ科の落葉高木。短い葉柄をもつ2列互生の単葉。葉の基部は少し左右非対称、先端は長く尖り、縁の鋸歯に向かって多数の側脈が伸びる。',source:'https://www.worldfloraonline.org/taxon/wfo-0001143208',label:'World Flora Online'},
+ {name:'カツラ',latin:'Cercidiphyllum japonicum',arr:['opposite'],shape:['katsura'],ser:1,desc:'カツラ科の落葉高木。長枝では対生し、短枝には1枚の葉がつく。丸く幅広い心形の葉、波状の鈍鋸歯、葉の基部から放射状に広がる葉脈、赤みのある葉柄が特徴。',source:'https://www.rinya.maff.go.jp/hokkaido/komagatake_fc/guide/22_katura.html',label:'林野庁'},
+ {name:'ニッキ',latin:'Cinnamomum sieboldii',arr:['alternate'],shape:['lance','elliptic'],ser:0,desc:'ニッケイ（日本で「ニッキ」と呼ばれる香料植物）を代表例とする。クスノキ科の常緑高木。互生する全縁の細長い葉に、葉の基部付近から伸びる3本の主脈が目立つ。シナモン類の別種とは区別する。',source:'https://www.medicalherb.or.jp/archives/268485',label:'日本メディカルハーブ協会'},
  {name:'ミモザ',latin:'Acacia dealbata',arr:['alternate'],shape:['bipinnateCompound'],ser:0,desc:'フサアカシアを代表例とする。互生する2回羽状複葉。長い葉軸に多数の羽片が付き、羽片に細長い小葉が密生する。ギンヨウアカシアと区別して表示。',source:'https://mikawanoyasou.org/data/husaakasia.htm',label:'三河の植物観察'},
  {name:'アカシア',latin:'Acacia baileyana',arr:['alternate'],shape:['bipinnateCompound'],ser:0,desc:'本教材のアカシアはギンヨウアカシア Acacia baileyana。互生する銀青緑色の2回羽状複葉で、羽片は通常2〜4対。ミモザ（フサアカシア）とは羽片数などが異なる。ニセアカシア（Robinia pseudoacacia）ではない。',source:'https://www.worldfloraonline.org/taxon/wfo-0000189913',label:'World Flora Online'},
  {name:'ポプラ',latin:"Populus nigra 'Italica'",arr:['alternate'],shape:['deltoid'],ser:1,desc:'セイヨウハコヤナギ（イタリアポプラ）を代表例とする。互生、三角形から菱状卵形で、葉縁に細鋸歯。扁平で比較的長い葉柄をもつ。',source:'https://plantdatabase.kpu.ca/PlantPrint/poni',label:'KPU植物データベース'},
@@ -719,8 +729,12 @@ const SPECIES=[
  {name:'カタバミ',latin:'Oxalis corniculata',arr:['alternate'],shape:['trifoliate'],ser:0,desc:'互生・3小葉。各小葉は倒心形で先端がくぼむ。',source:'https://www.gbif.org/species/search?q=Oxalis%20corniculata',label:'GBIF検索'},
  {name:'アカメガシワ',latin:'Mallotus japonicus',arr:['alternate'],shape:['ovate'],ser:0,desc:'互生・広い卵形〜菱状卵形で浅い鋸歯や蜜腺がある。',source:'https://www.gbif.org/species/search?q=Mallotus%20japonicus',label:'GBIF検索'}
 ];
-const SHAPE_COLORS={bipinnateCompound:'#6d9a73',cypressSpray:'#417d52',deltoid:'#5f9751',beech:'#67935b',peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
+const SHAPE_COLORS={zelkova:'#51844b',katsura:'#65a454',bipinnateCompound:'#6d9a73',cypressSpray:'#417d52',deltoid:'#5f9751',beech:'#67935b',peaCompound:'#659256',cedarSpray:'#4e8052',plantain:'#66864c',cabbage:'#87a38a',pinnateCompound:'#57834b',coniferSpray:'#6b9b59',obovate:'#5c8651',dandelion:'#5e934c',needlePair:'#507650',ovate:'#4f8550',elliptic:'#427548',lance:'#4b8050',linear:'#648f50',cordate:'#548c50',morning:'#478b53',palm:'#4b8350',lobed:'#5c8c49',trifoliate:'#599452',compound:'#527d4c',fan:'#83a74a'};
 const PRESETS={
+ 'エンジュ':{color:'#6b9668',arrangement:'alternate',shape:'pinnateCompound',venation:'pinnate',size:1.48,width:.57,petioleRatio:.22,teeth:0,toothDepth:0,apexSharpness:.18,tilt:23,nodes:6,height:5.3},
+ 'ケヤキ':{color:'#5e9248',arrangement:'distichous',shape:'zelkova',venation:'beech',size:1.05,width:.56,petioleRatio:.11,teeth:12,toothDepth:.11,apexSharpness:.56,tilt:25,nodes:7,height:4.7},
+ 'カツラ':{color:'#69a159',arrangement:'opposite',shape:'katsura',venation:'palmate',size:1.05,width:1.03,petioleRatio:.46,teeth:14,toothDepth:.062,tilt:22,nodes:5,height:4.8},
+ 'ニッキ':{color:'#417c4b',arrangement:'alternate',shape:'lance',venation:'triplinerved',size:1.26,width:.43,petioleRatio:.18,apexSharpness:.37,teeth:0,toothDepth:0,tilt:23,nodes:6,height:4.9},
  'ミモザ':{color:'#83a999',arrangement:'alternate',shape:'bipinnateCompound',venation:'none',size:1.38,width:.66,petioleRatio:.09,teeth:0,toothDepth:0,tilt:20,nodes:4,height:4.8},
  'アカシア':{color:'#8ba7ab',arrangement:'alternate',shape:'bipinnateCompound',venation:'none',size:1.20,width:.65,petioleRatio:.08,teeth:0,toothDepth:0,tilt:19,nodes:5,height:4.7},
  'ポプラ':{color:'#4e9851',arrangement:'alternate',shape:'deltoid',venation:'pinnate',size:1.16,width:.91,petioleRatio:.52,apexSharpness:.48,teeth:17,toothDepth:.075,tilt:24,nodes:6,height:5.0},
@@ -765,6 +779,10 @@ const PRESETS={
  'アサガオ':{color:'#478b53',arrangement:'alternate',shape:'morning',venation:'ipomoea',size:1.12,width:1.04,petioleRatio:.74,cut:.57,lobes:3,teeth:0,toothDepth:0,tilt:18,nodes:5}
 };
 const PHYLLOTAXIS={
+ 'エンジュ':{fraction:'2/5',status:'model',note:'互生の奇数羽状複葉。2/5は教育用の例示値で種固有の実測確認値ではない。小葉13枚は1枚の複葉として数える。',source:'https://plants.ces.ncsu.edu/plants/styphnolobium-japonicum/'},
+ 'ケヤキ':{fraction:'1/2',status:'pattern',note:'葉は2列互生。配置型から1/2としてモデル化している。',source:'https://tbg.kahaku.go.jp/recommend/illustrated/result.php?name=%E3%82%B1%E3%83%A4%E3%82%AD'},
+ 'カツラ':{fraction:'—',status:'inapplicable',note:'長枝では対生。短枝では1枚の葉がつくが、ここでは対生を代表として分数を付けない。',source:'https://www.rinya.maff.go.jp/hokkaido/komagatake_fc/guide/22_katura.html'},
+ 'ニッキ':{fraction:'2/5',status:'model',note:'ニッケイの互生葉を示す教材用モデル値。種の実測に基づく固定値ではない。',source:'https://www.medicalherb.or.jp/archives/268485'},
  'ミモザ':{fraction:'2/5',status:'model',note:'フサアカシアの互生葉。2/5は教材用の例示値で、種に固有の実測値ではない。羽片や小葉の配列は葉序に数えない。',source:'https://mikawanoyasou.org/data/husaakasia.htm'},
  'アカシア':{fraction:'2/5',status:'model',note:'ギンヨウアカシアの互生葉。2/5は教材モデルの値。小葉の配置と茎の節での葉序は別である。',source:'https://www.worldfloraonline.org/taxon/wfo-0000189913'},
  'ポプラ':{fraction:'2/5',status:'model',note:'互生。2/5は模式値であり、本品種の固定的実測値ではない。',source:'https://plantdatabase.kpu.ca/PlantPrint/poni'},
@@ -957,6 +975,8 @@ const SHAPE_EDIT_FIELDS={
  plantain:['size','width','petioleRatio','tilt'],
  cabbage:['size','width','petioleRatio','tilt'],
  beech:['size','width','petioleRatio','tilt'],
+ zelkova:['size','width','petioleRatio','teeth','toothDepth','tilt'],
+ katsura:['size','width','petioleRatio','teeth','toothDepth','tilt'],
  fan:['size','width','petioleRatio','fanNotch','fanSpread','tilt'],
  linear:['riceLengthCm','riceWidthCm','droop','tilt'],
  bipinnateCompound:['size','petioleRatio','tilt'],
@@ -1031,6 +1051,37 @@ function snapStemT(t){
 
 function leafOutline(shape,len,width,teeth,deep,lobes,cut,fanNotch=.23,fanSpread=155,apexSharpness=0,speciesName=''){
  const n=(shape==='lance'||shape==='ovate')&&len<.17?24:180,pts=[];
+ if(shape==='zelkova'){
+  // Zelkova serrata: asymmetrical leaf base, 10-14 pairs of serrations,
+  // and an elongated tapering apex. The oblique midrib axis is slight.
+  for(const side of [1,-1])for(let i=0;i<=n;i++){
+   const t=side===1?i/n:1-i/n;
+   const growth=Math.pow(Math.max(0,Math.sin(PI*t)),.83)*(.96+.32*(.5-t));
+   const tip=t>.76?Math.pow(Math.max(0,(1-t)/.24),.22):1;
+   const phase=(t*Math.max(4,teeth||11))%1;
+   const tooth=phase<.77?Math.pow(phase/.77,1.1):Math.pow((1-phase)/.23,.7);
+   const margin=t>.09&&t<.95?1+deep*.95*tooth:1;
+   const oblique=width*len*.11*Math.sin(PI*t)*(1-t);
+   pts.push([side*width*len*.5*growth*tip*margin+oblique,len*t]);
+  }
+  return pts;
+ }
+ if(shape==='katsura'){
+  // Cercidiphyllum japonicum: nearly round cordate outline with rounded crenations.
+  // The start/end at the petiole junction forms a shallow heart-shaped sinus.
+  pts.push([0,len*.12]);
+  for(const side of [-1,1]){
+   for(let i=0;i<=n;i++){
+    const t=side===-1?i/n:1-i/n;
+    const widthFactor=Math.pow(Math.max(0,Math.sin(PI*(.075+.925*t))),.50)*(.96-.10*t);
+    const phase=t*Math.max(7,teeth||14);
+    const roundTooth=.5+.5*Math.cos(2*PI*phase);
+    const fringe=1+deep*.40*Math.pow(roundTooth,2)*Math.sin(PI*t);
+    pts.push([side*width*len*.55*widthFactor*fringe,len*(.025+.94*t)]);
+   }
+  }
+  return pts;
+ }
  if(shape==='deltoid'){
   // Populus nigra 'Italica': triangular to rhombic-ovate; simple toothed blade.
   for(const side of [1,-1])for(let i=0;i<=n;i++){
@@ -1175,7 +1226,7 @@ function veinModel(p,l,outline){
  const veins=[],L=p.len, W=p.width,sh=p.shape;
  function push(local,order=2){const pieces=[];let chain=[];for(const q of local){if(inside2D(q,outline)||Math.abs(q[0])<1e-8&&q[1]===0){chain.push(q)}else{if(chain.length>=2)pieces.push(chain);chain=[];}}if(chain.length>=2)pieces.push(chain);for(const pts of pieces)veins.push({pts,order});}
  function line(a,b,steps=7){return Array.from({length:steps+1},(_,i)=>{let t=i/steps;return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]});}
- const mode=l.venation&&l.venation!=='auto'?l.venation:sh==='beech'?'beech':sh==='plantain'?'arcuate':sh==='fan'?'dichotomous':sh==='palm'?'palmate':sh==='linear'?'parallel':sh==='morning'?'ipomoea':sh==='cordate'?'palmate':'pinnate';
+ const mode=l.venation&&l.venation!=='auto'?l.venation:sh==='beech'?'beech':sh==='plantain'?'arcuate':sh==='fan'?'dichotomous':sh==='palm'?'palmate':sh==='linear'?'parallel':sh==='morning'?'ipomoea':(sh==='cordate'||sh==='katsura')?'palmate':'pinnate';
  if(mode==='ipomoea'){
   // Based on 3-lobed wild-type Ipomoea nil: the two main lateral veins
   // arise near the petiole-lamina junction and supply the lateral lobes.
@@ -1390,9 +1441,13 @@ function makeParts(l){const d=l;
    return parts;
  }
  if(d.shape==='pinnateCompound'){
-   const parts=[];
-   for(let i=0;i<5;i++)for(const side of [-1,1])parts.push({o:[side*d.size*.032,d.size*(.17+.177*i)],rot:side*1.0,len:d.size*(.34+.06*i/5),width:d.size*.228,shape:'elliptic',key:i*2+(side+1)/2});
-   parts.push({o:[0,d.size*1.02],rot:0,len:d.size*.43,width:d.size*.26,shape:'elliptic',key:10});
+   const parts=[],isEnju=d.speciesName==='エンジュ',pairs=isEnju?6:5;
+   for(let i=0;i<pairs;i++)for(const side of [-1,1])parts.push({
+    o:[side*d.size*.032,d.size*(isEnju?.15:.17)+(isEnju?.144:.177)*d.size*i],
+    rot:side*(isEnju?.98:1.0),len:d.size*(isEnju?.275+.035*i/pairs:.34+.06*i/pairs),
+    width:d.size*(isEnju?.19:.228),shape:isEnju?'ovate':'elliptic',key:i*2+(side+1)/2
+   });
+   parts.push({o:[0,d.size*1.02],rot:0,len:d.size*(isEnju?.33:.43),width:d.size*(isEnju?.21:.26),shape:isEnju?'ovate':'elliptic',key:pairs*2});
    return parts;
  }
  if(d.shape==='coniferSpray'){
@@ -1772,6 +1827,10 @@ function buildUI(){for(const item of SHAPES){let b=document.createElement('butto
  for(const item of sliderFields){const el=document.createElement('div');el.className='slider-control';el.innerHTML=`<div class="slider-label"><span>${item.name}</span><strong id="v_${item.id}"></strong></div><input id="s_${item.id}" type="range" min="${item.min}" max="${item.max}" step="${item.step}"><div class="slider-hint">${item.hint||''}</div>`;$('sliders').appendChild(el);let held=false;const input=el.querySelector('input');input.addEventListener('pointerdown',()=>{commit();held=true});input.addEventListener('input',()=>{const v=Number(input.value);if(!held)commit();held=true;setting(item.id,v,true)});input.addEventListener('change',()=>{held=false;persist()});input.addEventListener('pointerup',()=>held=false);}
  const LEAF_DB='https://www.kahaku.go.jp/research/db/geology-paleontology/cleared_leaf/';
  const LIBRARY_META={
+  'エンジュ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'compound'},
+  'ケヤキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'distichous',shapeGroup:'simpleBroad'},
+  'カツラ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'opposite',shapeGroup:'heart'},
+  'ニッキ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'linearLike'},
   'ミモザ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'compound'},
   'アカシア':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'compound'},
   'ポプラ':{habit:'tree',seedGroup:'angio',cotyledon:'dicot',phylloGroup:'alternate',shapeGroup:'simpleBroad'},
